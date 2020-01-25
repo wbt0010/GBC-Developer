@@ -1,0 +1,3960 @@
+                              1 ;--------------------------------------------------------
+                              2 ; File Created by SDCC : FreeWare ANSI-C Compiler
+                              3 ; Version 2.2.1 Sat Jan 25 14:52:39 2020
+                              4 
+                              5 ;--------------------------------------------------------
+                              6 	.module lcc43360
+                              7 	
+                              8 ;--------------------------------------------------------
+                              9 ; Public variables in this module
+                             10 ;--------------------------------------------------------
+                             11 	.globl _main
+                             12 	.globl _jump
+                             13 	.globl _wouldhitsurface
+                             14 	.globl _checkcollisions
+                             15 	.globl _setupbomb
+                             16 	.globl _setupsmiley
+                             17 	.globl _setupkirby
+                             18 	.globl _movegamecharacter
+                             19 	.globl _printf
+                             20 	.globl _move_sprite
+                             21 	.globl _set_sprite_tile
+                             22 	.globl _set_sprite_data
+                             23 	.globl _joypad
+                             24 	.globl _delay
+                             25 	.globl _bomb
+                             26 	.globl _smiley
+                             27 	.globl _kirby
+                             28 	.globl _fallspeed
+                             29 	.globl _speedx
+                             30 	.globl _spritestate
+                             31 	.globl _spritesize
+                             32 	.globl _floorYposition
+                             33 	.globl _currentspeedY
+                             34 	.globl _gravity
+                             35 	.globl _jumping
+                             36 	.globl _kirbs16
+                             37 	.globl _main
+                             38 	.globl _jump
+                             39 	.globl _wouldhitsurface
+                             40 	.globl _checkcollisions
+                             41 	.globl _setupbomb
+                             42 	.globl _setupsmiley
+                             43 	.globl _setupkirby
+                             44 	.globl _movegamecharacter
+                             45 ;--------------------------------------------------------
+                             46 ; Externals used
+                             47 ;--------------------------------------------------------
+                             48 	.globl _IE_REG
+                             49 	.globl _SVBK_REG
+                             50 	.globl _OCPD_REG
+                             51 	.globl _OCPS_REG
+                             52 	.globl _BCPD_REG
+                             53 	.globl _BCPS_REG
+                             54 	.globl _RP_REG
+                             55 	.globl _HDMA5_REG
+                             56 	.globl _HDMA4_REG
+                             57 	.globl _HDMA3_REG
+                             58 	.globl _HDMA2_REG
+                             59 	.globl _HDMA1_REG
+                             60 	.globl _VBK_REG
+                             61 	.globl _KEY1_REG
+                             62 	.globl _WX_REG
+                             63 	.globl _WY_REG
+                             64 	.globl _OBP1_REG
+                             65 	.globl _OBP0_REG
+                             66 	.globl _BGP_REG
+                             67 	.globl _DMA_REG
+                             68 	.globl _LYC_REG
+                             69 	.globl _LY_REG
+                             70 	.globl _SCX_REG
+                             71 	.globl _SCY_REG
+                             72 	.globl _STAT_REG
+                             73 	.globl _LCDC_REG
+                             74 	.globl _NR52_REG
+                             75 	.globl _NR51_REG
+                             76 	.globl _NR50_REG
+                             77 	.globl _NR44_REG
+                             78 	.globl _NR43_REG
+                             79 	.globl _NR42_REG
+                             80 	.globl _NR41_REG
+                             81 	.globl _NR34_REG
+                             82 	.globl _NR33_REG
+                             83 	.globl _NR32_REG
+                             84 	.globl _NR31_REG
+                             85 	.globl _NR30_REG
+                             86 	.globl _NR24_REG
+                             87 	.globl _NR23_REG
+                             88 	.globl _NR22_REG
+                             89 	.globl _NR21_REG
+                             90 	.globl _NR14_REG
+                             91 	.globl _NR13_REG
+                             92 	.globl _NR12_REG
+                             93 	.globl _NR11_REG
+                             94 	.globl _NR10_REG
+                             95 	.globl _IF_REG
+                             96 	.globl _TAC_REG
+                             97 	.globl _TMA_REG
+                             98 	.globl _TIMA_REG
+                             99 	.globl _DIV_REG
+                            100 	.globl _SC_REG
+                            101 	.globl _SB_REG
+                            102 	.globl _P1_REG
+                            103 	.globl __io_out
+                            104 	.globl __io_in
+                            105 	.globl __io_status
+                            106 	.globl _sys_time
+                            107 	.globl __cpu
+                            108 ;--------------------------------------------------------
+                            109 ; special function registers
+                            110 ;--------------------------------------------------------
+                            111 ;--------------------------------------------------------
+                            112 ; special function bits 
+                            113 ;--------------------------------------------------------
+                            114 ;--------------------------------------------------------
+                            115 ; internal ram data
+                            116 ;--------------------------------------------------------
+                            117 	.area _DATA
+   0000                     118 _kirbs16::
+   0000                     119 	.ds 224
+   00E0                     120 _jumping::
+   00E0                     121 	.ds 1
+   00E1                     122 _gravity::
+   00E1                     123 	.ds 1
+   00E2                     124 _currentspeedY::
+   00E2                     125 	.ds 1
+   00E3                     126 _floorYposition::
+   00E3                     127 	.ds 1
+   00E4                     128 _spritesize::
+   00E4                     129 	.ds 1
+   00E5                     130 _spritestate::
+   00E5                     131 	.ds 1
+   00E6                     132 _speedx::
+   00E6                     133 	.ds 1
+   00E7                     134 _fallspeed::
+   00E7                     135 	.ds 1
+   00E8                     136 _kirby::
+   00E8                     137 	.ds 8
+   00F0                     138 _smiley::
+   00F0                     139 	.ds 8
+   00F8                     140 _bomb::
+   00F8                     141 	.ds 8
+                            142 ;--------------------------------------------------------
+                            143 ; overlayable items in internal ram 
+                            144 ;--------------------------------------------------------
+                            145 	.area _OVERLAY
+                            146 ;--------------------------------------------------------
+                            147 ; indirectly addressable internal ram data
+                            148 ;--------------------------------------------------------
+                            149 	.area _ISEG
+                            150 ;--------------------------------------------------------
+                            151 ; bit data
+                            152 ;--------------------------------------------------------
+                            153 	.area _BSEG
+                            154 ;--------------------------------------------------------
+                            155 ; external ram data
+                            156 ;--------------------------------------------------------
+                            157 	.area _XSEG
+                            158 ;--------------------------------------------------------
+                            159 ; global & static initialisations
+                            160 ;--------------------------------------------------------
+                            161 	.area _GSINIT
+                            162 	.area _GSFINAL
+                            163 	.area _GSINIT
+                            164 ;	sprite_run.c 174
+                            165 ; genAssign (pointer)
+   0000 11 00 00            166 	ld	de,#_kirbs16 + 0
+   0003 3E 07               167 	ld	a,#0x07
+   0005 12                  168 	ld	(de),a
+                            169 ; genPlus
+                            170 ; genPlusIncr
+   0006 11 01 00            171 	ld	de,#_kirbs16 + 0 + 1
+                            172 ; genAssign (pointer)
+   0009 3E 07               173 	ld	a,#0x07
+   000B 12                  174 	ld	(de),a
+                            175 ; genPlus
+                            176 ; genPlusIncr
+   000C 11 02 00            177 	ld	de,#_kirbs16 + 0 + 2
+                            178 ; genAssign (pointer)
+   000F 3E 1C               179 	ld	a,#0x1C
+   0011 12                  180 	ld	(de),a
+                            181 ; genPlus
+                            182 ; genPlusIncr
+   0012 11 03 00            183 	ld	de,#_kirbs16 + 0 + 3
+                            184 ; genAssign (pointer)
+   0015 3E 18               185 	ld	a,#0x18
+   0017 12                  186 	ld	(de),a
+                            187 ; genPlus
+                            188 ; genPlusIncr
+   0018 11 04 00            189 	ld	de,#_kirbs16 + 0 + 4
+                            190 ; genAssign (pointer)
+   001B 3E 30               191 	ld	a,#0x30
+   001D 12                  192 	ld	(de),a
+                            193 ; genPlus
+                            194 ; genPlusIncr
+   001E 11 05 00            195 	ld	de,#_kirbs16 + 0 + 5
+                            196 ; genAssign (pointer)
+   0021 3E 20               197 	ld	a,#0x20
+   0023 12                  198 	ld	(de),a
+                            199 ; genPlus
+                            200 ; genPlusIncr
+   0024 11 06 00            201 	ld	de,#_kirbs16 + 0 + 6
+                            202 ; genAssign (pointer)
+   0027 3E 30               203 	ld	a,#0x30
+   0029 12                  204 	ld	(de),a
+                            205 ; genPlus
+                            206 ; genPlusIncr
+   002A 11 07 00            207 	ld	de,#_kirbs16 + 0 + 7
+                            208 ; genAssign (pointer)
+   002D 3E 20               209 	ld	a,#0x20
+   002F 12                  210 	ld	(de),a
+                            211 ; genPlus
+                            212 ; genPlusIncr
+   0030 11 08 00            213 	ld	de,#_kirbs16 + 0 + 8
+                            214 ; genAssign (pointer)
+   0033 3E 60               215 	ld	a,#0x60
+   0035 12                  216 	ld	(de),a
+                            217 ; genPlus
+                            218 ; genPlusIncr
+   0036 11 09 00            219 	ld	de,#_kirbs16 + 0 + 9
+                            220 ; genAssign (pointer)
+   0039 3E 40               221 	ld	a,#0x40
+   003B 12                  222 	ld	(de),a
+                            223 ; genPlus
+                            224 ; genPlusIncr
+   003C 11 0A 00            225 	ld	de,#_kirbs16 + 0 + 10
+                            226 ; genAssign (pointer)
+   003F 3E 40               227 	ld	a,#0x40
+   0041 12                  228 	ld	(de),a
+                            229 ; genPlus
+                            230 ; genPlusIncr
+   0042 11 0B 00            231 	ld	de,#_kirbs16 + 0 + 11
+                            232 ; genAssign (pointer)
+   0045 3E 40               233 	ld	a,#0x40
+   0047 12                  234 	ld	(de),a
+                            235 ; genPlus
+                            236 ; genPlusIncr
+   0048 11 0C 00            237 	ld	de,#_kirbs16 + 0 + 12
+                            238 ; genAssign (pointer)
+   004B 3E C0               239 	ld	a,#0xC0
+   004D 12                  240 	ld	(de),a
+                            241 ; genPlus
+                            242 ; genPlusIncr
+   004E 11 0D 00            243 	ld	de,#_kirbs16 + 0 + 13
+                            244 ; genAssign (pointer)
+   0051 3E 80               245 	ld	a,#0x80
+   0053 12                  246 	ld	(de),a
+                            247 ; genPlus
+                            248 ; genPlusIncr
+   0054 11 0E 00            249 	ld	de,#_kirbs16 + 0 + 14
+                            250 ; genAssign (pointer)
+   0057 3E 80               251 	ld	a,#0x80
+   0059 12                  252 	ld	(de),a
+                            253 ; genPlus
+                            254 ; genPlusIncr
+   005A 11 0F 00            255 	ld	de,#_kirbs16 + 0 + 15
+                            256 ; genAssign (pointer)
+   005D 3E 80               257 	ld	a,#0x80
+   005F 12                  258 	ld	(de),a
+                            259 ; genPlus
+                            260 ; genPlusIncr
+   0060 11 10 00            261 	ld	de,#_kirbs16 + 0 + 16
+                            262 ; genAssign (pointer)
+   0063 3E C0               263 	ld	a,#0xC0
+   0065 12                  264 	ld	(de),a
+                            265 ; genPlus
+                            266 ; genPlusIncr
+   0066 11 11 00            267 	ld	de,#_kirbs16 + 0 + 17
+                            268 ; genAssign (pointer)
+   0069 3E C0               269 	ld	a,#0xC0
+   006B 12                  270 	ld	(de),a
+                            271 ; genPlus
+                            272 ; genPlusIncr
+   006C 11 12 00            273 	ld	de,#_kirbs16 + 0 + 18
+                            274 ; genAssign (pointer)
+   006F 3E F0               275 	ld	a,#0xF0
+   0071 12                  276 	ld	(de),a
+                            277 ; genPlus
+                            278 ; genPlusIncr
+   0072 11 13 00            279 	ld	de,#_kirbs16 + 0 + 19
+                            280 ; genAssign (pointer)
+   0075 3E 30               281 	ld	a,#0x30
+   0077 12                  282 	ld	(de),a
+                            283 ; genPlus
+                            284 ; genPlusIncr
+   0078 11 14 00            285 	ld	de,#_kirbs16 + 0 + 20
+                            286 ; genAssign (pointer)
+   007B 3E 38               287 	ld	a,#0x38
+   007D 12                  288 	ld	(de),a
+                            289 ; genPlus
+                            290 ; genPlusIncr
+   007E 11 15 00            291 	ld	de,#_kirbs16 + 0 + 21
+                            292 ; genAssign (pointer)
+   0081 3E 08               293 	ld	a,#0x08
+   0083 12                  294 	ld	(de),a
+                            295 ; genPlus
+                            296 ; genPlusIncr
+   0084 11 16 00            297 	ld	de,#_kirbs16 + 0 + 22
+                            298 ; genAssign (pointer)
+   0087 3E 18               299 	ld	a,#0x18
+   0089 12                  300 	ld	(de),a
+                            301 ; genPlus
+                            302 ; genPlusIncr
+   008A 11 17 00            303 	ld	de,#_kirbs16 + 0 + 23
+                            304 ; genAssign (pointer)
+   008D 3E 08               305 	ld	a,#0x08
+   008F 12                  306 	ld	(de),a
+                            307 ; genPlus
+                            308 ; genPlusIncr
+   0090 11 18 00            309 	ld	de,#_kirbs16 + 0 + 24
+                            310 ; genAssign (pointer)
+   0093 3E 0C               311 	ld	a,#0x0C
+   0095 12                  312 	ld	(de),a
+                            313 ; genPlus
+                            314 ; genPlusIncr
+   0096 11 19 00            315 	ld	de,#_kirbs16 + 0 + 25
+                            316 ; genAssign (pointer)
+   0099 3E 04               317 	ld	a,#0x04
+   009B 12                  318 	ld	(de),a
+                            319 ; genPlus
+                            320 ; genPlusIncr
+   009C 11 1A 00            321 	ld	de,#_kirbs16 + 0 + 26
+                            322 ; genAssign (pointer)
+   009F 3E 54               323 	ld	a,#0x54
+   00A1 12                  324 	ld	(de),a
+                            325 ; genPlus
+                            326 ; genPlusIncr
+   00A2 11 1B 00            327 	ld	de,#_kirbs16 + 0 + 27
+                            328 ; genAssign (pointer)
+   00A5 3E 54               329 	ld	a,#0x54
+   00A7 12                  330 	ld	(de),a
+                            331 ; genPlus
+                            332 ; genPlusIncr
+   00A8 11 1C 00            333 	ld	de,#_kirbs16 + 0 + 28
+                            334 ; genAssign (pointer)
+   00AB 3E 56               335 	ld	a,#0x56
+   00AD 12                  336 	ld	(de),a
+                            337 ; genPlus
+                            338 ; genPlusIncr
+   00AE 11 1D 00            339 	ld	de,#_kirbs16 + 0 + 29
+                            340 ; genAssign (pointer)
+   00B1 3E 52               341 	ld	a,#0x52
+   00B3 12                  342 	ld	(de),a
+                            343 ; genPlus
+                            344 ; genPlusIncr
+   00B4 11 1E 00            345 	ld	de,#_kirbs16 + 0 + 30
+                            346 ; genAssign (pointer)
+   00B7 3E 52               347 	ld	a,#0x52
+   00B9 12                  348 	ld	(de),a
+                            349 ; genPlus
+                            350 ; genPlusIncr
+   00BA 11 1F 00            351 	ld	de,#_kirbs16 + 0 + 31
+                            352 ; genAssign (pointer)
+   00BD 3E 52               353 	ld	a,#0x52
+   00BF 12                  354 	ld	(de),a
+                            355 ; genPlus
+                            356 ; genPlusIncr
+   00C0 11 20 00            357 	ld	de,#_kirbs16 + 0 + 32
+                            358 ; genAssign (pointer)
+   00C3 3E C0               359 	ld	a,#0xC0
+   00C5 12                  360 	ld	(de),a
+                            361 ; genPlus
+                            362 ; genPlusIncr
+   00C6 11 21 00            363 	ld	de,#_kirbs16 + 0 + 33
+                            364 ; genAssign (pointer)
+   00C9 3E 80               365 	ld	a,#0x80
+   00CB 12                  366 	ld	(de),a
+                            367 ; genPlus
+                            368 ; genPlusIncr
+   00CC 11 22 00            369 	ld	de,#_kirbs16 + 0 + 34
+                            370 ; genAssign (pointer)
+   00CF 3E E0               371 	ld	a,#0xE0
+   00D1 12                  372 	ld	(de),a
+                            373 ; genPlus
+                            374 ; genPlusIncr
+   00D2 11 23 00            375 	ld	de,#_kirbs16 + 0 + 35
+                            376 ; genAssign (pointer)
+   00D5 3E 80               377 	ld	a,#0x80
+   00D7 12                  378 	ld	(de),a
+                            379 ; genPlus
+                            380 ; genPlusIncr
+   00D8 11 24 00            381 	ld	de,#_kirbs16 + 0 + 36
+                            382 ; genAssign (pointer)
+   00DB 3E 70               383 	ld	a,#0x70
+   00DD 12                  384 	ld	(de),a
+                            385 ; genPlus
+                            386 ; genPlusIncr
+   00DE 11 25 00            387 	ld	de,#_kirbs16 + 0 + 37
+                            388 ; genAssign (pointer)
+   00E1 3E 40               389 	ld	a,#0x40
+   00E3 12                  390 	ld	(de),a
+                            391 ; genPlus
+                            392 ; genPlusIncr
+   00E4 11 26 00            393 	ld	de,#_kirbs16 + 0 + 38
+                            394 ; genAssign (pointer)
+   00E7 3E 38               395 	ld	a,#0x38
+   00E9 12                  396 	ld	(de),a
+                            397 ; genPlus
+                            398 ; genPlusIncr
+   00EA 11 27 00            399 	ld	de,#_kirbs16 + 0 + 39
+                            400 ; genAssign (pointer)
+   00ED 3E 30               401 	ld	a,#0x30
+   00EF 12                  402 	ld	(de),a
+                            403 ; genPlus
+                            404 ; genPlusIncr
+   00F0 11 28 00            405 	ld	de,#_kirbs16 + 0 + 40
+                            406 ; genAssign (pointer)
+   00F3 3E 3D               407 	ld	a,#0x3D
+   00F5 12                  408 	ld	(de),a
+                            409 ; genPlus
+                            410 ; genPlusIncr
+   00F6 11 29 00            411 	ld	de,#_kirbs16 + 0 + 41
+                            412 ; genAssign (pointer)
+   00F9 3E 38               413 	ld	a,#0x38
+   00FB 12                  414 	ld	(de),a
+                            415 ; genPlus
+                            416 ; genPlusIncr
+   00FC 11 2A 00            417 	ld	de,#_kirbs16 + 0 + 42
+                            418 ; genAssign (pointer)
+   00FF 3E 7F               419 	ld	a,#0x7F
+   0101 12                  420 	ld	(de),a
+                            421 ; genPlus
+                            422 ; genPlusIncr
+   0102 11 2B 00            423 	ld	de,#_kirbs16 + 0 + 43
+                            424 ; genAssign (pointer)
+   0105 3E 4F               425 	ld	a,#0x4F
+   0107 12                  426 	ld	(de),a
+                            427 ; genPlus
+                            428 ; genPlusIncr
+   0108 11 2C 00            429 	ld	de,#_kirbs16 + 0 + 44
+                            430 ; genAssign (pointer)
+   010B 3E FC               431 	ld	a,#0xFC
+   010D 12                  432 	ld	(de),a
+                            433 ; genPlus
+                            434 ; genPlusIncr
+   010E 11 2D 00            435 	ld	de,#_kirbs16 + 0 + 45
+                            436 ; genAssign (pointer)
+   0111 3E 84               437 	ld	a,#0x84
+   0113 12                  438 	ld	(de),a
+                            439 ; genPlus
+                            440 ; genPlusIncr
+   0114 11 2E 00            441 	ld	de,#_kirbs16 + 0 + 46
+                            442 ; genAssign (pointer)
+   0117 3E 78               443 	ld	a,#0x78
+   0119 12                  444 	ld	(de),a
+                            445 ; genPlus
+                            446 ; genPlusIncr
+   011A 11 2F 00            447 	ld	de,#_kirbs16 + 0 + 47
+                            448 ; genAssign (pointer)
+   011D 3E 78               449 	ld	a,#0x78
+   011F 12                  450 	ld	(de),a
+                            451 ; genPlus
+                            452 ; genPlusIncr
+   0120 11 30 00            453 	ld	de,#_kirbs16 + 0 + 48
+                            454 ; genAssign (pointer)
+   0123 3E 01               455 	ld	a,#0x01
+   0125 12                  456 	ld	(de),a
+                            457 ; genPlus
+                            458 ; genPlusIncr
+   0126 11 31 00            459 	ld	de,#_kirbs16 + 0 + 49
+                            460 ; genAssign (pointer)
+   0129 3E D9               461 	ld	a,#0xD9
+   012B 12                  462 	ld	(de),a
+                            463 ; genPlus
+                            464 ; genPlusIncr
+   012C 11 32 00            465 	ld	de,#_kirbs16 + 0 + 50
+                            466 ; genAssign (pointer)
+   012F 3E 01               467 	ld	a,#0x01
+   0131 12                  468 	ld	(de),a
+                            469 ; genPlus
+                            470 ; genPlusIncr
+   0132 11 33 00            471 	ld	de,#_kirbs16 + 0 + 51
+                            472 ; genAssign (pointer)
+   0135 3E 01               473 	ld	a,#0x01
+   0137 12                  474 	ld	(de),a
+                            475 ; genPlus
+                            476 ; genPlusIncr
+   0138 11 34 00            477 	ld	de,#_kirbs16 + 0 + 52
+                            478 ; genAssign (pointer)
+   013B 3E 25               479 	ld	a,#0x25
+   013D 12                  480 	ld	(de),a
+                            481 ; genPlus
+                            482 ; genPlusIncr
+   013E 11 35 00            483 	ld	de,#_kirbs16 + 0 + 53
+                            484 ; genAssign (pointer)
+   0141 3E 25               485 	ld	a,#0x25
+   0143 12                  486 	ld	(de),a
+                            487 ; genPlus
+                            488 ; genPlusIncr
+   0144 11 36 00            489 	ld	de,#_kirbs16 + 0 + 54
+                            490 ; genAssign (pointer)
+   0147 3E 0E               491 	ld	a,#0x0E
+   0149 12                  492 	ld	(de),a
+                            493 ; genPlus
+                            494 ; genPlusIncr
+   014A 11 37 00            495 	ld	de,#_kirbs16 + 0 + 55
+                            496 ; genAssign (pointer)
+   014D 3E 06               497 	ld	a,#0x06
+   014F 12                  498 	ld	(de),a
+                            499 ; genPlus
+                            500 ; genPlusIncr
+   0150 11 38 00            501 	ld	de,#_kirbs16 + 0 + 56
+                            502 ; genAssign (pointer)
+   0153 3E 7C               503 	ld	a,#0x7C
+   0155 12                  504 	ld	(de),a
+                            505 ; genPlus
+                            506 ; genPlusIncr
+   0156 11 39 00            507 	ld	de,#_kirbs16 + 0 + 57
+                            508 ; genAssign (pointer)
+   0159 3E 0C               509 	ld	a,#0x0C
+   015B 12                  510 	ld	(de),a
+                            511 ; genPlus
+                            512 ; genPlusIncr
+   015C 11 3A 00            513 	ld	de,#_kirbs16 + 0 + 58
+                            514 ; genAssign (pointer)
+   015F 3E FE               515 	ld	a,#0xFE
+   0161 12                  516 	ld	(de),a
+                            517 ; genPlus
+                            518 ; genPlusIncr
+   0162 11 3B 00            519 	ld	de,#_kirbs16 + 0 + 59
+                            520 ; genAssign (pointer)
+   0165 3E FA               521 	ld	a,#0xFA
+   0167 12                  522 	ld	(de),a
+                            523 ; genPlus
+                            524 ; genPlusIncr
+   0168 11 3C 00            525 	ld	de,#_kirbs16 + 0 + 60
+                            526 ; genAssign (pointer)
+   016B 3E 1F               527 	ld	a,#0x1F
+   016D 12                  528 	ld	(de),a
+                            529 ; genPlus
+                            530 ; genPlusIncr
+   016E 11 3D 00            531 	ld	de,#_kirbs16 + 0 + 61
+                            532 ; genAssign (pointer)
+   0171 3E 11               533 	ld	a,#0x11
+   0173 12                  534 	ld	(de),a
+                            535 ; genPlus
+                            536 ; genPlusIncr
+   0174 11 3E 00            537 	ld	de,#_kirbs16 + 0 + 62
+                            538 ; genAssign (pointer)
+   0177 3E 1E               539 	ld	a,#0x1E
+   0179 12                  540 	ld	(de),a
+                            541 ; genPlus
+                            542 ; genPlusIncr
+   017A 11 3F 00            543 	ld	de,#_kirbs16 + 0 + 63
+                            544 ; genAssign (pointer)
+   017D 3E 1E               545 	ld	a,#0x1E
+   017F 12                  546 	ld	(de),a
+                            547 ; genPlus
+                            548 ; genPlusIncr
+   0180 11 40 00            549 	ld	de,#_kirbs16 + 0 + 64
+                            550 ; genAssign (pointer)
+   0183 3E 00               551 	ld	a,#0x00
+   0185 12                  552 	ld	(de),a
+                            553 ; genPlus
+                            554 ; genPlusIncr
+   0186 11 41 00            555 	ld	de,#_kirbs16 + 0 + 65
+                            556 ; genAssign (pointer)
+   0189 3E 00               557 	ld	a,#0x00
+   018B 12                  558 	ld	(de),a
+                            559 ; genPlus
+                            560 ; genPlusIncr
+   018C 11 42 00            561 	ld	de,#_kirbs16 + 0 + 66
+                            562 ; genAssign (pointer)
+   018F 3E 00               563 	ld	a,#0x00
+   0191 12                  564 	ld	(de),a
+                            565 ; genPlus
+                            566 ; genPlusIncr
+   0192 11 43 00            567 	ld	de,#_kirbs16 + 0 + 67
+                            568 ; genAssign (pointer)
+   0195 3E 00               569 	ld	a,#0x00
+   0197 12                  570 	ld	(de),a
+                            571 ; genPlus
+                            572 ; genPlusIncr
+   0198 11 44 00            573 	ld	de,#_kirbs16 + 0 + 68
+                            574 ; genAssign (pointer)
+   019B 3E 3F               575 	ld	a,#0x3F
+   019D 12                  576 	ld	(de),a
+                            577 ; genPlus
+                            578 ; genPlusIncr
+   019E 11 45 00            579 	ld	de,#_kirbs16 + 0 + 69
+                            580 ; genAssign (pointer)
+   01A1 3E 3F               581 	ld	a,#0x3F
+   01A3 12                  582 	ld	(de),a
+                            583 ; genPlus
+                            584 ; genPlusIncr
+   01A4 11 46 00            585 	ld	de,#_kirbs16 + 0 + 70
+                            586 ; genAssign (pointer)
+   01A7 3E 40               587 	ld	a,#0x40
+   01A9 12                  588 	ld	(de),a
+                            589 ; genPlus
+                            590 ; genPlusIncr
+   01AA 11 47 00            591 	ld	de,#_kirbs16 + 0 + 71
+                            592 ; genAssign (pointer)
+   01AD 3E 7F               593 	ld	a,#0x7F
+   01AF 12                  594 	ld	(de),a
+                            595 ; genPlus
+                            596 ; genPlusIncr
+   01B0 11 48 00            597 	ld	de,#_kirbs16 + 0 + 72
+                            598 ; genAssign (pointer)
+   01B3 3E 48               599 	ld	a,#0x48
+   01B5 12                  600 	ld	(de),a
+                            601 ; genPlus
+                            602 ; genPlusIncr
+   01B6 11 49 00            603 	ld	de,#_kirbs16 + 0 + 73
+                            604 ; genAssign (pointer)
+   01B9 3E 48               605 	ld	a,#0x48
+   01BB 12                  606 	ld	(de),a
+                            607 ; genPlus
+                            608 ; genPlusIncr
+   01BC 11 4A 00            609 	ld	de,#_kirbs16 + 0 + 74
+                            610 ; genAssign (pointer)
+   01BF 3E 88               611 	ld	a,#0x88
+   01C1 12                  612 	ld	(de),a
+                            613 ; genPlus
+                            614 ; genPlusIncr
+   01C2 11 4B 00            615 	ld	de,#_kirbs16 + 0 + 75
+                            616 ; genAssign (pointer)
+   01C5 3E 9C               617 	ld	a,#0x9C
+   01C7 12                  618 	ld	(de),a
+                            619 ; genPlus
+                            620 ; genPlusIncr
+   01C8 11 4C 00            621 	ld	de,#_kirbs16 + 0 + 76
+                            622 ; genAssign (pointer)
+   01CB 3E 88               623 	ld	a,#0x88
+   01CD 12                  624 	ld	(de),a
+                            625 ; genPlus
+                            626 ; genPlusIncr
+   01CE 11 4D 00            627 	ld	de,#_kirbs16 + 0 + 77
+                            628 ; genAssign (pointer)
+   01D1 3E 88               629 	ld	a,#0x88
+   01D3 12                  630 	ld	(de),a
+                            631 ; genPlus
+                            632 ; genPlusIncr
+   01D4 11 4E 00            633 	ld	de,#_kirbs16 + 0 + 78
+                            634 ; genAssign (pointer)
+   01D7 3E 40               635 	ld	a,#0x40
+   01D9 12                  636 	ld	(de),a
+                            637 ; genPlus
+                            638 ; genPlusIncr
+   01DA 11 4F 00            639 	ld	de,#_kirbs16 + 0 + 79
+                            640 ; genAssign (pointer)
+   01DD 3E 40               641 	ld	a,#0x40
+   01DF 12                  642 	ld	(de),a
+                            643 ; genPlus
+                            644 ; genPlusIncr
+   01E0 11 50 00            645 	ld	de,#_kirbs16 + 0 + 80
+                            646 ; genAssign (pointer)
+   01E3 3E 00               647 	ld	a,#0x00
+   01E5 12                  648 	ld	(de),a
+                            649 ; genPlus
+                            650 ; genPlusIncr
+   01E6 11 51 00            651 	ld	de,#_kirbs16 + 0 + 81
+                            652 ; genAssign (pointer)
+   01E9 3E 00               653 	ld	a,#0x00
+   01EB 12                  654 	ld	(de),a
+                            655 ; genPlus
+                            656 ; genPlusIncr
+   01EC 11 52 00            657 	ld	de,#_kirbs16 + 0 + 82
+                            658 ; genAssign (pointer)
+   01EF 3E 00               659 	ld	a,#0x00
+   01F1 12                  660 	ld	(de),a
+                            661 ; genPlus
+                            662 ; genPlusIncr
+   01F2 11 53 00            663 	ld	de,#_kirbs16 + 0 + 83
+                            664 ; genAssign (pointer)
+   01F5 3E 00               665 	ld	a,#0x00
+   01F7 12                  666 	ld	(de),a
+                            667 ; genPlus
+                            668 ; genPlusIncr
+   01F8 11 54 00            669 	ld	de,#_kirbs16 + 0 + 84
+                            670 ; genAssign (pointer)
+   01FB 3E FC               671 	ld	a,#0xFC
+   01FD 12                  672 	ld	(de),a
+                            673 ; genPlus
+                            674 ; genPlusIncr
+   01FE 11 55 00            675 	ld	de,#_kirbs16 + 0 + 85
+                            676 ; genAssign (pointer)
+   0201 3E FC               677 	ld	a,#0xFC
+   0203 12                  678 	ld	(de),a
+                            679 ; genPlus
+                            680 ; genPlusIncr
+   0204 11 56 00            681 	ld	de,#_kirbs16 + 0 + 86
+                            682 ; genAssign (pointer)
+   0207 3E 02               683 	ld	a,#0x02
+   0209 12                  684 	ld	(de),a
+                            685 ; genPlus
+                            686 ; genPlusIncr
+   020A 11 57 00            687 	ld	de,#_kirbs16 + 0 + 87
+                            688 ; genAssign (pointer)
+   020D 3E FE               689 	ld	a,#0xFE
+   020F 12                  690 	ld	(de),a
+                            691 ; genPlus
+                            692 ; genPlusIncr
+   0210 11 58 00            693 	ld	de,#_kirbs16 + 0 + 88
+                            694 ; genAssign (pointer)
+   0213 3E 12               695 	ld	a,#0x12
+   0215 12                  696 	ld	(de),a
+                            697 ; genPlus
+                            698 ; genPlusIncr
+   0216 11 59 00            699 	ld	de,#_kirbs16 + 0 + 89
+                            700 ; genAssign (pointer)
+   0219 3E 12               701 	ld	a,#0x12
+   021B 12                  702 	ld	(de),a
+                            703 ; genPlus
+                            704 ; genPlusIncr
+   021C 11 5A 00            705 	ld	de,#_kirbs16 + 0 + 90
+                            706 ; genAssign (pointer)
+   021F 3E 11               707 	ld	a,#0x11
+   0221 12                  708 	ld	(de),a
+                            709 ; genPlus
+                            710 ; genPlusIncr
+   0222 11 5B 00            711 	ld	de,#_kirbs16 + 0 + 91
+                            712 ; genAssign (pointer)
+   0225 3E 39               713 	ld	a,#0x39
+   0227 12                  714 	ld	(de),a
+                            715 ; genPlus
+                            716 ; genPlusIncr
+   0228 11 5C 00            717 	ld	de,#_kirbs16 + 0 + 92
+                            718 ; genAssign (pointer)
+   022B 3E 11               719 	ld	a,#0x11
+   022D 12                  720 	ld	(de),a
+                            721 ; genPlus
+                            722 ; genPlusIncr
+   022E 11 5D 00            723 	ld	de,#_kirbs16 + 0 + 93
+                            724 ; genAssign (pointer)
+   0231 3E 11               725 	ld	a,#0x11
+   0233 12                  726 	ld	(de),a
+                            727 ; genPlus
+                            728 ; genPlusIncr
+   0234 11 5E 00            729 	ld	de,#_kirbs16 + 0 + 94
+                            730 ; genAssign (pointer)
+   0237 3E 02               731 	ld	a,#0x02
+   0239 12                  732 	ld	(de),a
+                            733 ; genPlus
+                            734 ; genPlusIncr
+   023A 11 5F 00            735 	ld	de,#_kirbs16 + 0 + 95
+                            736 ; genAssign (pointer)
+   023D 3E 02               737 	ld	a,#0x02
+   023F 12                  738 	ld	(de),a
+                            739 ; genPlus
+                            740 ; genPlusIncr
+   0240 11 60 00            741 	ld	de,#_kirbs16 + 0 + 96
+                            742 ; genAssign (pointer)
+   0243 3E 40               743 	ld	a,#0x40
+   0245 12                  744 	ld	(de),a
+                            745 ; genPlus
+                            746 ; genPlusIncr
+   0246 11 61 00            747 	ld	de,#_kirbs16 + 0 + 97
+                            748 ; genAssign (pointer)
+   0249 3E 5C               749 	ld	a,#0x5C
+   024B 12                  750 	ld	(de),a
+                            751 ; genPlus
+                            752 ; genPlusIncr
+   024C 11 62 00            753 	ld	de,#_kirbs16 + 0 + 98
+                            754 ; genAssign (pointer)
+   024F 3E 28               755 	ld	a,#0x28
+   0251 12                  756 	ld	(de),a
+                            757 ; genPlus
+                            758 ; genPlusIncr
+   0252 11 63 00            759 	ld	de,#_kirbs16 + 0 + 99
+                            760 ; genAssign (pointer)
+   0255 3E 3F               761 	ld	a,#0x3F
+   0257 12                  762 	ld	(de),a
+                            763 ; genPlus
+                            764 ; genPlusIncr
+   0258 11 64 00            765 	ld	de,#_kirbs16 + 0 + 100
+                            766 ; genAssign (pointer)
+   025B 3E 17               767 	ld	a,#0x17
+   025D 12                  768 	ld	(de),a
+                            769 ; genPlus
+                            770 ; genPlusIncr
+   025E 11 65 00            771 	ld	de,#_kirbs16 + 0 + 101
+                            772 ; genAssign (pointer)
+   0261 3E 1F               773 	ld	a,#0x1F
+   0263 12                  774 	ld	(de),a
+                            775 ; genPlus
+                            776 ; genPlusIncr
+   0264 11 66 00            777 	ld	de,#_kirbs16 + 0 + 102
+                            778 ; genAssign (pointer)
+   0267 3E 08               779 	ld	a,#0x08
+   0269 12                  780 	ld	(de),a
+                            781 ; genPlus
+                            782 ; genPlusIncr
+   026A 11 67 00            783 	ld	de,#_kirbs16 + 0 + 103
+                            784 ; genAssign (pointer)
+   026D 3E 0F               785 	ld	a,#0x0F
+   026F 12                  786 	ld	(de),a
+                            787 ; genPlus
+                            788 ; genPlusIncr
+   0270 11 68 00            789 	ld	de,#_kirbs16 + 0 + 104
+                            790 ; genAssign (pointer)
+   0273 3E 06               791 	ld	a,#0x06
+   0275 12                  792 	ld	(de),a
+                            793 ; genPlus
+                            794 ; genPlusIncr
+   0276 11 69 00            795 	ld	de,#_kirbs16 + 0 + 105
+                            796 ; genAssign (pointer)
+   0279 3E 06               797 	ld	a,#0x06
+   027B 12                  798 	ld	(de),a
+                            799 ; genPlus
+                            800 ; genPlusIncr
+   027C 11 6A 00            801 	ld	de,#_kirbs16 + 0 + 106
+                            802 ; genAssign (pointer)
+   027F 3E 1F               803 	ld	a,#0x1F
+   0281 12                  804 	ld	(de),a
+                            805 ; genPlus
+                            806 ; genPlusIncr
+   0282 11 6B 00            807 	ld	de,#_kirbs16 + 0 + 107
+                            808 ; genAssign (pointer)
+   0285 3E 1F               809 	ld	a,#0x1F
+   0287 12                  810 	ld	(de),a
+                            811 ; genPlus
+                            812 ; genPlusIncr
+   0288 11 6C 00            813 	ld	de,#_kirbs16 + 0 + 108
+                            814 ; genAssign (pointer)
+   028B 3E 27               815 	ld	a,#0x27
+   028D 12                  816 	ld	(de),a
+                            817 ; genPlus
+                            818 ; genPlusIncr
+   028E 11 6D 00            819 	ld	de,#_kirbs16 + 0 + 109
+                            820 ; genAssign (pointer)
+   0291 3E 39               821 	ld	a,#0x39
+   0293 12                  822 	ld	(de),a
+                            823 ; genPlus
+                            824 ; genPlusIncr
+   0294 11 6E 00            825 	ld	de,#_kirbs16 + 0 + 110
+                            826 ; genAssign (pointer)
+   0297 3E 1F               827 	ld	a,#0x1F
+   0299 12                  828 	ld	(de),a
+                            829 ; genPlus
+                            830 ; genPlusIncr
+   029A 11 6F 00            831 	ld	de,#_kirbs16 + 0 + 111
+                            832 ; genAssign (pointer)
+   029D 3E 1F               833 	ld	a,#0x1F
+   029F 12                  834 	ld	(de),a
+                            835 ; genPlus
+                            836 ; genPlusIncr
+   02A0 11 70 00            837 	ld	de,#_kirbs16 + 0 + 112
+                            838 ; genAssign (pointer)
+   02A3 3E 02               839 	ld	a,#0x02
+   02A5 12                  840 	ld	(de),a
+                            841 ; genPlus
+                            842 ; genPlusIncr
+   02A6 11 71 00            843 	ld	de,#_kirbs16 + 0 + 113
+                            844 ; genAssign (pointer)
+   02A9 3E 3A               845 	ld	a,#0x3A
+   02AB 12                  846 	ld	(de),a
+                            847 ; genPlus
+                            848 ; genPlusIncr
+   02AC 11 72 00            849 	ld	de,#_kirbs16 + 0 + 114
+                            850 ; genAssign (pointer)
+   02AF 3E 14               851 	ld	a,#0x14
+   02B1 12                  852 	ld	(de),a
+                            853 ; genPlus
+                            854 ; genPlusIncr
+   02B2 11 73 00            855 	ld	de,#_kirbs16 + 0 + 115
+                            856 ; genAssign (pointer)
+   02B5 3E FC               857 	ld	a,#0xFC
+   02B7 12                  858 	ld	(de),a
+                            859 ; genPlus
+                            860 ; genPlusIncr
+   02B8 11 74 00            861 	ld	de,#_kirbs16 + 0 + 116
+                            862 ; genAssign (pointer)
+   02BB 3E E8               863 	ld	a,#0xE8
+   02BD 12                  864 	ld	(de),a
+                            865 ; genPlus
+                            866 ; genPlusIncr
+   02BE 11 75 00            867 	ld	de,#_kirbs16 + 0 + 117
+                            868 ; genAssign (pointer)
+   02C1 3E F8               869 	ld	a,#0xF8
+   02C3 12                  870 	ld	(de),a
+                            871 ; genPlus
+                            872 ; genPlusIncr
+   02C4 11 76 00            873 	ld	de,#_kirbs16 + 0 + 118
+                            874 ; genAssign (pointer)
+   02C7 3E 10               875 	ld	a,#0x10
+   02C9 12                  876 	ld	(de),a
+                            877 ; genPlus
+                            878 ; genPlusIncr
+   02CA 11 77 00            879 	ld	de,#_kirbs16 + 0 + 119
+                            880 ; genAssign (pointer)
+   02CD 3E F0               881 	ld	a,#0xF0
+   02CF 12                  882 	ld	(de),a
+                            883 ; genPlus
+                            884 ; genPlusIncr
+   02D0 11 78 00            885 	ld	de,#_kirbs16 + 0 + 120
+                            886 ; genAssign (pointer)
+   02D3 3E 60               887 	ld	a,#0x60
+   02D5 12                  888 	ld	(de),a
+                            889 ; genPlus
+                            890 ; genPlusIncr
+   02D6 11 79 00            891 	ld	de,#_kirbs16 + 0 + 121
+                            892 ; genAssign (pointer)
+   02D9 3E 60               893 	ld	a,#0x60
+   02DB 12                  894 	ld	(de),a
+                            895 ; genPlus
+                            896 ; genPlusIncr
+   02DC 11 7A 00            897 	ld	de,#_kirbs16 + 0 + 122
+                            898 ; genAssign (pointer)
+   02DF 3E F8               899 	ld	a,#0xF8
+   02E1 12                  900 	ld	(de),a
+                            901 ; genPlus
+                            902 ; genPlusIncr
+   02E2 11 7B 00            903 	ld	de,#_kirbs16 + 0 + 123
+                            904 ; genAssign (pointer)
+   02E5 3E F8               905 	ld	a,#0xF8
+   02E7 12                  906 	ld	(de),a
+                            907 ; genPlus
+                            908 ; genPlusIncr
+   02E8 11 7C 00            909 	ld	de,#_kirbs16 + 0 + 124
+                            910 ; genAssign (pointer)
+   02EB 3E E4               911 	ld	a,#0xE4
+   02ED 12                  912 	ld	(de),a
+                            913 ; genPlus
+                            914 ; genPlusIncr
+   02EE 11 7D 00            915 	ld	de,#_kirbs16 + 0 + 125
+                            916 ; genAssign (pointer)
+   02F1 3E 9C               917 	ld	a,#0x9C
+   02F3 12                  918 	ld	(de),a
+                            919 ; genPlus
+                            920 ; genPlusIncr
+   02F4 11 7E 00            921 	ld	de,#_kirbs16 + 0 + 126
+                            922 ; genAssign (pointer)
+   02F7 3E F8               923 	ld	a,#0xF8
+   02F9 12                  924 	ld	(de),a
+                            925 ; genPlus
+                            926 ; genPlusIncr
+   02FA 11 7F 00            927 	ld	de,#_kirbs16 + 0 + 127
+                            928 ; genAssign (pointer)
+   02FD 3E F8               929 	ld	a,#0xF8
+   02FF 12                  930 	ld	(de),a
+                            931 ; genPlus
+                            932 ; genPlusIncr
+   0300 11 80 00            933 	ld	de,#_kirbs16 + 0 + 128
+                            934 ; genAssign (pointer)
+   0303 3E 1E               935 	ld	a,#0x1E
+   0305 12                  936 	ld	(de),a
+                            937 ; genPlus
+                            938 ; genPlusIncr
+   0306 11 81 00            939 	ld	de,#_kirbs16 + 0 + 129
+                            940 ; genAssign (pointer)
+   0309 3E 1E               941 	ld	a,#0x1E
+   030B 12                  942 	ld	(de),a
+                            943 ; genPlus
+                            944 ; genPlusIncr
+   030C 11 82 00            945 	ld	de,#_kirbs16 + 0 + 130
+                            946 ; genAssign (pointer)
+   030F 3E 13               947 	ld	a,#0x13
+   0311 12                  948 	ld	(de),a
+                            949 ; genPlus
+                            950 ; genPlusIncr
+   0312 11 83 00            951 	ld	de,#_kirbs16 + 0 + 131
+                            952 ; genAssign (pointer)
+   0315 3E 11               953 	ld	a,#0x11
+   0317 12                  954 	ld	(de),a
+                            955 ; genPlus
+                            956 ; genPlusIncr
+   0318 11 84 00            957 	ld	de,#_kirbs16 + 0 + 132
+                            958 ; genAssign (pointer)
+   031B 3E 0D               959 	ld	a,#0x0D
+   031D 12                  960 	ld	(de),a
+                            961 ; genPlus
+                            962 ; genPlusIncr
+   031E 11 85 00            963 	ld	de,#_kirbs16 + 0 + 133
+                            964 ; genAssign (pointer)
+   0321 3E 0A               965 	ld	a,#0x0A
+   0323 12                  966 	ld	(de),a
+                            967 ; genPlus
+                            968 ; genPlusIncr
+   0324 11 86 00            969 	ld	de,#_kirbs16 + 0 + 134
+                            970 ; genAssign (pointer)
+   0327 3E 06               971 	ld	a,#0x06
+   0329 12                  972 	ld	(de),a
+                            973 ; genPlus
+                            974 ; genPlusIncr
+   032A 11 87 00            975 	ld	de,#_kirbs16 + 0 + 135
+                            976 ; genAssign (pointer)
+   032D 3E 05               977 	ld	a,#0x05
+   032F 12                  978 	ld	(de),a
+                            979 ; genPlus
+                            980 ; genPlusIncr
+   0330 11 88 00            981 	ld	de,#_kirbs16 + 0 + 136
+                            982 ; genAssign (pointer)
+   0333 3E 03               983 	ld	a,#0x03
+   0335 12                  984 	ld	(de),a
+                            985 ; genPlus
+                            986 ; genPlusIncr
+   0336 11 89 00            987 	ld	de,#_kirbs16 + 0 + 137
+                            988 ; genAssign (pointer)
+   0339 3E 02               989 	ld	a,#0x02
+   033B 12                  990 	ld	(de),a
+                            991 ; genPlus
+                            992 ; genPlusIncr
+   033C 11 8A 00            993 	ld	de,#_kirbs16 + 0 + 138
+                            994 ; genAssign (pointer)
+   033F 3E 02               995 	ld	a,#0x02
+   0341 12                  996 	ld	(de),a
+                            997 ; genPlus
+                            998 ; genPlusIncr
+   0342 11 8B 00            999 	ld	de,#_kirbs16 + 0 + 139
+                           1000 ; genAssign (pointer)
+   0345 3E 03              1001 	ld	a,#0x03
+   0347 12                 1002 	ld	(de),a
+                           1003 ; genPlus
+                           1004 ; genPlusIncr
+   0348 11 8C 00           1005 	ld	de,#_kirbs16 + 0 + 140
+                           1006 ; genAssign (pointer)
+   034B 3E 02              1007 	ld	a,#0x02
+   034D 12                 1008 	ld	(de),a
+                           1009 ; genPlus
+                           1010 ; genPlusIncr
+   034E 11 8D 00           1011 	ld	de,#_kirbs16 + 0 + 141
+                           1012 ; genAssign (pointer)
+   0351 3E 03              1013 	ld	a,#0x03
+   0353 12                 1014 	ld	(de),a
+                           1015 ; genPlus
+                           1016 ; genPlusIncr
+   0354 11 8E 00           1017 	ld	de,#_kirbs16 + 0 + 142
+                           1018 ; genAssign (pointer)
+   0357 3E 02              1019 	ld	a,#0x02
+   0359 12                 1020 	ld	(de),a
+                           1021 ; genPlus
+                           1022 ; genPlusIncr
+   035A 11 8F 00           1023 	ld	de,#_kirbs16 + 0 + 143
+                           1024 ; genAssign (pointer)
+   035D 3E 03              1025 	ld	a,#0x03
+   035F 12                 1026 	ld	(de),a
+                           1027 ; genPlus
+                           1028 ; genPlusIncr
+   0360 11 90 00           1029 	ld	de,#_kirbs16 + 0 + 144
+                           1030 ; genAssign (pointer)
+   0363 3E 78              1031 	ld	a,#0x78
+   0365 12                 1032 	ld	(de),a
+                           1033 ; genPlus
+                           1034 ; genPlusIncr
+   0366 11 91 00           1035 	ld	de,#_kirbs16 + 0 + 145
+                           1036 ; genAssign (pointer)
+   0369 3E 78              1037 	ld	a,#0x78
+   036B 12                 1038 	ld	(de),a
+                           1039 ; genPlus
+                           1040 ; genPlusIncr
+   036C 11 92 00           1041 	ld	de,#_kirbs16 + 0 + 146
+                           1042 ; genAssign (pointer)
+   036F 3E C8              1043 	ld	a,#0xC8
+   0371 12                 1044 	ld	(de),a
+                           1045 ; genPlus
+                           1046 ; genPlusIncr
+   0372 11 93 00           1047 	ld	de,#_kirbs16 + 0 + 147
+                           1048 ; genAssign (pointer)
+   0375 3E 88              1049 	ld	a,#0x88
+   0377 12                 1050 	ld	(de),a
+                           1051 ; genPlus
+                           1052 ; genPlusIncr
+   0378 11 94 00           1053 	ld	de,#_kirbs16 + 0 + 148
+                           1054 ; genAssign (pointer)
+   037B 3E B0              1055 	ld	a,#0xB0
+   037D 12                 1056 	ld	(de),a
+                           1057 ; genPlus
+                           1058 ; genPlusIncr
+   037E 11 95 00           1059 	ld	de,#_kirbs16 + 0 + 149
+                           1060 ; genAssign (pointer)
+   0381 3E 50              1061 	ld	a,#0x50
+   0383 12                 1062 	ld	(de),a
+                           1063 ; genPlus
+                           1064 ; genPlusIncr
+   0384 11 96 00           1065 	ld	de,#_kirbs16 + 0 + 150
+                           1066 ; genAssign (pointer)
+   0387 3E 60              1067 	ld	a,#0x60
+   0389 12                 1068 	ld	(de),a
+                           1069 ; genPlus
+                           1070 ; genPlusIncr
+   038A 11 97 00           1071 	ld	de,#_kirbs16 + 0 + 151
+                           1072 ; genAssign (pointer)
+   038D 3E A0              1073 	ld	a,#0xA0
+   038F 12                 1074 	ld	(de),a
+                           1075 ; genPlus
+                           1076 ; genPlusIncr
+   0390 11 98 00           1077 	ld	de,#_kirbs16 + 0 + 152
+                           1078 ; genAssign (pointer)
+   0393 3E C0              1079 	ld	a,#0xC0
+   0395 12                 1080 	ld	(de),a
+                           1081 ; genPlus
+                           1082 ; genPlusIncr
+   0396 11 99 00           1083 	ld	de,#_kirbs16 + 0 + 153
+                           1084 ; genAssign (pointer)
+   0399 3E 40              1085 	ld	a,#0x40
+   039B 12                 1086 	ld	(de),a
+                           1087 ; genPlus
+                           1088 ; genPlusIncr
+   039C 11 9A 00           1089 	ld	de,#_kirbs16 + 0 + 154
+                           1090 ; genAssign (pointer)
+   039F 3E 40              1091 	ld	a,#0x40
+   03A1 12                 1092 	ld	(de),a
+                           1093 ; genPlus
+                           1094 ; genPlusIncr
+   03A2 11 9B 00           1095 	ld	de,#_kirbs16 + 0 + 155
+                           1096 ; genAssign (pointer)
+   03A5 3E C0              1097 	ld	a,#0xC0
+   03A7 12                 1098 	ld	(de),a
+                           1099 ; genPlus
+                           1100 ; genPlusIncr
+   03A8 11 9C 00           1101 	ld	de,#_kirbs16 + 0 + 156
+                           1102 ; genAssign (pointer)
+   03AB 3E 40              1103 	ld	a,#0x40
+   03AD 12                 1104 	ld	(de),a
+                           1105 ; genPlus
+                           1106 ; genPlusIncr
+   03AE 11 9D 00           1107 	ld	de,#_kirbs16 + 0 + 157
+                           1108 ; genAssign (pointer)
+   03B1 3E C0              1109 	ld	a,#0xC0
+   03B3 12                 1110 	ld	(de),a
+                           1111 ; genPlus
+                           1112 ; genPlusIncr
+   03B4 11 9E 00           1113 	ld	de,#_kirbs16 + 0 + 158
+                           1114 ; genAssign (pointer)
+   03B7 3E 40              1115 	ld	a,#0x40
+   03B9 12                 1116 	ld	(de),a
+                           1117 ; genPlus
+                           1118 ; genPlusIncr
+   03BA 11 9F 00           1119 	ld	de,#_kirbs16 + 0 + 159
+                           1120 ; genAssign (pointer)
+   03BD 3E C0              1121 	ld	a,#0xC0
+   03BF 12                 1122 	ld	(de),a
+                           1123 ; genPlus
+                           1124 ; genPlusIncr
+   03C0 11 A0 00           1125 	ld	de,#_kirbs16 + 0 + 160
+                           1126 ; genAssign (pointer)
+   03C3 3E 02              1127 	ld	a,#0x02
+   03C5 12                 1128 	ld	(de),a
+                           1129 ; genPlus
+                           1130 ; genPlusIncr
+   03C6 11 A1 00           1131 	ld	de,#_kirbs16 + 0 + 161
+                           1132 ; genAssign (pointer)
+   03C9 3E 03              1133 	ld	a,#0x03
+   03CB 12                 1134 	ld	(de),a
+                           1135 ; genPlus
+                           1136 ; genPlusIncr
+   03CC 11 A2 00           1137 	ld	de,#_kirbs16 + 0 + 162
+                           1138 ; genAssign (pointer)
+   03CF 3E 02              1139 	ld	a,#0x02
+   03D1 12                 1140 	ld	(de),a
+                           1141 ; genPlus
+                           1142 ; genPlusIncr
+   03D2 11 A3 00           1143 	ld	de,#_kirbs16 + 0 + 163
+                           1144 ; genAssign (pointer)
+   03D5 3E 03              1145 	ld	a,#0x03
+   03D7 12                 1146 	ld	(de),a
+                           1147 ; genPlus
+                           1148 ; genPlusIncr
+   03D8 11 A4 00           1149 	ld	de,#_kirbs16 + 0 + 164
+                           1150 ; genAssign (pointer)
+   03DB 3E 02              1151 	ld	a,#0x02
+   03DD 12                 1152 	ld	(de),a
+                           1153 ; genPlus
+                           1154 ; genPlusIncr
+   03DE 11 A5 00           1155 	ld	de,#_kirbs16 + 0 + 165
+                           1156 ; genAssign (pointer)
+   03E1 3E 03              1157 	ld	a,#0x03
+   03E3 12                 1158 	ld	(de),a
+                           1159 ; genPlus
+                           1160 ; genPlusIncr
+   03E4 11 A6 00           1161 	ld	de,#_kirbs16 + 0 + 166
+                           1162 ; genAssign (pointer)
+   03E7 3E 01              1163 	ld	a,#0x01
+   03E9 12                 1164 	ld	(de),a
+                           1165 ; genPlus
+                           1166 ; genPlusIncr
+   03EA 11 A7 00           1167 	ld	de,#_kirbs16 + 0 + 167
+                           1168 ; genAssign (pointer)
+   03ED 3E 01              1169 	ld	a,#0x01
+   03EF 12                 1170 	ld	(de),a
+                           1171 ; genPlus
+                           1172 ; genPlusIncr
+   03F0 11 A8 00           1173 	ld	de,#_kirbs16 + 0 + 168
+                           1174 ; genAssign (pointer)
+   03F3 3E 00              1175 	ld	a,#0x00
+   03F5 12                 1176 	ld	(de),a
+                           1177 ; genPlus
+                           1178 ; genPlusIncr
+   03F6 11 A9 00           1179 	ld	de,#_kirbs16 + 0 + 169
+                           1180 ; genAssign (pointer)
+   03F9 3E 00              1181 	ld	a,#0x00
+   03FB 12                 1182 	ld	(de),a
+                           1183 ; genPlus
+                           1184 ; genPlusIncr
+   03FC 11 AA 00           1185 	ld	de,#_kirbs16 + 0 + 170
+                           1186 ; genAssign (pointer)
+   03FF 3E 00              1187 	ld	a,#0x00
+   0401 12                 1188 	ld	(de),a
+                           1189 ; genPlus
+                           1190 ; genPlusIncr
+   0402 11 AB 00           1191 	ld	de,#_kirbs16 + 0 + 171
+                           1192 ; genAssign (pointer)
+   0405 3E 00              1193 	ld	a,#0x00
+   0407 12                 1194 	ld	(de),a
+                           1195 ; genPlus
+                           1196 ; genPlusIncr
+   0408 11 AC 00           1197 	ld	de,#_kirbs16 + 0 + 172
+                           1198 ; genAssign (pointer)
+   040B 3E 00              1199 	ld	a,#0x00
+   040D 12                 1200 	ld	(de),a
+                           1201 ; genPlus
+                           1202 ; genPlusIncr
+   040E 11 AD 00           1203 	ld	de,#_kirbs16 + 0 + 173
+                           1204 ; genAssign (pointer)
+   0411 3E 00              1205 	ld	a,#0x00
+   0413 12                 1206 	ld	(de),a
+                           1207 ; genPlus
+                           1208 ; genPlusIncr
+   0414 11 AE 00           1209 	ld	de,#_kirbs16 + 0 + 174
+                           1210 ; genAssign (pointer)
+   0417 3E 00              1211 	ld	a,#0x00
+   0419 12                 1212 	ld	(de),a
+                           1213 ; genPlus
+                           1214 ; genPlusIncr
+   041A 11 AF 00           1215 	ld	de,#_kirbs16 + 0 + 175
+                           1216 ; genAssign (pointer)
+   041D 3E 00              1217 	ld	a,#0x00
+   041F 12                 1218 	ld	(de),a
+                           1219 ; genPlus
+                           1220 ; genPlusIncr
+   0420 11 B0 00           1221 	ld	de,#_kirbs16 + 0 + 176
+                           1222 ; genAssign (pointer)
+   0423 3E 40              1223 	ld	a,#0x40
+   0425 12                 1224 	ld	(de),a
+                           1225 ; genPlus
+                           1226 ; genPlusIncr
+   0426 11 B1 00           1227 	ld	de,#_kirbs16 + 0 + 177
+                           1228 ; genAssign (pointer)
+   0429 3E C0              1229 	ld	a,#0xC0
+   042B 12                 1230 	ld	(de),a
+                           1231 ; genPlus
+                           1232 ; genPlusIncr
+   042C 11 B2 00           1233 	ld	de,#_kirbs16 + 0 + 178
+                           1234 ; genAssign (pointer)
+   042F 3E 40              1235 	ld	a,#0x40
+   0431 12                 1236 	ld	(de),a
+                           1237 ; genPlus
+                           1238 ; genPlusIncr
+   0432 11 B3 00           1239 	ld	de,#_kirbs16 + 0 + 179
+                           1240 ; genAssign (pointer)
+   0435 3E C0              1241 	ld	a,#0xC0
+   0437 12                 1242 	ld	(de),a
+                           1243 ; genPlus
+                           1244 ; genPlusIncr
+   0438 11 B4 00           1245 	ld	de,#_kirbs16 + 0 + 180
+                           1246 ; genAssign (pointer)
+   043B 3E 40              1247 	ld	a,#0x40
+   043D 12                 1248 	ld	(de),a
+                           1249 ; genPlus
+                           1250 ; genPlusIncr
+   043E 11 B5 00           1251 	ld	de,#_kirbs16 + 0 + 181
+                           1252 ; genAssign (pointer)
+   0441 3E C0              1253 	ld	a,#0xC0
+   0443 12                 1254 	ld	(de),a
+                           1255 ; genPlus
+                           1256 ; genPlusIncr
+   0444 11 B6 00           1257 	ld	de,#_kirbs16 + 0 + 182
+                           1258 ; genAssign (pointer)
+   0447 3E 80              1259 	ld	a,#0x80
+   0449 12                 1260 	ld	(de),a
+                           1261 ; genPlus
+                           1262 ; genPlusIncr
+   044A 11 B7 00           1263 	ld	de,#_kirbs16 + 0 + 183
+                           1264 ; genAssign (pointer)
+   044D 3E 80              1265 	ld	a,#0x80
+   044F 12                 1266 	ld	(de),a
+                           1267 ; genPlus
+                           1268 ; genPlusIncr
+   0450 11 B8 00           1269 	ld	de,#_kirbs16 + 0 + 184
+                           1270 ; genAssign (pointer)
+   0453 3E 00              1271 	ld	a,#0x00
+   0455 12                 1272 	ld	(de),a
+                           1273 ; genPlus
+                           1274 ; genPlusIncr
+   0456 11 B9 00           1275 	ld	de,#_kirbs16 + 0 + 185
+                           1276 ; genAssign (pointer)
+   0459 3E 00              1277 	ld	a,#0x00
+   045B 12                 1278 	ld	(de),a
+                           1279 ; genPlus
+                           1280 ; genPlusIncr
+   045C 11 BA 00           1281 	ld	de,#_kirbs16 + 0 + 186
+                           1282 ; genAssign (pointer)
+   045F 3E 00              1283 	ld	a,#0x00
+   0461 12                 1284 	ld	(de),a
+                           1285 ; genPlus
+                           1286 ; genPlusIncr
+   0462 11 BB 00           1287 	ld	de,#_kirbs16 + 0 + 187
+                           1288 ; genAssign (pointer)
+   0465 3E 00              1289 	ld	a,#0x00
+   0467 12                 1290 	ld	(de),a
+                           1291 ; genPlus
+                           1292 ; genPlusIncr
+   0468 11 BC 00           1293 	ld	de,#_kirbs16 + 0 + 188
+                           1294 ; genAssign (pointer)
+   046B 3E 00              1295 	ld	a,#0x00
+   046D 12                 1296 	ld	(de),a
+                           1297 ; genPlus
+                           1298 ; genPlusIncr
+   046E 11 BD 00           1299 	ld	de,#_kirbs16 + 0 + 189
+                           1300 ; genAssign (pointer)
+   0471 3E 00              1301 	ld	a,#0x00
+   0473 12                 1302 	ld	(de),a
+                           1303 ; genPlus
+                           1304 ; genPlusIncr
+   0474 11 BE 00           1305 	ld	de,#_kirbs16 + 0 + 190
+                           1306 ; genAssign (pointer)
+   0477 3E 00              1307 	ld	a,#0x00
+   0479 12                 1308 	ld	(de),a
+                           1309 ; genPlus
+                           1310 ; genPlusIncr
+   047A 11 BF 00           1311 	ld	de,#_kirbs16 + 0 + 191
+                           1312 ; genAssign (pointer)
+   047D 3E 00              1313 	ld	a,#0x00
+   047F 12                 1314 	ld	(de),a
+                           1315 ; genPlus
+                           1316 ; genPlusIncr
+   0480 11 C0 00           1317 	ld	de,#_kirbs16 + 0 + 192
+                           1318 ; genAssign (pointer)
+   0483 3E 00              1319 	ld	a,#0x00
+   0485 12                 1320 	ld	(de),a
+                           1321 ; genPlus
+                           1322 ; genPlusIncr
+   0486 11 C1 00           1323 	ld	de,#_kirbs16 + 0 + 193
+                           1324 ; genAssign (pointer)
+   0489 3E 00              1325 	ld	a,#0x00
+   048B 12                 1326 	ld	(de),a
+                           1327 ; genPlus
+                           1328 ; genPlusIncr
+   048C 11 C2 00           1329 	ld	de,#_kirbs16 + 0 + 194
+                           1330 ; genAssign (pointer)
+   048F 3E 00              1331 	ld	a,#0x00
+   0491 12                 1332 	ld	(de),a
+                           1333 ; genPlus
+                           1334 ; genPlusIncr
+   0492 11 C3 00           1335 	ld	de,#_kirbs16 + 0 + 195
+                           1336 ; genAssign (pointer)
+   0495 3E 07              1337 	ld	a,#0x07
+   0497 12                 1338 	ld	(de),a
+                           1339 ; genPlus
+                           1340 ; genPlusIncr
+   0498 11 C4 00           1341 	ld	de,#_kirbs16 + 0 + 196
+                           1342 ; genAssign (pointer)
+   049B 3E 04              1343 	ld	a,#0x04
+   049D 12                 1344 	ld	(de),a
+                           1345 ; genPlus
+                           1346 ; genPlusIncr
+   049E 11 C5 00           1347 	ld	de,#_kirbs16 + 0 + 197
+                           1348 ; genAssign (pointer)
+   04A1 3E 0F              1349 	ld	a,#0x0F
+   04A3 12                 1350 	ld	(de),a
+                           1351 ; genPlus
+                           1352 ; genPlusIncr
+   04A4 11 C6 00           1353 	ld	de,#_kirbs16 + 0 + 198
+                           1354 ; genAssign (pointer)
+   04A7 3E 04              1355 	ld	a,#0x04
+   04A9 12                 1356 	ld	(de),a
+                           1357 ; genPlus
+                           1358 ; genPlusIncr
+   04AA 11 C7 00           1359 	ld	de,#_kirbs16 + 0 + 199
+                           1360 ; genAssign (pointer)
+   04AD 3E 1F              1361 	ld	a,#0x1F
+   04AF 12                 1362 	ld	(de),a
+                           1363 ; genPlus
+                           1364 ; genPlusIncr
+   04B0 11 C8 00           1365 	ld	de,#_kirbs16 + 0 + 200
+                           1366 ; genAssign (pointer)
+   04B3 3E 63              1367 	ld	a,#0x63
+   04B5 12                 1368 	ld	(de),a
+                           1369 ; genPlus
+                           1370 ; genPlusIncr
+   04B6 11 C9 00           1371 	ld	de,#_kirbs16 + 0 + 201
+                           1372 ; genAssign (pointer)
+   04B9 3E 1C              1373 	ld	a,#0x1C
+   04BB 12                 1374 	ld	(de),a
+                           1375 ; genPlus
+                           1376 ; genPlusIncr
+   04BC 11 CA 00           1377 	ld	de,#_kirbs16 + 0 + 202
+                           1378 ; genAssign (pointer)
+   04BF 3E 7F              1379 	ld	a,#0x7F
+   04C1 12                 1380 	ld	(de),a
+                           1381 ; genPlus
+                           1382 ; genPlusIncr
+   04C2 11 CB 00           1383 	ld	de,#_kirbs16 + 0 + 203
+                           1384 ; genAssign (pointer)
+   04C5 3E 40              1385 	ld	a,#0x40
+   04C7 12                 1386 	ld	(de),a
+                           1387 ; genPlus
+                           1388 ; genPlusIncr
+   04C8 11 CC 00           1389 	ld	de,#_kirbs16 + 0 + 204
+                           1390 ; genAssign (pointer)
+   04CB 3E 6E              1391 	ld	a,#0x6E
+   04CD 12                 1392 	ld	(de),a
+                           1393 ; genPlus
+                           1394 ; genPlusIncr
+   04CE 11 CD 00           1395 	ld	de,#_kirbs16 + 0 + 205
+                           1396 ; genAssign (pointer)
+   04D1 3E 01              1397 	ld	a,#0x01
+   04D3 12                 1398 	ld	(de),a
+                           1399 ; genPlus
+                           1400 ; genPlusIncr
+   04D4 11 CE 00           1401 	ld	de,#_kirbs16 + 0 + 206
+                           1402 ; genAssign (pointer)
+   04D7 3E 3C              1403 	ld	a,#0x3C
+   04D9 12                 1404 	ld	(de),a
+                           1405 ; genPlus
+                           1406 ; genPlusIncr
+   04DA 11 CF 00           1407 	ld	de,#_kirbs16 + 0 + 207
+                           1408 ; genAssign (pointer)
+   04DD 3E 03              1409 	ld	a,#0x03
+   04DF 12                 1410 	ld	(de),a
+                           1411 ; genPlus
+                           1412 ; genPlusIncr
+   04E0 11 D0 00           1413 	ld	de,#_kirbs16 + 0 + 208
+                           1414 ; genAssign (pointer)
+   04E3 3E 70              1415 	ld	a,#0x70
+   04E5 12                 1416 	ld	(de),a
+                           1417 ; genPlus
+                           1418 ; genPlusIncr
+   04E6 11 D1 00           1419 	ld	de,#_kirbs16 + 0 + 209
+                           1420 ; genAssign (pointer)
+   04E9 3E 00              1421 	ld	a,#0x00
+   04EB 12                 1422 	ld	(de),a
+                           1423 ; genPlus
+                           1424 ; genPlusIncr
+   04EC 11 D2 00           1425 	ld	de,#_kirbs16 + 0 + 210
+                           1426 ; genAssign (pointer)
+   04EF 3E E8              1427 	ld	a,#0xE8
+   04F1 12                 1428 	ld	(de),a
+                           1429 ; genPlus
+                           1430 ; genPlusIncr
+   04F2 11 D3 00           1431 	ld	de,#_kirbs16 + 0 + 211
+                           1432 ; genAssign (pointer)
+   04F5 3E 00              1433 	ld	a,#0x00
+   04F7 12                 1434 	ld	(de),a
+                           1435 ; genPlus
+                           1436 ; genPlusIncr
+   04F8 11 D4 00           1437 	ld	de,#_kirbs16 + 0 + 212
+                           1438 ; genAssign (pointer)
+   04FB 3E 50              1439 	ld	a,#0x50
+   04FD 12                 1440 	ld	(de),a
+                           1441 ; genPlus
+                           1442 ; genPlusIncr
+   04FE 11 D5 00           1443 	ld	de,#_kirbs16 + 0 + 213
+                           1444 ; genAssign (pointer)
+   0501 3E 80              1445 	ld	a,#0x80
+   0503 12                 1446 	ld	(de),a
+                           1447 ; genPlus
+                           1448 ; genPlusIncr
+   0504 11 D6 00           1449 	ld	de,#_kirbs16 + 0 + 214
+                           1450 ; genAssign (pointer)
+   0507 3E 10              1451 	ld	a,#0x10
+   0509 12                 1452 	ld	(de),a
+                           1453 ; genPlus
+                           1454 ; genPlusIncr
+   050A 11 D7 00           1455 	ld	de,#_kirbs16 + 0 + 215
+                           1456 ; genAssign (pointer)
+   050D 3E C0              1457 	ld	a,#0xC0
+   050F 12                 1458 	ld	(de),a
+                           1459 ; genPlus
+                           1460 ; genPlusIncr
+   0510 11 D8 00           1461 	ld	de,#_kirbs16 + 0 + 216
+                           1462 ; genAssign (pointer)
+   0513 3E 00              1463 	ld	a,#0x00
+   0515 12                 1464 	ld	(de),a
+                           1465 ; genPlus
+                           1466 ; genPlusIncr
+   0516 11 D9 00           1467 	ld	de,#_kirbs16 + 0 + 217
+                           1468 ; genAssign (pointer)
+   0519 3E C0              1469 	ld	a,#0xC0
+   051B 12                 1470 	ld	(de),a
+                           1471 ; genPlus
+                           1472 ; genPlusIncr
+   051C 11 DA 00           1473 	ld	de,#_kirbs16 + 0 + 218
+                           1474 ; genAssign (pointer)
+   051F 3E 00              1475 	ld	a,#0x00
+   0521 12                 1476 	ld	(de),a
+                           1477 ; genPlus
+                           1478 ; genPlusIncr
+   0522 11 DB 00           1479 	ld	de,#_kirbs16 + 0 + 219
+                           1480 ; genAssign (pointer)
+   0525 3E 80              1481 	ld	a,#0x80
+   0527 12                 1482 	ld	(de),a
+                           1483 ; genPlus
+                           1484 ; genPlusIncr
+   0528 11 DC 00           1485 	ld	de,#_kirbs16 + 0 + 220
+                           1486 ; genAssign (pointer)
+   052B 3E 00              1487 	ld	a,#0x00
+   052D 12                 1488 	ld	(de),a
+                           1489 ; genPlus
+                           1490 ; genPlusIncr
+   052E 11 DD 00           1491 	ld	de,#_kirbs16 + 0 + 221
+                           1492 ; genAssign (pointer)
+   0531 3E 80              1493 	ld	a,#0x80
+   0533 12                 1494 	ld	(de),a
+                           1495 ; genPlus
+                           1496 ; genPlusIncr
+   0534 11 DE 00           1497 	ld	de,#_kirbs16 + 0 + 222
+                           1498 ; genAssign (pointer)
+   0537 3E 30              1499 	ld	a,#0x30
+   0539 12                 1500 	ld	(de),a
+                           1501 ; genPlus
+                           1502 ; genPlusIncr
+   053A 11 DF 00           1503 	ld	de,#_kirbs16 + 0 + 223
+                           1504 ; genAssign (pointer)
+   053D 3E C0              1505 	ld	a,#0xC0
+   053F 12                 1506 	ld	(de),a
+                           1507 ;	sprite_run.c 174
+                           1508 ; genAssign
+                           1509 ; AOP_HL for _gravity
+   0540 21 E1 00           1510 	ld	hl,#_gravity + 0
+   0543 36 FF              1511 	ld	(hl),#0xFF
+                           1512 ;	sprite_run.c 174
+                           1513 ; genAssign
+                           1514 ; AOP_HL for _floorYposition
+   0545 21 E3 00           1515 	ld	hl,#_floorYposition + 0
+   0548 36 8B              1516 	ld	(hl),#0x8B
+                           1517 ;	sprite_run.c 174
+                           1518 ; genAssign
+                           1519 ; AOP_HL for _spritesize
+   054A 21 E4 00           1520 	ld	hl,#_spritesize + 0
+   054D 36 08              1521 	ld	(hl),#0x08
+                           1522 ;	sprite_run.c 174
+                           1523 ; genAssign
+                           1524 ; AOP_HL for _spritestate
+   054F 21 E5 00           1525 	ld	hl,#_spritestate + 0
+   0552 36 00              1526 	ld	(hl),#0x00
+                           1527 ;	sprite_run.c 174
+                           1528 ; genAssign
+                           1529 ; AOP_HL for _speedx
+   0554 21 E6 00           1530 	ld	hl,#_speedx + 0
+   0557 36 02              1531 	ld	(hl),#0x02
+                           1532 ;	sprite_run.c 174
+                           1533 ; genAssign
+                           1534 ; AOP_HL for _fallspeed
+   0559 21 E7 00           1535 	ld	hl,#_fallspeed + 0
+   055C 36 03              1536 	ld	(hl),#0x03
+                           1537 ;--------------------------------------------------------
+                           1538 ; Home
+                           1539 ;--------------------------------------------------------
+                           1540 	.area _HOME
+                           1541 	.area _CODE
+                           1542 ;--------------------------------------------------------
+                           1543 ; code
+                           1544 ;--------------------------------------------------------
+                           1545 	.area _CODE
+                           1546 ;	sprite_run.c 19
+                           1547 ; genLabel
+                           1548 ; genFunction
+                           1549 ;	---------------------------------
+                           1550 ; Function movegamecharacter
+                           1551 ; ---------------------------------
+   0000                    1552 ___movegamecharacter_start:
+   0000                    1553 _movegamecharacter:
+   0000 C5                 1554 	push	bc
+   0001 E8 FD              1555 	lda	sp,-3(sp)
+                           1556 ;	sprite_run.c 20
+                           1557 ; genAssign
+                           1558 ; AOP_STK for 
+                           1559 ; AOP_STK for _movegamecharacter_sloc1_1_0
+   0003 F8 07              1560 	lda	hl,7(sp)
+   0005 2A                 1561 	ld	a,(hl+)
+   0006 5E                 1562 	ld	e,(hl)
+   0007 F8 00              1563 	lda	hl,0(sp)
+   0009 22                 1564 	ld	(hl+),a
+   000A 73                 1565 	ld	(hl),e
+                           1566 ; genPointerGet
+                           1567 ; AOP_STK for _movegamecharacter_sloc1_1_0
+                           1568 ; AOP_STK for _movegamecharacter_sloc0_1_0
+   000B 2B                 1569 	dec	hl
+   000C 5E                 1570 	ld	e,(hl)
+   000D 23                 1571 	inc	hl
+   000E 56                 1572 	ld	d,(hl)
+   000F 1A                 1573 	ld	a,(de)
+   0010 23                 1574 	inc	hl
+   0011 77                 1575 	ld	(hl),a
+                           1576 ; genIpush
+                           1577 ; AOP_STK for 
+   0012 F8 0A              1578 	lda	hl,10(sp)
+   0014 7E                 1579 	ld	a,(hl)
+   0015 F5                 1580 	push	af
+   0016 33                 1581 	inc	sp
+                           1582 ; genIpush
+                           1583 ; AOP_STK for 
+   0017 2B                 1584 	dec	hl
+   0018 7E                 1585 	ld	a,(hl)
+   0019 F5                 1586 	push	af
+   001A 33                 1587 	inc	sp
+                           1588 ; genIpush
+                           1589 ; AOP_STK for _movegamecharacter_sloc0_1_0
+   001B F8 04              1590 	lda	hl,4(sp)
+   001D 7E                 1591 	ld	a,(hl)
+   001E F5                 1592 	push	af
+   001F 33                 1593 	inc	sp
+                           1594 ; genCall
+   0020 CD 00 00           1595 	call	_move_sprite
+   0023 E8 03              1596 	lda	sp,3(sp)
+                           1597 ;	sprite_run.c 21
+                           1598 ; genPlus
+                           1599 ; AOP_STK for 
+                           1600 ; AOP_HL for _spritesize
+                           1601 ;	genPlusIncr failed
+   0025 F8 09              1602 	lda	hl,9(sp)
+   0027 7E                 1603 	ld	a,(hl)
+   0028 21 E4 00           1604 	ld	hl,#_spritesize + 0
+   002B 86                 1605 	add	a,(hl)
+   002C 4F                 1606 	ld	c,a
+                           1607 ; genPlus
+                           1608 ; AOP_STK for _movegamecharacter_sloc1_1_0
+                           1609 ; genPlusIncr
+   002D F8 00              1610 	lda	hl,0(sp)
+   002F 5E                 1611 	ld	e,(hl)
+   0030 23                 1612 	inc	hl
+   0031 56                 1613 	ld	d,(hl)
+   0032 13                 1614 	inc	de
+                           1615 ; genPointerGet
+   0033 1A                 1616 	ld	a,(de)
+   0034 47                 1617 	ld	b,a
+                           1618 ; genIpush
+                           1619 ; AOP_STK for 
+   0035 F8 0A              1620 	lda	hl,10(sp)
+   0037 7E                 1621 	ld	a,(hl)
+   0038 F5                 1622 	push	af
+   0039 33                 1623 	inc	sp
+                           1624 ; genIpush
+   003A 79                 1625 	ld	a,c
+   003B F5                 1626 	push	af
+   003C 33                 1627 	inc	sp
+                           1628 ; genIpush
+   003D 78                 1629 	ld	a,b
+   003E F5                 1630 	push	af
+   003F 33                 1631 	inc	sp
+                           1632 ; genCall
+   0040 CD 00 00           1633 	call	_move_sprite
+   0043 E8 03              1634 	lda	sp,3(sp)
+                           1635 ;	sprite_run.c 22
+                           1636 ; genPlus
+                           1637 ; AOP_STK for 
+                           1638 ; AOP_HL for _spritesize
+                           1639 ; AOP_STK for _movegamecharacter_sloc0_1_0
+                           1640 ;	genPlusIncr failed
+   0045 F8 0A              1641 	lda	hl,10(sp)
+   0047 7E                 1642 	ld	a,(hl)
+   0048 21 E4 00           1643 	ld	hl,#_spritesize + 0
+   004B 86                 1644 	add	a,(hl)
+   004C F8 02              1645 	lda	hl,2(sp)
+   004E 77                 1646 	ld	(hl),a
+                           1647 ; genPlus
+                           1648 ; AOP_STK for _movegamecharacter_sloc1_1_0
+                           1649 ; genPlusIncr
+   004F 2B                 1650 	dec	hl
+   0050 2B                 1651 	dec	hl
+   0051 5E                 1652 	ld	e,(hl)
+   0052 23                 1653 	inc	hl
+   0053 56                 1654 	ld	d,(hl)
+   0054 13                 1655 	inc	de
+   0055 13                 1656 	inc	de
+                           1657 ; genPointerGet
+   0056 1A                 1658 	ld	a,(de)
+   0057 47                 1659 	ld	b,a
+                           1660 ; genIpush
+                           1661 ; AOP_STK for _movegamecharacter_sloc0_1_0
+   0058 23                 1662 	inc	hl
+   0059 7E                 1663 	ld	a,(hl)
+   005A F5                 1664 	push	af
+   005B 33                 1665 	inc	sp
+                           1666 ; genIpush
+                           1667 ; AOP_STK for 
+   005C F8 0A              1668 	lda	hl,10(sp)
+   005E 7E                 1669 	ld	a,(hl)
+   005F F5                 1670 	push	af
+   0060 33                 1671 	inc	sp
+                           1672 ; genIpush
+   0061 78                 1673 	ld	a,b
+   0062 F5                 1674 	push	af
+   0063 33                 1675 	inc	sp
+                           1676 ; genCall
+   0064 CD 00 00           1677 	call	_move_sprite
+   0067 E8 03              1678 	lda	sp,3(sp)
+                           1679 ;	sprite_run.c 23
+                           1680 ; genPlus
+                           1681 ; AOP_STK for _movegamecharacter_sloc1_1_0
+                           1682 ; genPlusIncr
+                           1683 ;	genPlusIncr failed
+   0069 F8 00              1684 	lda	hl,0(sp)
+   006B 5E                 1685 	ld	e,(hl)
+   006C 23                 1686 	inc	hl
+   006D 56                 1687 	ld	d,(hl)
+   006E 21 03 00           1688 	ld	hl,#0x0003
+   0071 19                 1689 	add	hl,de
+   0072 5D                 1690 	ld	e,l
+   0073 54                 1691 	ld	d,h
+                           1692 ; genPointerGet
+   0074 1A                 1693 	ld	a,(de)
+   0075 47                 1694 	ld	b,a
+                           1695 ; genIpush
+                           1696 ; AOP_STK for _movegamecharacter_sloc0_1_0
+   0076 F8 02              1697 	lda	hl,2(sp)
+   0078 7E                 1698 	ld	a,(hl)
+   0079 F5                 1699 	push	af
+   007A 33                 1700 	inc	sp
+                           1701 ; genIpush
+   007B 79                 1702 	ld	a,c
+   007C F5                 1703 	push	af
+   007D 33                 1704 	inc	sp
+                           1705 ; genIpush
+   007E 78                 1706 	ld	a,b
+   007F F5                 1707 	push	af
+   0080 33                 1708 	inc	sp
+                           1709 ; genCall
+   0081 CD 00 00           1710 	call	_move_sprite
+   0084 E8 03              1711 	lda	sp,3(sp)
+                           1712 ; genLabel
+   0086                    1713 00101$:
+                           1714 ; genEndFunction
+   0086 E8 03              1715 	lda	sp,3(sp)
+   0088 C1                 1716 	pop	bc
+   0089 C9                 1717 	ret
+   008A                    1718 ___movegamecharacter_end:
+                           1719 ;	sprite_run.c 26
+                           1720 ; genLabel
+                           1721 ; genFunction
+                           1722 ;	---------------------------------
+                           1723 ; Function setupkirby
+                           1724 ; ---------------------------------
+   008A                    1725 ___setupkirby_start:
+   008A                    1726 _setupkirby:
+   008A C5                 1727 	push	bc
+   008B E8 FD              1728 	lda	sp,-3(sp)
+                           1729 ;	sprite_run.c 27
+                           1730 ; genPlus
+                           1731 ; AOP_STK for _setupkirby_sloc0_1_0
+                           1732 ; genPlusIncr
+                           1733 ;	genPlusIncr failed
+   008D 11 E8 00           1734 	ld	de,#_kirby + 0
+   0090 21 04 00           1735 	ld	hl,#0x0004
+   0093 19                 1736 	add	hl,de
+   0094 7D                 1737 	ld	a,l
+   0095 54                 1738 	ld	d,h
+   0096 F8 01              1739 	lda	hl,1(sp)
+   0098 22                 1740 	ld	(hl+),a
+   0099 72                 1741 	ld	(hl),d
+                           1742 ; genAssign (pointer)
+                           1743 ; AOP_STK for _setupkirby_sloc0_1_0
+   009A 2B                 1744 	dec	hl
+   009B 5E                 1745 	ld	e,(hl)
+   009C 23                 1746 	inc	hl
+   009D 56                 1747 	ld	d,(hl)
+   009E 3E 50              1748 	ld	a,#0x50
+   00A0 12                 1749 	ld	(de),a
+                           1750 ;	sprite_run.c 28
+                           1751 ; genPlus
+                           1752 ; genPlusIncr
+   00A1 01 ED 00           1753 	ld	bc,#_kirby + 0 + 5
+                           1754 ; genAssign (pointer)
+   00A4 3E 8B              1755 	ld	a,#0x8B
+   00A6 02                 1756 	ld	(bc),a
+                           1757 ;	sprite_run.c 29
+                           1758 ; genPlus
+                           1759 ; genPlusIncr
+   00A7 11 EE 00           1760 	ld	de,#_kirby + 0 + 6
+                           1761 ; genAssign (pointer)
+   00AA 3E 10              1762 	ld	a,#0x10
+   00AC 12                 1763 	ld	(de),a
+                           1764 ;	sprite_run.c 30
+                           1765 ; genPlus
+                           1766 ; genPlusIncr
+   00AD 11 EF 00           1767 	ld	de,#_kirby + 0 + 7
+                           1768 ; genAssign (pointer)
+   00B0 3E 10              1769 	ld	a,#0x10
+   00B2 12                 1770 	ld	(de),a
+                           1771 ;	sprite_run.c 33
+                           1772 ; genIpush
+   00B3 3E 00              1773 	ld	a,#0x00
+   00B5 F5                 1774 	push	af
+   00B6 33                 1775 	inc	sp
+                           1776 ; genIpush
+   00B7 3E 00              1777 	ld	a,#0x00
+   00B9 F5                 1778 	push	af
+   00BA 33                 1779 	inc	sp
+                           1780 ; genCall
+   00BB CD 00 00           1781 	call	_set_sprite_tile
+   00BE E8 02              1782 	lda	sp,2(sp)
+                           1783 ;	sprite_run.c 34
+                           1784 ; genAssign (pointer)
+   00C0 11 E8 00           1785 	ld	de,#_kirby + 0
+   00C3 3E 00              1786 	ld	a,#0x00
+   00C5 12                 1787 	ld	(de),a
+                           1788 ;	sprite_run.c 35
+                           1789 ; genIpush
+   00C6 3E 01              1790 	ld	a,#0x01
+   00C8 F5                 1791 	push	af
+   00C9 33                 1792 	inc	sp
+                           1793 ; genIpush
+   00CA 3E 01              1794 	ld	a,#0x01
+   00CC F5                 1795 	push	af
+   00CD 33                 1796 	inc	sp
+                           1797 ; genCall
+   00CE CD 00 00           1798 	call	_set_sprite_tile
+   00D1 E8 02              1799 	lda	sp,2(sp)
+                           1800 ;	sprite_run.c 36
+                           1801 ; genPlus
+                           1802 ; genPlusIncr
+   00D3 11 E9 00           1803 	ld	de,#_kirby + 0 + 1
+                           1804 ; genAssign (pointer)
+   00D6 3E 01              1805 	ld	a,#0x01
+   00D8 12                 1806 	ld	(de),a
+                           1807 ;	sprite_run.c 37
+                           1808 ; genIpush
+   00D9 3E 02              1809 	ld	a,#0x02
+   00DB F5                 1810 	push	af
+   00DC 33                 1811 	inc	sp
+                           1812 ; genIpush
+   00DD 3E 02              1813 	ld	a,#0x02
+   00DF F5                 1814 	push	af
+   00E0 33                 1815 	inc	sp
+                           1816 ; genCall
+   00E1 CD 00 00           1817 	call	_set_sprite_tile
+   00E4 E8 02              1818 	lda	sp,2(sp)
+                           1819 ;	sprite_run.c 38
+                           1820 ; genPlus
+                           1821 ; genPlusIncr
+   00E6 11 EA 00           1822 	ld	de,#_kirby + 0 + 2
+                           1823 ; genAssign (pointer)
+   00E9 3E 02              1824 	ld	a,#0x02
+   00EB 12                 1825 	ld	(de),a
+                           1826 ;	sprite_run.c 39
+                           1827 ; genIpush
+   00EC 3E 03              1828 	ld	a,#0x03
+   00EE F5                 1829 	push	af
+   00EF 33                 1830 	inc	sp
+                           1831 ; genIpush
+   00F0 3E 03              1832 	ld	a,#0x03
+   00F2 F5                 1833 	push	af
+   00F3 33                 1834 	inc	sp
+                           1835 ; genCall
+   00F4 CD 00 00           1836 	call	_set_sprite_tile
+   00F7 E8 02              1837 	lda	sp,2(sp)
+                           1838 ;	sprite_run.c 40
+                           1839 ; genPlus
+                           1840 ; genPlusIncr
+   00F9 11 EB 00           1841 	ld	de,#_kirby + 0 + 3
+                           1842 ; genAssign (pointer)
+   00FC 3E 03              1843 	ld	a,#0x03
+   00FE 12                 1844 	ld	(de),a
+                           1845 ;	sprite_run.c 41
+                           1846 ; genPointerGet
+                           1847 ; AOP_STK for _setupkirby_sloc1_1_0
+   00FF 0A                 1848 	ld	a,(bc)
+   0100 F8 00              1849 	lda	hl,0(sp)
+                           1850 ; genPointerGet
+                           1851 ; AOP_STK for _setupkirby_sloc0_1_0
+   0102 22                 1852 	ld	(hl+),a
+   0103 5E                 1853 	ld	e,(hl)
+   0104 23                 1854 	inc	hl
+   0105 56                 1855 	ld	d,(hl)
+   0106 1A                 1856 	ld	a,(de)
+   0107 4F                 1857 	ld	c,a
+                           1858 ; genIpush
+                           1859 ; AOP_STK for _setupkirby_sloc1_1_0
+   0108 2B                 1860 	dec	hl
+   0109 2B                 1861 	dec	hl
+   010A 7E                 1862 	ld	a,(hl)
+   010B F5                 1863 	push	af
+   010C 33                 1864 	inc	sp
+                           1865 ; genIpush
+   010D 79                 1866 	ld	a,c
+   010E F5                 1867 	push	af
+   010F 33                 1868 	inc	sp
+                           1869 ; genIpush
+   0110 21 E8 00           1870 	ld	hl,#_kirby + 0
+   0113 E5                 1871 	push	hl
+                           1872 ; genCall
+   0114 CD 00 00           1873 	call	_movegamecharacter
+   0117 E8 04              1874 	lda	sp,4(sp)
+                           1875 ; genLabel
+   0119                    1876 00101$:
+                           1877 ; genEndFunction
+   0119 E8 03              1878 	lda	sp,3(sp)
+   011B C1                 1879 	pop	bc
+   011C C9                 1880 	ret
+   011D                    1881 ___setupkirby_end:
+                           1882 ;	sprite_run.c 45
+                           1883 ; genLabel
+                           1884 ; genFunction
+                           1885 ;	---------------------------------
+                           1886 ; Function setupsmiley
+                           1887 ; ---------------------------------
+   011D                    1888 ___setupsmiley_start:
+   011D                    1889 _setupsmiley:
+   011D C5                 1890 	push	bc
+   011E E8 FD              1891 	lda	sp,-3(sp)
+                           1892 ;	sprite_run.c 46
+                           1893 ; genPlus
+                           1894 ; AOP_STK for _setupsmiley_sloc0_1_0
+                           1895 ; genPlusIncr
+                           1896 ;	genPlusIncr failed
+   0120 11 F0 00           1897 	ld	de,#_smiley + 0
+   0123 21 04 00           1898 	ld	hl,#0x0004
+   0126 19                 1899 	add	hl,de
+   0127 7D                 1900 	ld	a,l
+   0128 54                 1901 	ld	d,h
+   0129 F8 01              1902 	lda	hl,1(sp)
+   012B 22                 1903 	ld	(hl+),a
+   012C 72                 1904 	ld	(hl),d
+                           1905 ; genAssign (pointer)
+                           1906 ; AOP_STK for _setupsmiley_sloc0_1_0
+   012D 2B                 1907 	dec	hl
+   012E 5E                 1908 	ld	e,(hl)
+   012F 23                 1909 	inc	hl
+   0130 56                 1910 	ld	d,(hl)
+   0131 3E 0A              1911 	ld	a,#0x0A
+   0133 12                 1912 	ld	(de),a
+                           1913 ;	sprite_run.c 47
+                           1914 ; genPlus
+                           1915 ; genPlusIncr
+   0134 01 F5 00           1916 	ld	bc,#_smiley + 0 + 5
+                           1917 ; genAssign (pointer)
+   0137 3E 28              1918 	ld	a,#0x28
+   0139 02                 1919 	ld	(bc),a
+                           1920 ;	sprite_run.c 48
+                           1921 ; genPlus
+                           1922 ; genPlusIncr
+   013A 11 F6 00           1923 	ld	de,#_smiley + 0 + 6
+                           1924 ; genAssign (pointer)
+   013D 3E 10              1925 	ld	a,#0x10
+   013F 12                 1926 	ld	(de),a
+                           1927 ;	sprite_run.c 49
+                           1928 ; genPlus
+                           1929 ; genPlusIncr
+   0140 11 F7 00           1930 	ld	de,#_smiley + 0 + 7
+                           1931 ; genAssign (pointer)
+   0143 3E 10              1932 	ld	a,#0x10
+   0145 12                 1933 	ld	(de),a
+                           1934 ;	sprite_run.c 52
+                           1935 ; genIpush
+   0146 3E 04              1936 	ld	a,#0x04
+   0148 F5                 1937 	push	af
+   0149 33                 1938 	inc	sp
+                           1939 ; genIpush
+   014A 3E 04              1940 	ld	a,#0x04
+   014C F5                 1941 	push	af
+   014D 33                 1942 	inc	sp
+                           1943 ; genCall
+   014E CD 00 00           1944 	call	_set_sprite_tile
+   0151 E8 02              1945 	lda	sp,2(sp)
+                           1946 ;	sprite_run.c 53
+                           1947 ; genAssign (pointer)
+   0153 11 F0 00           1948 	ld	de,#_smiley + 0
+   0156 3E 04              1949 	ld	a,#0x04
+   0158 12                 1950 	ld	(de),a
+                           1951 ;	sprite_run.c 54
+                           1952 ; genIpush
+   0159 3E 05              1953 	ld	a,#0x05
+   015B F5                 1954 	push	af
+   015C 33                 1955 	inc	sp
+                           1956 ; genIpush
+   015D 3E 05              1957 	ld	a,#0x05
+   015F F5                 1958 	push	af
+   0160 33                 1959 	inc	sp
+                           1960 ; genCall
+   0161 CD 00 00           1961 	call	_set_sprite_tile
+   0164 E8 02              1962 	lda	sp,2(sp)
+                           1963 ;	sprite_run.c 55
+                           1964 ; genPlus
+                           1965 ; genPlusIncr
+   0166 11 F1 00           1966 	ld	de,#_smiley + 0 + 1
+                           1967 ; genAssign (pointer)
+   0169 3E 05              1968 	ld	a,#0x05
+   016B 12                 1969 	ld	(de),a
+                           1970 ;	sprite_run.c 56
+                           1971 ; genIpush
+   016C 3E 06              1972 	ld	a,#0x06
+   016E F5                 1973 	push	af
+   016F 33                 1974 	inc	sp
+                           1975 ; genIpush
+   0170 3E 06              1976 	ld	a,#0x06
+   0172 F5                 1977 	push	af
+   0173 33                 1978 	inc	sp
+                           1979 ; genCall
+   0174 CD 00 00           1980 	call	_set_sprite_tile
+   0177 E8 02              1981 	lda	sp,2(sp)
+                           1982 ;	sprite_run.c 57
+                           1983 ; genPlus
+                           1984 ; genPlusIncr
+   0179 11 F2 00           1985 	ld	de,#_smiley + 0 + 2
+                           1986 ; genAssign (pointer)
+   017C 3E 06              1987 	ld	a,#0x06
+   017E 12                 1988 	ld	(de),a
+                           1989 ;	sprite_run.c 58
+                           1990 ; genIpush
+   017F 3E 07              1991 	ld	a,#0x07
+   0181 F5                 1992 	push	af
+   0182 33                 1993 	inc	sp
+                           1994 ; genIpush
+   0183 3E 07              1995 	ld	a,#0x07
+   0185 F5                 1996 	push	af
+   0186 33                 1997 	inc	sp
+                           1998 ; genCall
+   0187 CD 00 00           1999 	call	_set_sprite_tile
+   018A E8 02              2000 	lda	sp,2(sp)
+                           2001 ;	sprite_run.c 59
+                           2002 ; genPlus
+                           2003 ; genPlusIncr
+   018C 11 F3 00           2004 	ld	de,#_smiley + 0 + 3
+                           2005 ; genAssign (pointer)
+   018F 3E 07              2006 	ld	a,#0x07
+   0191 12                 2007 	ld	(de),a
+                           2008 ;	sprite_run.c 61
+                           2009 ; genPointerGet
+                           2010 ; AOP_STK for _setupsmiley_sloc1_1_0
+   0192 0A                 2011 	ld	a,(bc)
+   0193 F8 00              2012 	lda	hl,0(sp)
+                           2013 ; genPointerGet
+                           2014 ; AOP_STK for _setupsmiley_sloc0_1_0
+   0195 22                 2015 	ld	(hl+),a
+   0196 5E                 2016 	ld	e,(hl)
+   0197 23                 2017 	inc	hl
+   0198 56                 2018 	ld	d,(hl)
+   0199 1A                 2019 	ld	a,(de)
+   019A 4F                 2020 	ld	c,a
+                           2021 ; genIpush
+                           2022 ; AOP_STK for _setupsmiley_sloc1_1_0
+   019B 2B                 2023 	dec	hl
+   019C 2B                 2024 	dec	hl
+   019D 7E                 2025 	ld	a,(hl)
+   019E F5                 2026 	push	af
+   019F 33                 2027 	inc	sp
+                           2028 ; genIpush
+   01A0 79                 2029 	ld	a,c
+   01A1 F5                 2030 	push	af
+   01A2 33                 2031 	inc	sp
+                           2032 ; genIpush
+   01A3 21 F0 00           2033 	ld	hl,#_smiley + 0
+   01A6 E5                 2034 	push	hl
+                           2035 ; genCall
+   01A7 CD 00 00           2036 	call	_movegamecharacter
+   01AA E8 04              2037 	lda	sp,4(sp)
+                           2038 ; genLabel
+   01AC                    2039 00101$:
+                           2040 ; genEndFunction
+   01AC E8 03              2041 	lda	sp,3(sp)
+   01AE C1                 2042 	pop	bc
+   01AF C9                 2043 	ret
+   01B0                    2044 ___setupsmiley_end:
+                           2045 ;	sprite_run.c 63
+                           2046 ; genLabel
+                           2047 ; genFunction
+                           2048 ;	---------------------------------
+                           2049 ; Function setupbomb
+                           2050 ; ---------------------------------
+   01B0                    2051 ___setupbomb_start:
+   01B0                    2052 _setupbomb:
+   01B0 C5                 2053 	push	bc
+   01B1 E8 FD              2054 	lda	sp,-3(sp)
+                           2055 ;	sprite_run.c 64
+                           2056 ; genPlus
+                           2057 ; AOP_STK for _setupbomb_sloc0_1_0
+                           2058 ; genPlusIncr
+                           2059 ;	genPlusIncr failed
+   01B3 11 F8 00           2060 	ld	de,#_bomb + 0
+   01B6 21 04 00           2061 	ld	hl,#0x0004
+   01B9 19                 2062 	add	hl,de
+   01BA 7D                 2063 	ld	a,l
+   01BB 54                 2064 	ld	d,h
+   01BC F8 01              2065 	lda	hl,1(sp)
+   01BE 22                 2066 	ld	(hl+),a
+   01BF 72                 2067 	ld	(hl),d
+                           2068 ; genAssign (pointer)
+                           2069 ; AOP_STK for _setupbomb_sloc0_1_0
+   01C0 2B                 2070 	dec	hl
+   01C1 5E                 2071 	ld	e,(hl)
+   01C2 23                 2072 	inc	hl
+   01C3 56                 2073 	ld	d,(hl)
+   01C4 3E 0A              2074 	ld	a,#0x0A
+   01C6 12                 2075 	ld	(de),a
+                           2076 ;	sprite_run.c 65
+                           2077 ; genPlus
+                           2078 ; genPlusIncr
+   01C7 01 FD 00           2079 	ld	bc,#_bomb + 0 + 5
+                           2080 ; genAssign (pointer)
+   01CA 3E A0              2081 	ld	a,#0xA0
+   01CC 02                 2082 	ld	(bc),a
+                           2083 ;	sprite_run.c 66
+                           2084 ; genPlus
+                           2085 ; genPlusIncr
+   01CD 11 FE 00           2086 	ld	de,#_bomb + 0 + 6
+                           2087 ; genAssign (pointer)
+   01D0 3E 10              2088 	ld	a,#0x10
+   01D2 12                 2089 	ld	(de),a
+                           2090 ;	sprite_run.c 67
+                           2091 ; genPlus
+                           2092 ; genPlusIncr
+   01D3 11 FF 00           2093 	ld	de,#_bomb + 0 + 7
+                           2094 ; genAssign (pointer)
+   01D6 3E 10              2095 	ld	a,#0x10
+   01D8 12                 2096 	ld	(de),a
+                           2097 ;	sprite_run.c 70
+                           2098 ; genIpush
+   01D9 3E 08              2099 	ld	a,#0x08
+   01DB F5                 2100 	push	af
+   01DC 33                 2101 	inc	sp
+                           2102 ; genIpush
+   01DD 3E 08              2103 	ld	a,#0x08
+   01DF F5                 2104 	push	af
+   01E0 33                 2105 	inc	sp
+                           2106 ; genCall
+   01E1 CD 00 00           2107 	call	_set_sprite_tile
+   01E4 E8 02              2108 	lda	sp,2(sp)
+                           2109 ;	sprite_run.c 71
+                           2110 ; genAssign (pointer)
+   01E6 11 F8 00           2111 	ld	de,#_bomb + 0
+   01E9 3E 08              2112 	ld	a,#0x08
+   01EB 12                 2113 	ld	(de),a
+                           2114 ;	sprite_run.c 72
+                           2115 ; genIpush
+   01EC 3E 09              2116 	ld	a,#0x09
+   01EE F5                 2117 	push	af
+   01EF 33                 2118 	inc	sp
+                           2119 ; genIpush
+   01F0 3E 09              2120 	ld	a,#0x09
+   01F2 F5                 2121 	push	af
+   01F3 33                 2122 	inc	sp
+                           2123 ; genCall
+   01F4 CD 00 00           2124 	call	_set_sprite_tile
+   01F7 E8 02              2125 	lda	sp,2(sp)
+                           2126 ;	sprite_run.c 73
+                           2127 ; genPlus
+                           2128 ; genPlusIncr
+   01F9 11 F9 00           2129 	ld	de,#_bomb + 0 + 1
+                           2130 ; genAssign (pointer)
+   01FC 3E 09              2131 	ld	a,#0x09
+   01FE 12                 2132 	ld	(de),a
+                           2133 ;	sprite_run.c 74
+                           2134 ; genIpush
+   01FF 3E 0A              2135 	ld	a,#0x0A
+   0201 F5                 2136 	push	af
+   0202 33                 2137 	inc	sp
+                           2138 ; genIpush
+   0203 3E 0A              2139 	ld	a,#0x0A
+   0205 F5                 2140 	push	af
+   0206 33                 2141 	inc	sp
+                           2142 ; genCall
+   0207 CD 00 00           2143 	call	_set_sprite_tile
+   020A E8 02              2144 	lda	sp,2(sp)
+                           2145 ;	sprite_run.c 75
+                           2146 ; genPlus
+                           2147 ; genPlusIncr
+   020C 11 FA 00           2148 	ld	de,#_bomb + 0 + 2
+                           2149 ; genAssign (pointer)
+   020F 3E 0A              2150 	ld	a,#0x0A
+   0211 12                 2151 	ld	(de),a
+                           2152 ;	sprite_run.c 76
+                           2153 ; genIpush
+   0212 3E 0B              2154 	ld	a,#0x0B
+   0214 F5                 2155 	push	af
+   0215 33                 2156 	inc	sp
+                           2157 ; genIpush
+   0216 3E 0B              2158 	ld	a,#0x0B
+   0218 F5                 2159 	push	af
+   0219 33                 2160 	inc	sp
+                           2161 ; genCall
+   021A CD 00 00           2162 	call	_set_sprite_tile
+   021D E8 02              2163 	lda	sp,2(sp)
+                           2164 ;	sprite_run.c 77
+                           2165 ; genPlus
+                           2166 ; genPlusIncr
+   021F 11 FB 00           2167 	ld	de,#_bomb + 0 + 3
+                           2168 ; genAssign (pointer)
+   0222 3E 0B              2169 	ld	a,#0x0B
+   0224 12                 2170 	ld	(de),a
+                           2171 ;	sprite_run.c 79
+                           2172 ; genPointerGet
+                           2173 ; AOP_STK for _setupbomb_sloc1_1_0
+   0225 0A                 2174 	ld	a,(bc)
+   0226 F8 00              2175 	lda	hl,0(sp)
+                           2176 ; genPointerGet
+                           2177 ; AOP_STK for _setupbomb_sloc0_1_0
+   0228 22                 2178 	ld	(hl+),a
+   0229 5E                 2179 	ld	e,(hl)
+   022A 23                 2180 	inc	hl
+   022B 56                 2181 	ld	d,(hl)
+   022C 1A                 2182 	ld	a,(de)
+   022D 4F                 2183 	ld	c,a
+                           2184 ; genIpush
+                           2185 ; AOP_STK for _setupbomb_sloc1_1_0
+   022E 2B                 2186 	dec	hl
+   022F 2B                 2187 	dec	hl
+   0230 7E                 2188 	ld	a,(hl)
+   0231 F5                 2189 	push	af
+   0232 33                 2190 	inc	sp
+                           2191 ; genIpush
+   0233 79                 2192 	ld	a,c
+   0234 F5                 2193 	push	af
+   0235 33                 2194 	inc	sp
+                           2195 ; genIpush
+   0236 21 F8 00           2196 	ld	hl,#_bomb + 0
+   0239 E5                 2197 	push	hl
+                           2198 ; genCall
+   023A CD 00 00           2199 	call	_movegamecharacter
+   023D E8 04              2200 	lda	sp,4(sp)
+                           2201 ; genLabel
+   023F                    2202 00101$:
+                           2203 ; genEndFunction
+   023F E8 03              2204 	lda	sp,3(sp)
+   0241 C1                 2205 	pop	bc
+   0242 C9                 2206 	ret
+   0243                    2207 ___setupbomb_end:
+                           2208 ;	sprite_run.c 83
+                           2209 ; genLabel
+                           2210 ; genFunction
+                           2211 ;	---------------------------------
+                           2212 ; Function checkcollisions
+                           2213 ; ---------------------------------
+   0243                    2214 ___checkcollisions_start:
+   0243                    2215 _checkcollisions:
+   0243 C5                 2216 	push	bc
+   0244 E8 F4              2217 	lda	sp,-12(sp)
+                           2218 ;	sprite_run.c 84
+                           2219 ; genAssign
+                           2220 ; AOP_STK for 
+                           2221 ; AOP_STK for _checkcollisions_sloc0_1_0
+   0246 F8 10              2222 	lda	hl,16(sp)
+   0248 2A                 2223 	ld	a,(hl+)
+   0249 5E                 2224 	ld	e,(hl)
+   024A F8 0A              2225 	lda	hl,10(sp)
+   024C 22                 2226 	ld	(hl+),a
+   024D 73                 2227 	ld	(hl),e
+                           2228 ; genPlus
+                           2229 ; AOP_STK for _checkcollisions_sloc0_1_0
+                           2230 ; genPlusIncr
+                           2231 ;	genPlusIncr failed
+   024E 2B                 2232 	dec	hl
+   024F 5E                 2233 	ld	e,(hl)
+   0250 23                 2234 	inc	hl
+   0251 56                 2235 	ld	d,(hl)
+   0252 21 04 00           2236 	ld	hl,#0x0004
+   0255 19                 2237 	add	hl,de
+   0256 5D                 2238 	ld	e,l
+   0257 54                 2239 	ld	d,h
+                           2240 ; genPointerGet
+                           2241 ; AOP_STK for _checkcollisions_sloc1_1_0
+   0258 1A                 2242 	ld	a,(de)
+   0259 F8 09              2243 	lda	hl,9(sp)
+   025B 77                 2244 	ld	(hl),a
+                           2245 ; genAssign
+                           2246 ; AOP_STK for 
+                           2247 ; AOP_STK for _checkcollisions_sloc2_1_0
+   025C F8 12              2248 	lda	hl,18(sp)
+   025E 2A                 2249 	ld	a,(hl+)
+   025F 5E                 2250 	ld	e,(hl)
+   0260 F8 07              2251 	lda	hl,7(sp)
+   0262 22                 2252 	ld	(hl+),a
+   0263 73                 2253 	ld	(hl),e
+                           2254 ; genPlus
+                           2255 ; AOP_STK for _checkcollisions_sloc2_1_0
+                           2256 ; genPlusIncr
+                           2257 ;	genPlusIncr failed
+   0264 2B                 2258 	dec	hl
+   0265 5E                 2259 	ld	e,(hl)
+   0266 23                 2260 	inc	hl
+   0267 56                 2261 	ld	d,(hl)
+   0268 21 04 00           2262 	ld	hl,#0x0004
+   026B 19                 2263 	add	hl,de
+   026C 5D                 2264 	ld	e,l
+   026D 54                 2265 	ld	d,h
+                           2266 ; genPointerGet
+                           2267 ; AOP_STK for _checkcollisions_sloc4_1_0
+   026E 1A                 2268 	ld	a,(de)
+   026F F8 05              2269 	lda	hl,5(sp)
+   0271 77                 2270 	ld	(hl),a
+                           2271 ; genCmpLt
+                           2272 ; AOP_STK for _checkcollisions_sloc1_1_0
+                           2273 ; AOP_STK for _checkcollisions_sloc4_1_0
+   0272 AF                 2274 	xor	a,a
+   0273 F8 09              2275 	lda	hl,9(sp)
+   0275 7E                 2276 	ld	a,(hl)
+   0276 F8 05              2277 	lda	hl,5(sp)
+   0278 9E                 2278 	sbc	a,(hl) ; 2
+   0279 3E 00              2279 	ld	a,#0x00
+   027B 17                 2280 	rla
+   027C 47                 2281 	ld	b,a
+                           2282 ; genNot
+                           2283 ; AOP_STK for _checkcollisions_sloc3_1_0
+   027D AF                 2284 	xor	a,a
+   027E B0                 2285 	or	a,b
+   027F D6 01              2286 	sub	a,#0x01
+   0281 3E 00              2287 	ld	a,#0x00
+   0283 17                 2288 	rla
+   0284 23                 2289 	inc	hl
+                           2290 ; genPlus
+                           2291 ; AOP_STK for _checkcollisions_sloc2_1_0
+                           2292 ; genPlusIncr
+                           2293 ;	genPlusIncr failed
+   0285 22                 2294 	ld	(hl+),a
+   0286 5E                 2295 	ld	e,(hl)
+   0287 23                 2296 	inc	hl
+   0288 56                 2297 	ld	d,(hl)
+   0289 21 06 00           2298 	ld	hl,#0x0006
+   028C 19                 2299 	add	hl,de
+   028D 5D                 2300 	ld	e,l
+   028E 54                 2301 	ld	d,h
+                           2302 ; genPointerGet
+   028F 1A                 2303 	ld	a,(de)
+                           2304 ; genPlus
+                           2305 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2306 ;	genPlusIncr failed
+   0290 F8 05              2307 	lda	hl,5(sp)
+   0292 86                 2308 	add	a,(hl)
+   0293 47                 2309 	ld	b,a
+                           2310 ; genCmpGt
+                           2311 ; AOP_STK for _checkcollisions_sloc1_1_0
+   0294 AF                 2312 	xor	a,a
+   0295 78                 2313 	ld	a,b
+   0296 F8 09              2314 	lda	hl,9(sp)
+   0298 9E                 2315 	sbc	a,(hl) ; 2
+   0299 3E 00              2316 	ld	a,#0x00
+   029B 17                 2317 	rla
+   029C 47                 2318 	ld	b,a
+                           2319 ; genNot
+   029D AF                 2320 	xor	a,a
+   029E B0                 2321 	or	a,b
+   029F D6 01              2322 	sub	a,#0x01
+   02A1 3E 00              2323 	ld	a,#0x00
+   02A3 17                 2324 	rla
+   02A4 47                 2325 	ld	b,a
+                           2326 ; genAndOp
+                           2327 ; AOP_STK for _checkcollisions_sloc3_1_0
+   02A5 AF                 2328 	xor	a,a
+   02A6 F8 06              2329 	lda	hl,6(sp)
+   02A8 B6                 2330 	or	a,(hl)
+   02A9 28 02              2331 	jr	z,00103$
+   02AB AF                 2332 	xor	a,a
+   02AC B0                 2333 	or	a,b
+   02AD                    2334 00103$:
+   02AD 28 02              2335 	jr	z,00104$
+   02AF 3E 01              2336 	ld	a,#0x01
+   02B1                    2337 00104$:
+   02B1 F8 06              2338 	lda	hl,6(sp)
+   02B3 77                 2339 	ld	(hl),a
+                           2340 ; genPlus
+                           2341 ; AOP_STK for _checkcollisions_sloc0_1_0
+                           2342 ; genPlusIncr
+                           2343 ;	genPlusIncr failed
+   02B4 F8 0A              2344 	lda	hl,10(sp)
+   02B6 5E                 2345 	ld	e,(hl)
+   02B7 23                 2346 	inc	hl
+   02B8 56                 2347 	ld	d,(hl)
+   02B9 21 05 00           2348 	ld	hl,#0x0005
+   02BC 19                 2349 	add	hl,de
+   02BD 5D                 2350 	ld	e,l
+   02BE 54                 2351 	ld	d,h
+                           2352 ; genPointerGet
+                           2353 ; AOP_STK for _checkcollisions_sloc7_1_0
+   02BF 1A                 2354 	ld	a,(de)
+   02C0 F8 02              2355 	lda	hl,2(sp)
+   02C2 77                 2356 	ld	(hl),a
+                           2357 ; genPlus
+                           2358 ; AOP_STK for _checkcollisions_sloc2_1_0
+                           2359 ; genPlusIncr
+                           2360 ;	genPlusIncr failed
+   02C3 F8 07              2361 	lda	hl,7(sp)
+   02C5 5E                 2362 	ld	e,(hl)
+   02C6 23                 2363 	inc	hl
+   02C7 56                 2364 	ld	d,(hl)
+   02C8 21 05 00           2365 	ld	hl,#0x0005
+   02CB 19                 2366 	add	hl,de
+   02CC 5D                 2367 	ld	e,l
+   02CD 54                 2368 	ld	d,h
+                           2369 ; genPointerGet
+                           2370 ; AOP_STK for _checkcollisions_sloc6_1_0
+   02CE 1A                 2371 	ld	a,(de)
+   02CF F8 03              2372 	lda	hl,3(sp)
+   02D1 77                 2373 	ld	(hl),a
+                           2374 ; genCmpLt
+                           2375 ; AOP_STK for _checkcollisions_sloc7_1_0
+                           2376 ; AOP_STK for _checkcollisions_sloc6_1_0
+                           2377 ; AOP_STK for _checkcollisions_sloc5_1_0
+   02D2 AF                 2378 	xor	a,a
+   02D3 2B                 2379 	dec	hl
+   02D4 2A                 2380 	ld	a,(hl+)
+   02D5 9E                 2381 	sbc	a,(hl) ; 2
+   02D6 3E 00              2382 	ld	a,#0x00
+   02D8 17                 2383 	rla
+   02D9 23                 2384 	inc	hl
+   02DA 77                 2385 	ld	(hl),a
+                           2386 ; genNot
+                           2387 ; AOP_STK for _checkcollisions_sloc5_1_0
+   02DB AF                 2388 	xor	a,a
+   02DC B6                 2389 	or	a,(hl)
+   02DD D6 01              2390 	sub	a,#0x01
+   02DF 3E 00              2391 	ld	a,#0x00
+   02E1 17                 2392 	rla
+   02E2 77                 2393 	ld	(hl),a
+                           2394 ; genPlus
+                           2395 ; AOP_STK for _checkcollisions_sloc2_1_0
+                           2396 ; genPlusIncr
+                           2397 ;	genPlusIncr failed
+   02E3 F8 07              2398 	lda	hl,7(sp)
+   02E5 5E                 2399 	ld	e,(hl)
+   02E6 23                 2400 	inc	hl
+   02E7 56                 2401 	ld	d,(hl)
+   02E8 21 07 00           2402 	ld	hl,#0x0007
+   02EB 19                 2403 	add	hl,de
+   02EC 5D                 2404 	ld	e,l
+   02ED 54                 2405 	ld	d,h
+                           2406 ; genPointerGet
+   02EE 1A                 2407 	ld	a,(de)
+                           2408 ; genPlus
+                           2409 ; AOP_STK for _checkcollisions_sloc6_1_0
+                           2410 ;	genPlusIncr failed
+   02EF F8 03              2411 	lda	hl,3(sp)
+   02F1 86                 2412 	add	a,(hl)
+   02F2 4F                 2413 	ld	c,a
+                           2414 ; genCmpGt
+                           2415 ; AOP_STK for _checkcollisions_sloc7_1_0
+   02F3 AF                 2416 	xor	a,a
+   02F4 79                 2417 	ld	a,c
+   02F5 2B                 2418 	dec	hl
+   02F6 9E                 2419 	sbc	a,(hl) ; 2
+   02F7 3E 00              2420 	ld	a,#0x00
+   02F9 17                 2421 	rla
+   02FA 4F                 2422 	ld	c,a
+                           2423 ; genNot
+   02FB AF                 2424 	xor	a,a
+   02FC B1                 2425 	or	a,c
+   02FD D6 01              2426 	sub	a,#0x01
+   02FF 3E 00              2427 	ld	a,#0x00
+   0301 17                 2428 	rla
+   0302 4F                 2429 	ld	c,a
+                           2430 ; genAndOp
+                           2431 ; AOP_STK for _checkcollisions_sloc5_1_0
+   0303 AF                 2432 	xor	a,a
+   0304 23                 2433 	inc	hl
+   0305 23                 2434 	inc	hl
+   0306 B6                 2435 	or	a,(hl)
+   0307 28 02              2436 	jr	z,00105$
+   0309 AF                 2437 	xor	a,a
+   030A B1                 2438 	or	a,c
+   030B                    2439 00105$:
+   030B 28 02              2440 	jr	z,00106$
+   030D 3E 01              2441 	ld	a,#0x01
+   030F                    2442 00106$:
+   030F 4F                 2443 	ld	c,a
+                           2444 ; genAndOp
+                           2445 ; AOP_STK for _checkcollisions_sloc3_1_0
+                           2446 ; AOP_STK for _checkcollisions_sloc5_1_0
+   0310 AF                 2447 	xor	a,a
+   0311 F8 06              2448 	lda	hl,6(sp)
+   0313 B6                 2449 	or	a,(hl)
+   0314 28 02              2450 	jr	z,00107$
+   0316 AF                 2451 	xor	a,a
+   0317 B1                 2452 	or	a,c
+   0318                    2453 00107$:
+   0318 28 02              2454 	jr	z,00108$
+   031A 3E 01              2455 	ld	a,#0x01
+   031C                    2456 00108$:
+   031C F8 04              2457 	lda	hl,4(sp)
+   031E 77                 2458 	ld	(hl),a
+                           2459 ; genCmpLt
+                           2460 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2461 ; AOP_STK for _checkcollisions_sloc1_1_0
+   031F AF                 2462 	xor	a,a
+   0320 23                 2463 	inc	hl
+   0321 7E                 2464 	ld	a,(hl)
+   0322 F8 09              2465 	lda	hl,9(sp)
+   0324 9E                 2466 	sbc	a,(hl) ; 2
+   0325 3E 00              2467 	ld	a,#0x00
+   0327 17                 2468 	rla
+   0328 4F                 2469 	ld	c,a
+                           2470 ; genNot
+                           2471 ; AOP_STK for _checkcollisions_sloc3_1_0
+   0329 AF                 2472 	xor	a,a
+   032A B1                 2473 	or	a,c
+   032B D6 01              2474 	sub	a,#0x01
+   032D 3E 00              2475 	ld	a,#0x00
+   032F 17                 2476 	rla
+   0330 F8 06              2477 	lda	hl,6(sp)
+   0332 77                 2478 	ld	(hl),a
+                           2479 ; genPlus
+                           2480 ; AOP_STK for _checkcollisions_sloc0_1_0
+                           2481 ; genPlusIncr
+                           2482 ;	genPlusIncr failed
+   0333 F8 0A              2483 	lda	hl,10(sp)
+   0335 5E                 2484 	ld	e,(hl)
+   0336 23                 2485 	inc	hl
+   0337 56                 2486 	ld	d,(hl)
+   0338 21 06 00           2487 	ld	hl,#0x0006
+   033B 19                 2488 	add	hl,de
+   033C 5D                 2489 	ld	e,l
+   033D 54                 2490 	ld	d,h
+                           2491 ; genPointerGet
+   033E 1A                 2492 	ld	a,(de)
+                           2493 ; genPlus
+                           2494 ; AOP_STK for _checkcollisions_sloc1_1_0
+                           2495 ; AOP_STK for _checkcollisions_sloc2_1_0
+                           2496 ;	genPlusIncr failed
+   033F F8 09              2497 	lda	hl,9(sp)
+   0341 86                 2498 	add	a,(hl)
+   0342 2B                 2499 	dec	hl
+   0343 2B                 2500 	dec	hl
+   0344 77                 2501 	ld	(hl),a
+                           2502 ; genCmpGt
+                           2503 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2504 ; AOP_STK for _checkcollisions_sloc2_1_0
+   0345 AF                 2505 	xor	a,a
+   0346 7E                 2506 	ld	a,(hl)
+   0347 2B                 2507 	dec	hl
+   0348 2B                 2508 	dec	hl
+   0349 9E                 2509 	sbc	a,(hl) ; 2
+   034A 3E 00              2510 	ld	a,#0x00
+   034C 17                 2511 	rla
+   034D 47                 2512 	ld	b,a
+                           2513 ; genNot
+   034E AF                 2514 	xor	a,a
+   034F B0                 2515 	or	a,b
+   0350 D6 01              2516 	sub	a,#0x01
+   0352 3E 00              2517 	ld	a,#0x00
+   0354 17                 2518 	rla
+   0355 47                 2519 	ld	b,a
+                           2520 ; genAndOp
+                           2521 ; AOP_STK for _checkcollisions_sloc3_1_0
+                           2522 ; AOP_STK for _checkcollisions_sloc4_1_0
+   0356 AF                 2523 	xor	a,a
+   0357 23                 2524 	inc	hl
+   0358 B6                 2525 	or	a,(hl)
+   0359 28 02              2526 	jr	z,00109$
+   035B AF                 2527 	xor	a,a
+   035C B0                 2528 	or	a,b
+   035D                    2529 00109$:
+   035D 28 02              2530 	jr	z,00110$
+   035F 3E 01              2531 	ld	a,#0x01
+   0361                    2532 00110$:
+   0361 F8 05              2533 	lda	hl,5(sp)
+   0363 77                 2534 	ld	(hl),a
+                           2535 ; genCmpLt
+                           2536 ; AOP_STK for _checkcollisions_sloc6_1_0
+                           2537 ; AOP_STK for _checkcollisions_sloc7_1_0
+   0364 AF                 2538 	xor	a,a
+   0365 2B                 2539 	dec	hl
+   0366 2B                 2540 	dec	hl
+   0367 7E                 2541 	ld	a,(hl)
+   0368 2B                 2542 	dec	hl
+   0369 9E                 2543 	sbc	a,(hl) ; 2
+   036A 3E 00              2544 	ld	a,#0x00
+   036C 17                 2545 	rla
+   036D 47                 2546 	ld	b,a
+                           2547 ; genNot
+                           2548 ; AOP_STK for _checkcollisions_sloc3_1_0
+   036E AF                 2549 	xor	a,a
+   036F B0                 2550 	or	a,b
+   0370 D6 01              2551 	sub	a,#0x01
+   0372 3E 00              2552 	ld	a,#0x00
+   0374 17                 2553 	rla
+   0375 F8 06              2554 	lda	hl,6(sp)
+   0377 77                 2555 	ld	(hl),a
+                           2556 ; genPlus
+                           2557 ; AOP_STK for _checkcollisions_sloc0_1_0
+                           2558 ; genPlusIncr
+                           2559 ;	genPlusIncr failed
+   0378 F8 0A              2560 	lda	hl,10(sp)
+   037A 5E                 2561 	ld	e,(hl)
+   037B 23                 2562 	inc	hl
+   037C 56                 2563 	ld	d,(hl)
+   037D 21 07 00           2564 	ld	hl,#0x0007
+   0380 19                 2565 	add	hl,de
+   0381 5D                 2566 	ld	e,l
+   0382 54                 2567 	ld	d,h
+                           2568 ; genPointerGet
+   0383 1A                 2569 	ld	a,(de)
+                           2570 ; genPlus
+                           2571 ; AOP_STK for _checkcollisions_sloc7_1_0
+                           2572 ; AOP_STK for _checkcollisions_sloc0_1_0
+                           2573 ;	genPlusIncr failed
+   0384 F8 02              2574 	lda	hl,2(sp)
+   0386 86                 2575 	add	a,(hl)
+   0387 F8 0A              2576 	lda	hl,10(sp)
+   0389 77                 2577 	ld	(hl),a
+                           2578 ; genCmpGt
+                           2579 ; AOP_STK for _checkcollisions_sloc6_1_0
+                           2580 ; AOP_STK for _checkcollisions_sloc0_1_0
+   038A AF                 2581 	xor	a,a
+   038B 7E                 2582 	ld	a,(hl)
+   038C F8 03              2583 	lda	hl,3(sp)
+   038E 9E                 2584 	sbc	a,(hl) ; 2
+   038F 3E 00              2585 	ld	a,#0x00
+   0391 17                 2586 	rla
+   0392 4F                 2587 	ld	c,a
+                           2588 ; genNot
+   0393 AF                 2589 	xor	a,a
+   0394 B1                 2590 	or	a,c
+   0395 D6 01              2591 	sub	a,#0x01
+   0397 3E 00              2592 	ld	a,#0x00
+   0399 17                 2593 	rla
+   039A 4F                 2594 	ld	c,a
+                           2595 ; genAndOp
+                           2596 ; AOP_STK for _checkcollisions_sloc3_1_0
+   039B AF                 2597 	xor	a,a
+   039C F8 06              2598 	lda	hl,6(sp)
+   039E B6                 2599 	or	a,(hl)
+   039F 28 02              2600 	jr	z,00111$
+   03A1 AF                 2601 	xor	a,a
+   03A2 B1                 2602 	or	a,c
+   03A3                    2603 00111$:
+   03A3 28 02              2604 	jr	z,00112$
+   03A5 3E 01              2605 	ld	a,#0x01
+   03A7                    2606 00112$:
+   03A7 4F                 2607 	ld	c,a
+                           2608 ; genAndOp
+                           2609 ; AOP_STK for _checkcollisions_sloc4_1_0
+   03A8 AF                 2610 	xor	a,a
+   03A9 F8 05              2611 	lda	hl,5(sp)
+   03AB B6                 2612 	or	a,(hl)
+   03AC 28 02              2613 	jr	z,00113$
+   03AE AF                 2614 	xor	a,a
+   03AF B1                 2615 	or	a,c
+   03B0                    2616 00113$:
+   03B0 28 02              2617 	jr	z,00114$
+   03B2 3E 01              2618 	ld	a,#0x01
+   03B4                    2619 00114$:
+   03B4 4F                 2620 	ld	c,a
+                           2621 ; genOrOp
+                           2622 ; AOP_STK for _checkcollisions_sloc5_1_0
+                           2623 ; AOP_STK for _checkcollisions_sloc6_1_0
+   03B5 AF                 2624 	xor	a,a
+   03B6 F8 04              2625 	lda	hl,4(sp)
+   03B8 B6                 2626 	or	a,(hl)
+   03B9 20 02              2627 	jr	nz,00115$
+   03BB AF                 2628 	xor	a,a
+   03BC B1                 2629 	or	a,c
+   03BD                    2630 00115$:
+   03BD 28 02              2631 	jr	z,00116$
+   03BF 3E 01              2632 	ld	a,#0x01
+   03C1                    2633 00116$:
+   03C1 F8 03              2634 	lda	hl,3(sp)
+   03C3 77                 2635 	ld	(hl),a
+                           2636 ; genAssign
+                           2637 ; AOP_STK for 
+                           2638 ; AOP_STK for _checkcollisions_sloc8_1_0
+   03C4 F8 14              2639 	lda	hl,20(sp)
+   03C6 2A                 2640 	ld	a,(hl+)
+   03C7 5E                 2641 	ld	e,(hl)
+   03C8 F8 00              2642 	lda	hl,0(sp)
+   03CA 22                 2643 	ld	(hl+),a
+   03CB 73                 2644 	ld	(hl),e
+                           2645 ; genPlus
+                           2646 ; AOP_STK for _checkcollisions_sloc8_1_0
+                           2647 ; genPlusIncr
+                           2648 ;	genPlusIncr failed
+   03CC 2B                 2649 	dec	hl
+   03CD 5E                 2650 	ld	e,(hl)
+   03CE 23                 2651 	inc	hl
+   03CF 56                 2652 	ld	d,(hl)
+   03D0 21 04 00           2653 	ld	hl,#0x0004
+   03D3 19                 2654 	add	hl,de
+   03D4 5D                 2655 	ld	e,l
+   03D5 54                 2656 	ld	d,h
+                           2657 ; genPointerGet
+                           2658 ; AOP_STK for _checkcollisions_sloc4_1_0
+   03D6 1A                 2659 	ld	a,(de)
+   03D7 F8 05              2660 	lda	hl,5(sp)
+   03D9 77                 2661 	ld	(hl),a
+                           2662 ; genCmpLt
+                           2663 ; AOP_STK for _checkcollisions_sloc1_1_0
+                           2664 ; AOP_STK for _checkcollisions_sloc4_1_0
+   03DA AF                 2665 	xor	a,a
+   03DB F8 09              2666 	lda	hl,9(sp)
+   03DD 7E                 2667 	ld	a,(hl)
+   03DE F8 05              2668 	lda	hl,5(sp)
+   03E0 9E                 2669 	sbc	a,(hl) ; 2
+   03E1 3E 00              2670 	ld	a,#0x00
+   03E3 17                 2671 	rla
+   03E4 47                 2672 	ld	b,a
+                           2673 ; genNot
+                           2674 ; AOP_STK for _checkcollisions_sloc5_1_0
+   03E5 AF                 2675 	xor	a,a
+   03E6 B0                 2676 	or	a,b
+   03E7 D6 01              2677 	sub	a,#0x01
+   03E9 3E 00              2678 	ld	a,#0x00
+   03EB 17                 2679 	rla
+   03EC 2B                 2680 	dec	hl
+   03ED 77                 2681 	ld	(hl),a
+                           2682 ; genPlus
+                           2683 ; AOP_STK for _checkcollisions_sloc8_1_0
+                           2684 ; genPlusIncr
+                           2685 ;	genPlusIncr failed
+   03EE F8 00              2686 	lda	hl,0(sp)
+   03F0 5E                 2687 	ld	e,(hl)
+   03F1 23                 2688 	inc	hl
+   03F2 56                 2689 	ld	d,(hl)
+   03F3 21 06 00           2690 	ld	hl,#0x0006
+   03F6 19                 2691 	add	hl,de
+   03F7 5D                 2692 	ld	e,l
+   03F8 54                 2693 	ld	d,h
+                           2694 ; genPointerGet
+   03F9 1A                 2695 	ld	a,(de)
+                           2696 ; genPlus
+                           2697 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2698 ;	genPlusIncr failed
+   03FA F8 05              2699 	lda	hl,5(sp)
+   03FC 86                 2700 	add	a,(hl)
+   03FD 47                 2701 	ld	b,a
+                           2702 ; genCmpGt
+                           2703 ; AOP_STK for _checkcollisions_sloc1_1_0
+   03FE AF                 2704 	xor	a,a
+   03FF 78                 2705 	ld	a,b
+   0400 F8 09              2706 	lda	hl,9(sp)
+   0402 9E                 2707 	sbc	a,(hl) ; 2
+   0403 3E 00              2708 	ld	a,#0x00
+   0405 17                 2709 	rla
+   0406 47                 2710 	ld	b,a
+                           2711 ; genNot
+   0407 AF                 2712 	xor	a,a
+   0408 B0                 2713 	or	a,b
+   0409 D6 01              2714 	sub	a,#0x01
+   040B 3E 00              2715 	ld	a,#0x00
+   040D 17                 2716 	rla
+   040E 47                 2717 	ld	b,a
+                           2718 ; genAndOp
+                           2719 ; AOP_STK for _checkcollisions_sloc5_1_0
+   040F AF                 2720 	xor	a,a
+   0410 F8 04              2721 	lda	hl,4(sp)
+   0412 B6                 2722 	or	a,(hl)
+   0413 28 02              2723 	jr	z,00117$
+   0415 AF                 2724 	xor	a,a
+   0416 B0                 2725 	or	a,b
+   0417                    2726 00117$:
+   0417 28 02              2727 	jr	z,00118$
+   0419 3E 01              2728 	ld	a,#0x01
+   041B                    2729 00118$:
+   041B F8 04              2730 	lda	hl,4(sp)
+   041D 77                 2731 	ld	(hl),a
+                           2732 ; genPlus
+                           2733 ; AOP_STK for _checkcollisions_sloc8_1_0
+                           2734 ; genPlusIncr
+                           2735 ;	genPlusIncr failed
+   041E F8 00              2736 	lda	hl,0(sp)
+   0420 5E                 2737 	ld	e,(hl)
+   0421 23                 2738 	inc	hl
+   0422 56                 2739 	ld	d,(hl)
+   0423 21 05 00           2740 	ld	hl,#0x0005
+   0426 19                 2741 	add	hl,de
+   0427 5D                 2742 	ld	e,l
+   0428 54                 2743 	ld	d,h
+                           2744 ; genPointerGet
+   0429 1A                 2745 	ld	a,(de)
+   042A 47                 2746 	ld	b,a
+                           2747 ; genCmpLt
+                           2748 ; AOP_STK for _checkcollisions_sloc7_1_0
+   042B AF                 2749 	xor	a,a
+   042C F8 02              2750 	lda	hl,2(sp)
+   042E 7E                 2751 	ld	a,(hl)
+   042F 98                 2752 	sbc	a,b ; 2
+   0430 3E 00              2753 	ld	a,#0x00
+   0432 17                 2754 	rla
+   0433 4F                 2755 	ld	c,a
+                           2756 ; genNot
+                           2757 ; AOP_STK for _checkcollisions_sloc3_1_0
+   0434 AF                 2758 	xor	a,a
+   0435 B1                 2759 	or	a,c
+   0436 D6 01              2760 	sub	a,#0x01
+   0438 3E 00              2761 	ld	a,#0x00
+   043A 17                 2762 	rla
+   043B F8 06              2763 	lda	hl,6(sp)
+   043D 77                 2764 	ld	(hl),a
+                           2765 ; genPlus
+                           2766 ; AOP_STK for _checkcollisions_sloc8_1_0
+                           2767 ; genPlusIncr
+                           2768 ;	genPlusIncr failed
+   043E F8 00              2769 	lda	hl,0(sp)
+   0440 5E                 2770 	ld	e,(hl)
+   0441 23                 2771 	inc	hl
+   0442 56                 2772 	ld	d,(hl)
+   0443 21 07 00           2773 	ld	hl,#0x0007
+   0446 19                 2774 	add	hl,de
+   0447 5D                 2775 	ld	e,l
+   0448 54                 2776 	ld	d,h
+                           2777 ; genPointerGet
+   0449 1A                 2778 	ld	a,(de)
+                           2779 ; genPlus
+                           2780 ;	genPlusIncr failed
+   044A 80                 2781 	add	a,b
+   044B 4F                 2782 	ld	c,a
+                           2783 ; genCmpGt
+                           2784 ; AOP_STK for _checkcollisions_sloc7_1_0
+   044C AF                 2785 	xor	a,a
+   044D 79                 2786 	ld	a,c
+   044E F8 02              2787 	lda	hl,2(sp)
+   0450 9E                 2788 	sbc	a,(hl) ; 2
+   0451 3E 00              2789 	ld	a,#0x00
+   0453 17                 2790 	rla
+   0454 4F                 2791 	ld	c,a
+                           2792 ; genNot
+   0455 AF                 2793 	xor	a,a
+   0456 B1                 2794 	or	a,c
+   0457 D6 01              2795 	sub	a,#0x01
+   0459 3E 00              2796 	ld	a,#0x00
+   045B 17                 2797 	rla
+   045C 4F                 2798 	ld	c,a
+                           2799 ; genAndOp
+                           2800 ; AOP_STK for _checkcollisions_sloc3_1_0
+   045D AF                 2801 	xor	a,a
+   045E F8 06              2802 	lda	hl,6(sp)
+   0460 B6                 2803 	or	a,(hl)
+   0461 28 02              2804 	jr	z,00119$
+   0463 AF                 2805 	xor	a,a
+   0464 B1                 2806 	or	a,c
+   0465                    2807 00119$:
+   0465 28 02              2808 	jr	z,00120$
+   0467 3E 01              2809 	ld	a,#0x01
+   0469                    2810 00120$:
+   0469 4F                 2811 	ld	c,a
+                           2812 ; genAndOp
+                           2813 ; AOP_STK for _checkcollisions_sloc5_1_0
+   046A AF                 2814 	xor	a,a
+   046B F8 04              2815 	lda	hl,4(sp)
+   046D B6                 2816 	or	a,(hl)
+   046E 28 02              2817 	jr	z,00121$
+   0470 AF                 2818 	xor	a,a
+   0471 B1                 2819 	or	a,c
+   0472                    2820 00121$:
+   0472 28 02              2821 	jr	z,00122$
+   0474 3E 01              2822 	ld	a,#0x01
+   0476                    2823 00122$:
+   0476 4F                 2824 	ld	c,a
+                           2825 ; genOrOp
+                           2826 ; AOP_STK for _checkcollisions_sloc6_1_0
+                           2827 ; AOP_STK for _checkcollisions_sloc8_1_0
+   0477 AF                 2828 	xor	a,a
+   0478 F8 03              2829 	lda	hl,3(sp)
+   047A B6                 2830 	or	a,(hl)
+   047B 20 02              2831 	jr	nz,00123$
+   047D AF                 2832 	xor	a,a
+   047E B1                 2833 	or	a,c
+   047F                    2834 00123$:
+   047F 28 02              2835 	jr	z,00124$
+   0481 3E 01              2836 	ld	a,#0x01
+   0483                    2837 00124$:
+   0483 F8 00              2838 	lda	hl,0(sp)
+   0485 77                 2839 	ld	(hl),a
+                           2840 ; genCmpLt
+                           2841 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2842 ; AOP_STK for _checkcollisions_sloc1_1_0
+   0486 AF                 2843 	xor	a,a
+   0487 F8 05              2844 	lda	hl,5(sp)
+   0489 7E                 2845 	ld	a,(hl)
+   048A F8 09              2846 	lda	hl,9(sp)
+   048C 9E                 2847 	sbc	a,(hl) ; 2
+   048D 3E 00              2848 	ld	a,#0x00
+   048F 17                 2849 	rla
+   0490 4F                 2850 	ld	c,a
+                           2851 ; genNot
+                           2852 ; AOP_STK for _checkcollisions_sloc6_1_0
+   0491 AF                 2853 	xor	a,a
+   0492 B1                 2854 	or	a,c
+   0493 D6 01              2855 	sub	a,#0x01
+   0495 3E 00              2856 	ld	a,#0x00
+   0497 17                 2857 	rla
+   0498 F8 03              2858 	lda	hl,3(sp)
+   049A 77                 2859 	ld	(hl),a
+                           2860 ; genCmpGt
+                           2861 ; AOP_STK for _checkcollisions_sloc4_1_0
+                           2862 ; AOP_STK for _checkcollisions_sloc2_1_0
+   049B AF                 2863 	xor	a,a
+   049C F8 07              2864 	lda	hl,7(sp)
+   049E 7E                 2865 	ld	a,(hl)
+   049F 2B                 2866 	dec	hl
+   04A0 2B                 2867 	dec	hl
+   04A1 9E                 2868 	sbc	a,(hl) ; 2
+   04A2 3E 00              2869 	ld	a,#0x00
+   04A4 17                 2870 	rla
+   04A5 4F                 2871 	ld	c,a
+                           2872 ; genNot
+   04A6 AF                 2873 	xor	a,a
+   04A7 B1                 2874 	or	a,c
+   04A8 D6 01              2875 	sub	a,#0x01
+   04AA 3E 00              2876 	ld	a,#0x00
+   04AC 17                 2877 	rla
+   04AD 4F                 2878 	ld	c,a
+                           2879 ; genAndOp
+                           2880 ; AOP_STK for _checkcollisions_sloc6_1_0
+   04AE AF                 2881 	xor	a,a
+   04AF 2B                 2882 	dec	hl
+   04B0 2B                 2883 	dec	hl
+   04B1 B6                 2884 	or	a,(hl)
+   04B2 28 02              2885 	jr	z,00125$
+   04B4 AF                 2886 	xor	a,a
+   04B5 B1                 2887 	or	a,c
+   04B6                    2888 00125$:
+   04B6 28 02              2889 	jr	z,00126$
+   04B8 3E 01              2890 	ld	a,#0x01
+   04BA                    2891 00126$:
+   04BA F8 03              2892 	lda	hl,3(sp)
+   04BC 77                 2893 	ld	(hl),a
+                           2894 ; genCmpLt
+                           2895 ; AOP_STK for _checkcollisions_sloc7_1_0
+   04BD AF                 2896 	xor	a,a
+   04BE 78                 2897 	ld	a,b
+   04BF 2B                 2898 	dec	hl
+   04C0 9E                 2899 	sbc	a,(hl) ; 2
+   04C1 3E 00              2900 	ld	a,#0x00
+   04C3 17                 2901 	rla
+   04C4 4F                 2902 	ld	c,a
+                           2903 ; genNot
+   04C5 AF                 2904 	xor	a,a
+   04C6 B1                 2905 	or	a,c
+   04C7 D6 01              2906 	sub	a,#0x01
+   04C9 3E 00              2907 	ld	a,#0x00
+   04CB 17                 2908 	rla
+   04CC 4F                 2909 	ld	c,a
+                           2910 ; genCmpGt
+                           2911 ; AOP_STK for _checkcollisions_sloc0_1_0
+   04CD AF                 2912 	xor	a,a
+   04CE F8 0A              2913 	lda	hl,10(sp)
+   04D0 7E                 2914 	ld	a,(hl)
+   04D1 98                 2915 	sbc	a,b ; 2
+   04D2 3E 00              2916 	ld	a,#0x00
+   04D4 17                 2917 	rla
+   04D5 47                 2918 	ld	b,a
+                           2919 ; genNot
+   04D6 AF                 2920 	xor	a,a
+   04D7 B0                 2921 	or	a,b
+   04D8 D6 01              2922 	sub	a,#0x01
+   04DA 3E 00              2923 	ld	a,#0x00
+   04DC 17                 2924 	rla
+   04DD 47                 2925 	ld	b,a
+                           2926 ; genAndOp
+   04DE AF                 2927 	xor	a,a
+   04DF B1                 2928 	or	a,c
+   04E0 28 02              2929 	jr	z,00127$
+   04E2 AF                 2930 	xor	a,a
+   04E3 B0                 2931 	or	a,b
+   04E4                    2932 00127$:
+   04E4 28 02              2933 	jr	z,00128$
+   04E6 3E 01              2934 	ld	a,#0x01
+   04E8                    2935 00128$:
+   04E8 4F                 2936 	ld	c,a
+                           2937 ; genAndOp
+                           2938 ; AOP_STK for _checkcollisions_sloc6_1_0
+   04E9 AF                 2939 	xor	a,a
+   04EA F8 03              2940 	lda	hl,3(sp)
+   04EC B6                 2941 	or	a,(hl)
+   04ED 28 02              2942 	jr	z,00129$
+   04EF AF                 2943 	xor	a,a
+   04F0 B1                 2944 	or	a,c
+   04F1                    2945 00129$:
+   04F1 28 02              2946 	jr	z,00130$
+   04F3 3E 01              2947 	ld	a,#0x01
+   04F5                    2948 00130$:
+   04F5 4F                 2949 	ld	c,a
+                           2950 ; genOrOp
+                           2951 ; AOP_STK for _checkcollisions_sloc8_1_0
+   04F6 AF                 2952 	xor	a,a
+   04F7 F8 00              2953 	lda	hl,0(sp)
+   04F9 B6                 2954 	or	a,(hl)
+   04FA 20 02              2955 	jr	nz,00131$
+   04FC AF                 2956 	xor	a,a
+   04FD B1                 2957 	or	a,c
+   04FE                    2958 00131$:
+   04FE 28 02              2959 	jr	z,00132$
+   0500 3E 01              2960 	ld	a,#0x01
+   0502                    2961 00132$:
+   0502 4F                 2962 	ld	c,a
+                           2963 ; genRet
+   0503 59                 2964 	ld	e,c
+                           2965 ; genLabel
+   0504                    2966 00101$:
+                           2967 ; genEndFunction
+   0504 E8 0C              2968 	lda	sp,12(sp)
+   0506 C1                 2969 	pop	bc
+   0507 C9                 2970 	ret
+   0508                    2971 ___checkcollisions_end:
+                           2972 ;	sprite_run.c 86
+                           2973 ; genLabel
+                           2974 ; genFunction
+                           2975 ;	---------------------------------
+                           2976 ; Function wouldhitsurface
+                           2977 ; ---------------------------------
+   0508                    2978 ___wouldhitsurface_start:
+   0508                    2979 _wouldhitsurface:
+   0508 C5                 2980 	push	bc
+                           2981 	
+                           2982 ;	sprite_run.c 87
+                           2983 ; genCmpLt
+                           2984 ; AOP_STK for 
+                           2985 ; AOP_HL for _floorYposition
+   0509 AF                 2986 	xor	a,a
+   050A F8 04              2987 	lda	hl,4(sp)
+   050C 7E                 2988 	ld	a,(hl)
+   050D 21 E3 00           2989 	ld	hl,#_floorYposition + 0
+   0510 9E                 2990 	sbc	a,(hl) ; 2
+   0511 DA 19 05           2991 	jp	c,00102$
+                           2992 ;	sprite_run.c 88
+                           2993 ; genAssign
+                           2994 ; AOP_HL for _floorYposition
+   0514 4E                 2995 	ld	c,(hl)
+                           2996 ; genRet
+   0515 59                 2997 	ld	e,c
+   0516 C3 1B 05           2998 	jp	00103$
+                           2999 ; genLabel
+   0519                    3000 00102$:
+                           3001 ;	sprite_run.c 90
+                           3002 ; genRet
+   0519 1E FF              3003 	ld	e,#0xFF
+                           3004 ; genLabel
+   051B                    3005 00103$:
+                           3006 ; genEndFunction
+                           3007 	
+   051B C1                 3008 	pop	bc
+   051C C9                 3009 	ret
+   051D                    3010 ___wouldhitsurface_end:
+                           3011 ;	sprite_run.c 93
+                           3012 ; genLabel
+                           3013 ; genFunction
+                           3014 ;	---------------------------------
+                           3015 ; Function jump
+                           3016 ; ---------------------------------
+   051D                    3017 ___jump_start:
+   051D                    3018 _jump:
+   051D C5                 3019 	push	bc
+   051E E8 FC              3020 	lda	sp,-4(sp)
+                           3021 ;	sprite_run.c 96
+                           3022 ; genCmpEq
+                           3023 ; AOP_HL for _jumping
+   0520 21 E0 00           3024 	ld	hl,#_jumping + 0
+   0523 7E                 3025 	ld	a,(hl)
+   0524 B7                 3026 	or	a,a
+   0525 C2 2A 05           3027 	jp	nz,00110$
+   0528 18 03              3028 	jr	00111$
+   052A                    3029 00110$:
+   052A C3 37 05           3030 	jp	00102$
+   052D                    3031 00111$:
+                           3032 ;	sprite_run.c 97
+                           3033 ; genAssign
+                           3034 ; AOP_HL for _jumping
+   052D 21 E0 00           3035 	ld	hl,#_jumping + 0
+   0530 36 01              3036 	ld	(hl),#0x01
+                           3037 ;	sprite_run.c 98
+                           3038 ; genAssign
+                           3039 ; AOP_HL for _currentspeedY
+   0532 21 E2 00           3040 	ld	hl,#_currentspeedY + 0
+   0535 36 0C              3041 	ld	(hl),#0x0C
+                           3042 ; genLabel
+   0537                    3043 00102$:
+                           3044 ;	sprite_run.c 100
+                           3045 ; genPlus
+                           3046 ; AOP_HL for _currentspeedY
+                           3047 ; AOP_HL for _gravity
+                           3048 ;	genPlusIncr failed
+   0537 21 E2 00           3049 	ld	hl,#_currentspeedY + 0
+   053A 7E                 3050 	ld	a,(hl)
+   053B 21 E1 00           3051 	ld	hl,#_gravity + 0
+   053E 86                 3052 	add	a,(hl)
+   053F 21 E2 00           3053 	ld	hl,#_currentspeedY + 0
+   0542 77                 3054 	ld	(hl),a
+                           3055 ;	sprite_run.c 102
+                           3056 ; genPlus
+                           3057 ; AOP_STK for _jump_sloc1_1_0
+                           3058 ; genPlusIncr
+                           3059 ;	genPlusIncr failed
+   0543 11 E8 00           3060 	ld	de,#_kirby + 0
+   0546 21 05 00           3061 	ld	hl,#0x0005
+   0549 19                 3062 	add	hl,de
+   054A 7D                 3063 	ld	a,l
+   054B 54                 3064 	ld	d,h
+   054C F8 00              3065 	lda	hl,0(sp)
+   054E 22                 3066 	ld	(hl+),a
+   054F 72                 3067 	ld	(hl),d
+                           3068 ; genPointerGet
+                           3069 ; AOP_STK for _jump_sloc1_1_0
+                           3070 ; AOP_STK for _jump_sloc0_1_0
+   0550 2B                 3071 	dec	hl
+   0551 5E                 3072 	ld	e,(hl)
+   0552 23                 3073 	inc	hl
+   0553 56                 3074 	ld	d,(hl)
+   0554 1A                 3075 	ld	a,(de)
+   0555 23                 3076 	inc	hl
+   0556 77                 3077 	ld	(hl),a
+                           3078 ; genMinus
+                           3079 ; AOP_STK for _jump_sloc0_1_0
+                           3080 ; AOP_HL for _currentspeedY
+   0557 7E                 3081 	ld	a,(hl)
+   0558 21 E2 00           3082 	ld	hl,#_currentspeedY + 0
+   055B 96                 3083 	sub	a,(hl)
+   055C 4F                 3084 	ld	c,a
+                           3085 ; genAssign (pointer)
+                           3086 ; AOP_STK for _jump_sloc1_1_0
+   055D F8 00              3087 	lda	hl,0(sp)
+   055F 5E                 3088 	ld	e,(hl)
+   0560 23                 3089 	inc	hl
+   0561 56                 3090 	ld	d,(hl)
+   0562 79                 3091 	ld	a,c
+   0563 12                 3092 	ld	(de),a
+                           3093 ;	sprite_run.c 103
+                           3094 ; genPointerGet
+                           3095 ; AOP_STK for _jump_sloc1_1_0
+   0564 2B                 3096 	dec	hl
+   0565 5E                 3097 	ld	e,(hl)
+   0566 23                 3098 	inc	hl
+   0567 56                 3099 	ld	d,(hl)
+   0568 1A                 3100 	ld	a,(de)
+   0569 47                 3101 	ld	b,a
+                           3102 ; genIpush
+   056A 79                 3103 	ld	a,c
+   056B F5                 3104 	push	af
+   056C 33                 3105 	inc	sp
+                           3106 ; genCall
+   056D CD 08 05           3107 	call	_wouldhitsurface
+                           3108 ; AOP_STK for _jump_possiblesurfaceY_1_1
+   0570 F8 04              3109 	lda	hl,4(sp)
+   0572 73                 3110 	ld	(hl),e
+   0573 E8 01              3111 	lda	sp,1(sp)
+                           3112 ;	sprite_run.c 105
+                           3113 ; genCmpEq
+                           3114 ; AOP_STK for _jump_possiblesurfaceY_1_1
+   0575 7E                 3115 	ld	a,(hl) ; 2
+   0576 FE FF              3116 	cp	a,#0xFF
+                           3117 ; Rule 5
+   0578 CA 99 05           3118 	jp	z,00104$
+   057B                    3119 00112$:
+                           3120 ;	sprite_run.c 106
+                           3121 ; genAssign
+                           3122 ; AOP_HL for _jumping
+   057B 21 E0 00           3123 	ld	hl,#_jumping + 0
+   057E 36 00              3124 	ld	(hl),#0x00
+                           3125 ;	sprite_run.c 107
+                           3126 ; genPlus
+                           3127 ; genPlusIncr
+   0580 11 EC 00           3128 	ld	de,#_kirby + 0 + 4
+                           3129 ; genPointerGet
+   0583 1A                 3130 	ld	a,(de)
+   0584 4F                 3131 	ld	c,a
+                           3132 ; genIpush
+                           3133 ; AOP_STK for _jump_possiblesurfaceY_1_1
+   0585 F8 03              3134 	lda	hl,3(sp)
+   0587 7E                 3135 	ld	a,(hl)
+   0588 F5                 3136 	push	af
+   0589 33                 3137 	inc	sp
+                           3138 ; genIpush
+   058A 79                 3139 	ld	a,c
+   058B F5                 3140 	push	af
+   058C 33                 3141 	inc	sp
+                           3142 ; genIpush
+   058D 21 E8 00           3143 	ld	hl,#_kirby + 0
+   0590 E5                 3144 	push	hl
+                           3145 ; genCall
+   0591 CD 00 00           3146 	call	_movegamecharacter
+   0594 E8 04              3147 	lda	sp,4(sp)
+                           3148 ; genGoto
+   0596 C3 AD 05           3149 	jp	00106$
+                           3150 ; genLabel
+   0599                    3151 00104$:
+                           3152 ;	sprite_run.c 110
+                           3153 ; genPlus
+                           3154 ; genPlusIncr
+   0599 11 EC 00           3155 	ld	de,#_kirby + 0 + 4
+                           3156 ; genPointerGet
+   059C 1A                 3157 	ld	a,(de)
+   059D 4F                 3158 	ld	c,a
+                           3159 ; genIpush
+   059E 78                 3160 	ld	a,b
+   059F F5                 3161 	push	af
+   05A0 33                 3162 	inc	sp
+                           3163 ; genIpush
+   05A1 79                 3164 	ld	a,c
+   05A2 F5                 3165 	push	af
+   05A3 33                 3166 	inc	sp
+                           3167 ; genIpush
+   05A4 21 E8 00           3168 	ld	hl,#_kirby + 0
+   05A7 E5                 3169 	push	hl
+                           3170 ; genCall
+   05A8 CD 00 00           3171 	call	_movegamecharacter
+   05AB E8 04              3172 	lda	sp,4(sp)
+                           3173 ; genLabel
+   05AD                    3174 00106$:
+                           3175 ; genEndFunction
+   05AD E8 04              3176 	lda	sp,4(sp)
+   05AF C1                 3177 	pop	bc
+   05B0 C9                 3178 	ret
+   05B1                    3179 ___jump_end:
+                           3180 ;	sprite_run.c 115
+                           3181 ; genLabel
+                           3182 ; genFunction
+                           3183 ;	---------------------------------
+                           3184 ; Function main
+                           3185 ; ---------------------------------
+   05B1                    3186 ___main_start:
+   05B1                    3187 _main:
+   05B1 C5                 3188 	push	bc
+   05B2 E8 F7              3189 	lda	sp,-9(sp)
+                           3190 ;	sprite_run.c 117
+                           3191 ; genIpush
+   05B4 21 00 00           3192 	ld	hl,#_kirbs16 + 0
+   05B7 E5                 3193 	push	hl
+                           3194 ; genIpush
+   05B8 3E 10              3195 	ld	a,#0x10
+   05BA F5                 3196 	push	af
+   05BB 33                 3197 	inc	sp
+                           3198 ; genIpush
+   05BC 3E 00              3199 	ld	a,#0x00
+   05BE F5                 3200 	push	af
+   05BF 33                 3201 	inc	sp
+                           3202 ; genCall
+   05C0 CD 00 00           3203 	call	_set_sprite_data
+   05C3 E8 04              3204 	lda	sp,4(sp)
+                           3205 ;	sprite_run.c 118
+                           3206 ; genCall
+   05C5 CD 8A 00           3207 	call	_setupkirby
+                           3208 ;	sprite_run.c 119
+                           3209 ; genCall
+   05C8 CD 1D 01           3210 	call	_setupsmiley
+                           3211 ;	sprite_run.c 120
+                           3212 ; genCall
+   05CB CD B0 01           3213 	call	_setupbomb
+                           3214 ;	sprite_run.c 122
+                           3215 ; genOr
+                           3216 ; AOP_SFR for _LCDC_REG
+                           3217 ; Type res[4] = l[4]&r[1]
+                           3218 ; Size res[1] = l[1]&r[1]
+   05CE F0 00              3219 	ldh	a,(_LCDC_REG+0) ; x
+   05D0 F6 80              3220 	or	a,#0x80
+   05D2 E0 00              3221 	ldh	(_LCDC_REG+0),a
+                           3222 ;	sprite_run.c 123
+                           3223 ; genOr
+                           3224 ; AOP_SFR for _LCDC_REG
+                           3225 ; Type res[4] = l[4]&r[1]
+                           3226 ; Size res[1] = l[1]&r[1]
+   05D4 F0 00              3227 	ldh	a,(_LCDC_REG+0) ; x
+   05D6 F6 02              3228 	or	a,#0x02
+   05D8 E0 00              3229 	ldh	(_LCDC_REG+0),a
+                           3230 ;	sprite_run.c 125
+                           3231 ; genLabel
+   05DA                    3232 00121$:
+                           3233 ; genIpush
+   05DA 21 F8 00           3234 	ld	hl,#_bomb + 0
+   05DD E5                 3235 	push	hl
+                           3236 ; genIpush
+   05DE 21 F0 00           3237 	ld	hl,#_smiley + 0
+   05E1 E5                 3238 	push	hl
+                           3239 ; genIpush
+   05E2 21 E8 00           3240 	ld	hl,#_kirby + 0
+   05E5 E5                 3241 	push	hl
+                           3242 ; genCall
+   05E6 CD 43 02           3243 	call	_checkcollisions
+   05E9 4B                 3244 	ld	c,e
+   05EA E8 06              3245 	lda	sp,6(sp)
+                           3246 ; genIfx
+                           3247 ; Removed redundent or a,a
+   05EC AF                 3248 	xor	a,a
+   05ED B1                 3249 	or	a,c
+   05EE C2 EC 07           3250 	jp	nz,00123$
+                           3251 ;	sprite_run.c 126
+                           3252 ; genCall
+   05F1 CD 00 00           3253 	call	_joypad
+   05F4 4B                 3254 	ld	c,e
+                           3255 ; genAnd
+   05F5 79                 3256 	ld	a,c
+   05F6 CB 57              3257 	bit	2,a
+   05F8 C2 09 06           3258 	jp	nz,00101$
+                           3259 ; genCmpEq
+                           3260 ; AOP_HL for _jumping
+   05FB 21 E0 00           3261 	ld	hl,#_jumping + 0
+   05FE 7E                 3262 	ld	a,(hl) ; 2
+   05FF FE 01              3263 	cp	a,#0x01
+   0601 C2 06 06           3264 	jp	nz,00138$
+   0604 18 03              3265 	jr	00139$
+   0606                    3266 00138$:
+   0606 C3 16 06           3267 	jp	00102$
+   0609                    3268 00139$:
+                           3269 ; genLabel
+   0609                    3270 00101$:
+                           3271 ;	sprite_run.c 127
+                           3272 ; genIpush
+   0609 21 E8 00           3273 	ld	hl,#_kirby + 0
+   060C E5                 3274 	push	hl
+                           3275 ; genIpush
+   060D 3E 00              3276 	ld	a,#0x00
+   060F F5                 3277 	push	af
+   0610 33                 3278 	inc	sp
+                           3279 ; genCall
+   0611 CD 1D 05           3280 	call	_jump
+   0614 E8 03              3281 	lda	sp,3(sp)
+                           3282 ; genLabel
+   0616                    3283 00102$:
+                           3284 ;	sprite_run.c 129
+                           3285 ; genCall
+   0616 CD 00 00           3286 	call	_joypad
+   0619 4B                 3287 	ld	c,e
+                           3288 ; genAnd
+   061A 79                 3289 	ld	a,c
+   061B CB 4F              3290 	bit	1,a
+   061D CA 53 06           3291 	jp	z,00105$
+                           3292 ;	sprite_run.c 130
+                           3293 ; genPlus
+                           3294 ; AOP_STK for _main_sloc1_1_0
+                           3295 ; genPlusIncr
+                           3296 ;	genPlusIncr failed
+   0620 11 E8 00           3297 	ld	de,#_kirby + 0
+   0623 21 04 00           3298 	ld	hl,#0x0004
+   0626 19                 3299 	add	hl,de
+   0627 7D                 3300 	ld	a,l
+   0628 54                 3301 	ld	d,h
+   0629 F8 06              3302 	lda	hl,6(sp)
+   062B 22                 3303 	ld	(hl+),a
+   062C 72                 3304 	ld	(hl),d
+                           3305 ; genPointerGet
+                           3306 ; AOP_STK for _main_sloc1_1_0
+                           3307 ; AOP_STK for _main_sloc0_1_0
+   062D 2B                 3308 	dec	hl
+   062E 5E                 3309 	ld	e,(hl)
+   062F 23                 3310 	inc	hl
+   0630 56                 3311 	ld	d,(hl)
+   0631 1A                 3312 	ld	a,(de)
+   0632 23                 3313 	inc	hl
+   0633 77                 3314 	ld	(hl),a
+                           3315 ; genMinus
+                           3316 ; AOP_STK for _main_sloc0_1_0
+   0634 7E                 3317 	ld	a,(hl)
+   0635 C6 FE              3318 	add	a,#0xFE
+   0637 4F                 3319 	ld	c,a
+                           3320 ; genAssign (pointer)
+                           3321 ; AOP_STK for _main_sloc1_1_0
+   0638 2B                 3322 	dec	hl
+   0639 2B                 3323 	dec	hl
+   063A 5E                 3324 	ld	e,(hl)
+   063B 23                 3325 	inc	hl
+   063C 56                 3326 	ld	d,(hl)
+   063D 79                 3327 	ld	a,c
+   063E 12                 3328 	ld	(de),a
+                           3329 ;	sprite_run.c 131
+                           3330 ; genPlus
+                           3331 ; genPlusIncr
+   063F 11 ED 00           3332 	ld	de,#_kirby + 0 + 5
+                           3333 ; genPointerGet
+   0642 1A                 3334 	ld	a,(de)
+   0643 47                 3335 	ld	b,a
+                           3336 ; genIpush
+   0644 78                 3337 	ld	a,b
+   0645 F5                 3338 	push	af
+   0646 33                 3339 	inc	sp
+                           3340 ; genIpush
+   0647 79                 3341 	ld	a,c
+   0648 F5                 3342 	push	af
+   0649 33                 3343 	inc	sp
+                           3344 ; genIpush
+   064A 21 E8 00           3345 	ld	hl,#_kirby + 0
+   064D E5                 3346 	push	hl
+                           3347 ; genCall
+   064E CD 00 00           3348 	call	_movegamecharacter
+   0651 E8 04              3349 	lda	sp,4(sp)
+                           3350 ; genLabel
+   0653                    3351 00105$:
+                           3352 ;	sprite_run.c 133
+                           3353 ; genCall
+   0653 CD 00 00           3354 	call	_joypad
+   0656 4B                 3355 	ld	c,e
+                           3356 ; genAnd
+   0657 79                 3357 	ld	a,c
+   0658 CB 47              3358 	bit	0,a
+   065A CA 90 06           3359 	jp	z,00107$
+                           3360 ;	sprite_run.c 134
+                           3361 ; genPlus
+                           3362 ; AOP_STK for _main_sloc2_1_0
+                           3363 ; genPlusIncr
+                           3364 ;	genPlusIncr failed
+   065D 11 E8 00           3365 	ld	de,#_kirby + 0
+   0660 21 04 00           3366 	ld	hl,#0x0004
+   0663 19                 3367 	add	hl,de
+   0664 7D                 3368 	ld	a,l
+   0665 54                 3369 	ld	d,h
+   0666 F8 04              3370 	lda	hl,4(sp)
+   0668 22                 3371 	ld	(hl+),a
+   0669 72                 3372 	ld	(hl),d
+                           3373 ; genPointerGet
+                           3374 ; AOP_STK for _main_sloc2_1_0
+                           3375 ; AOP_STK for _main_sloc1_1_0
+   066A 2B                 3376 	dec	hl
+   066B 5E                 3377 	ld	e,(hl)
+   066C 23                 3378 	inc	hl
+   066D 56                 3379 	ld	d,(hl)
+   066E 1A                 3380 	ld	a,(de)
+   066F 23                 3381 	inc	hl
+   0670 77                 3382 	ld	(hl),a
+                           3383 ; genPlus
+                           3384 ; AOP_STK for _main_sloc1_1_0
+                           3385 ; genPlusIncr
+                           3386 ;	genPlusIncr failed
+   0671 7E                 3387 	ld	a,(hl)
+   0672 C6 02              3388 	add	a,#0x02
+   0674 4F                 3389 	ld	c,a
+                           3390 ; genAssign (pointer)
+                           3391 ; AOP_STK for _main_sloc2_1_0
+   0675 2B                 3392 	dec	hl
+   0676 2B                 3393 	dec	hl
+   0677 5E                 3394 	ld	e,(hl)
+   0678 23                 3395 	inc	hl
+   0679 56                 3396 	ld	d,(hl)
+   067A 79                 3397 	ld	a,c
+   067B 12                 3398 	ld	(de),a
+                           3399 ;	sprite_run.c 135
+                           3400 ; genPlus
+                           3401 ; genPlusIncr
+   067C 11 ED 00           3402 	ld	de,#_kirby + 0 + 5
+                           3403 ; genPointerGet
+   067F 1A                 3404 	ld	a,(de)
+   0680 47                 3405 	ld	b,a
+                           3406 ; genIpush
+   0681 78                 3407 	ld	a,b
+   0682 F5                 3408 	push	af
+   0683 33                 3409 	inc	sp
+                           3410 ; genIpush
+   0684 79                 3411 	ld	a,c
+   0685 F5                 3412 	push	af
+   0686 33                 3413 	inc	sp
+                           3414 ; genIpush
+   0687 21 E8 00           3415 	ld	hl,#_kirby + 0
+   068A E5                 3416 	push	hl
+                           3417 ; genCall
+   068B CD 00 00           3418 	call	_movegamecharacter
+   068E E8 04              3419 	lda	sp,4(sp)
+                           3420 ; genLabel
+   0690                    3421 00107$:
+                           3422 ;	sprite_run.c 137
+                           3423 ; genCmpLt
+                           3424 ; AOP_HL for _spritestate
+   0690 21 E5 00           3425 	ld	hl,#_spritestate + 0
+   0693 7E                 3426 	ld	a,(hl)
+   0694 FE 03              3427 	cp	#0x03
+   0696 DA E8 06           3428 	jp	c,00112$
+                           3429 ;	sprite_run.c 138
+                           3430 ; genPlus
+                           3431 ; AOP_STK for _main_sloc1_1_0
+                           3432 ; genPlusIncr
+                           3433 ;	genPlusIncr failed
+   0699 11 F0 00           3434 	ld	de,#_smiley + 0
+   069C 21 05 00           3435 	ld	hl,#0x0005
+   069F 19                 3436 	add	hl,de
+   06A0 7D                 3437 	ld	a,l
+   06A1 54                 3438 	ld	d,h
+   06A2 F8 06              3439 	lda	hl,6(sp)
+   06A4 22                 3440 	ld	(hl+),a
+   06A5 72                 3441 	ld	(hl),d
+                           3442 ; genPointerGet
+                           3443 ; AOP_STK for _main_sloc1_1_0
+                           3444 ; AOP_STK for _main_sloc2_1_0
+   06A6 2B                 3445 	dec	hl
+   06A7 5E                 3446 	ld	e,(hl)
+   06A8 23                 3447 	inc	hl
+   06A9 56                 3448 	ld	d,(hl)
+   06AA 1A                 3449 	ld	a,(de)
+   06AB F8 04              3450 	lda	hl,4(sp)
+   06AD 77                 3451 	ld	(hl),a
+                           3452 ; genPlus
+                           3453 ; genPlusIncr
+   06AE 11 F4 00           3454 	ld	de,#_smiley + 0 + 4
+                           3455 ; genPointerGet
+   06B1 1A                 3456 	ld	a,(de)
+   06B2 4F                 3457 	ld	c,a
+                           3458 ; genRightShift
+                           3459 ; shift right 	result 1, left 1
+                           3460 ; Removed redundent load
+   06B3 CB 39              3461 	srl	c
+   06B5 CB 39              3462 	srl	c
+   06B7 CB 39              3463 	srl	c
+                           3464 ; genPlus
+                           3465 ; AOP_STK for _main_sloc2_1_0
+                           3466 ;	genPlusIncr failed
+   06B9 7E                 3467 	ld	a,(hl)
+   06BA 81                 3468 	add	a,c
+   06BB 4F                 3469 	ld	c,a
+                           3470 ; genAssign (pointer)
+                           3471 ; AOP_STK for _main_sloc1_1_0
+   06BC 23                 3472 	inc	hl
+   06BD 23                 3473 	inc	hl
+   06BE 5E                 3474 	ld	e,(hl)
+   06BF 23                 3475 	inc	hl
+   06C0 56                 3476 	ld	d,(hl)
+   06C1 79                 3477 	ld	a,c
+   06C2 12                 3478 	ld	(de),a
+                           3479 ;	sprite_run.c 139
+                           3480 ; genPlus
+                           3481 ; AOP_HL for _spritestate
+                           3482 ; genPlusIncr
+   06C3 21 E5 00           3483 	ld	hl,#_spritestate + 0
+   06C6 34                 3484 	inc	(hl)
+                           3485 ;	sprite_run.c 140
+                           3486 ; genCmpLt
+                           3487 ; AOP_HL for _spritestate
+   06C7 7E                 3488 	ld	a,(hl)
+   06C8 FE 64              3489 	cp	#0x64
+   06CA DA E8 06           3490 	jp	c,00112$
+                           3491 ; genPointerGet
+                           3492 ; AOP_STK for _main_sloc1_1_0
+   06CD F8 06              3493 	lda	hl,6(sp)
+   06CF 5E                 3494 	ld	e,(hl)
+   06D0 23                 3495 	inc	hl
+   06D1 56                 3496 	ld	d,(hl)
+   06D2 1A                 3497 	ld	a,(de)
+   06D3 4F                 3498 	ld	c,a
+                           3499 ; genCmpGt
+   06D4 AF                 3500 	xor	a,a
+   06D5 3E 1E              3501 	ld	a,#0x1E
+   06D7 99                 3502 	sbc	a,c ; 2
+   06D8 DA E8 06           3503 	jp	c,00112$
+                           3504 ;	sprite_run.c 141
+                           3505 ; genAssign
+                           3506 ; AOP_HL for _spritestate
+   06DB 21 E5 00           3507 	ld	hl,#_spritestate + 0
+   06DE 36 00              3508 	ld	(hl),#0x00
+                           3509 ;	sprite_run.c 142
+                           3510 ; genAssign (pointer)
+                           3511 ; AOP_STK for _main_sloc1_1_0
+   06E0 F8 06              3512 	lda	hl,6(sp)
+   06E2 5E                 3513 	ld	e,(hl)
+   06E3 23                 3514 	inc	hl
+   06E4 56                 3515 	ld	d,(hl)
+   06E5 3E 1E              3516 	ld	a,#0x1E
+   06E7 12                 3517 	ld	(de),a
+                           3518 ; genLabel
+   06E8                    3519 00112$:
+                           3520 ;	sprite_run.c 145
+                           3521 ; genPlus
+                           3522 ; AOP_STK for _main_sloc1_1_0
+                           3523 ; genPlusIncr
+                           3524 ;	genPlusIncr failed
+   06E8 11 F0 00           3525 	ld	de,#_smiley + 0
+   06EB 21 04 00           3526 	ld	hl,#0x0004
+   06EE 19                 3527 	add	hl,de
+   06EF 7D                 3528 	ld	a,l
+   06F0 54                 3529 	ld	d,h
+   06F1 F8 06              3530 	lda	hl,6(sp)
+   06F3 22                 3531 	ld	(hl+),a
+   06F4 72                 3532 	ld	(hl),d
+                           3533 ; genPointerGet
+                           3534 ; AOP_STK for _main_sloc1_1_0
+                           3535 ; AOP_STK for _main_sloc2_1_0
+   06F5 2B                 3536 	dec	hl
+   06F6 5E                 3537 	ld	e,(hl)
+   06F7 23                 3538 	inc	hl
+   06F8 56                 3539 	ld	d,(hl)
+   06F9 1A                 3540 	ld	a,(de)
+   06FA F8 04              3541 	lda	hl,4(sp)
+   06FC 77                 3542 	ld	(hl),a
+                           3543 ; genAssign
+                           3544 ; AOP_HL for _speedx
+   06FD 21 E6 00           3545 	ld	hl,#_speedx + 0
+   0700 7E                 3546 	ld	a,(hl)
+                           3547 ; genPlus
+                           3548 ; AOP_STK for _main_sloc2_1_0
+                           3549 ;	genPlusIncr failed
+   0701 F8 04              3550 	lda	hl,4(sp)
+   0703 86                 3551 	add	a,(hl)
+   0704 4F                 3552 	ld	c,a
+                           3553 ; genAssign (pointer)
+                           3554 ; AOP_STK for _main_sloc1_1_0
+   0705 23                 3555 	inc	hl
+   0706 23                 3556 	inc	hl
+   0707 5E                 3557 	ld	e,(hl)
+   0708 23                 3558 	inc	hl
+   0709 56                 3559 	ld	d,(hl)
+   070A 79                 3560 	ld	a,c
+   070B 12                 3561 	ld	(de),a
+                           3562 ;	sprite_run.c 146
+                           3563 ; genCmpEq
+   070C 79                 3564 	ld	a,c ; 2
+   070D FE 14              3565 	cp	a,#0x14
+   070F C2 14 07           3566 	jp	nz,00140$
+   0712 18 03              3567 	jr	00141$
+   0714                    3568 00140$:
+   0714 C3 20 07           3569 	jp	00114$
+   0717                    3570 00141$:
+                           3571 ;	sprite_run.c 147
+                           3572 ; genAssign
+                           3573 ; AOP_HL for _speedx
+   0717 21 E6 00           3574 	ld	hl,#_speedx + 0
+   071A 36 02              3575 	ld	(hl),#0x02
+                           3576 ;	sprite_run.c 148
+                           3577 ; genPlus
+                           3578 ; AOP_HL for _spritestate
+                           3579 ; genPlusIncr
+   071C 21 E5 00           3580 	ld	hl,#_spritestate + 0
+   071F 34                 3581 	inc	(hl)
+                           3582 ; genLabel
+   0720                    3583 00114$:
+                           3584 ;	sprite_run.c 150
+                           3585 ; genPointerGet
+                           3586 ; AOP_STK for _main_sloc1_1_0
+   0720 F8 06              3587 	lda	hl,6(sp)
+   0722 5E                 3588 	ld	e,(hl)
+   0723 23                 3589 	inc	hl
+   0724 56                 3590 	ld	d,(hl)
+   0725 1A                 3591 	ld	a,(de)
+   0726 4F                 3592 	ld	c,a
+                           3593 ; genCmpEq
+   0727 79                 3594 	ld	a,c ; 2
+   0728 FE 90              3595 	cp	a,#0x90
+   072A C2 2F 07           3596 	jp	nz,00142$
+   072D 18 03              3597 	jr	00143$
+   072F                    3598 00142$:
+   072F C3 3B 07           3599 	jp	00116$
+   0732                    3600 00143$:
+                           3601 ;	sprite_run.c 151
+                           3602 ; genAssign
+                           3603 ; AOP_HL for _speedx
+   0732 21 E6 00           3604 	ld	hl,#_speedx + 0
+   0735 36 FE              3605 	ld	(hl),#0xFE
+                           3606 ;	sprite_run.c 152
+                           3607 ; genPlus
+                           3608 ; AOP_HL for _spritestate
+                           3609 ; genPlusIncr
+   0737 21 E5 00           3610 	ld	hl,#_spritestate + 0
+   073A 34                 3611 	inc	(hl)
+                           3612 ; genLabel
+   073B                    3613 00116$:
+                           3614 ;	sprite_run.c 154
+                           3615 ; genPlus
+                           3616 ; AOP_STK for _main_sloc3_1_0
+                           3617 ; genPlusIncr
+                           3618 ;	genPlusIncr failed
+   073B 11 F0 00           3619 	ld	de,#_smiley + 0
+   073E 21 05 00           3620 	ld	hl,#0x0005
+   0741 19                 3621 	add	hl,de
+   0742 7D                 3622 	ld	a,l
+   0743 54                 3623 	ld	d,h
+   0744 F8 02              3624 	lda	hl,2(sp)
+   0746 22                 3625 	ld	(hl+),a
+   0747 72                 3626 	ld	(hl),d
+                           3627 ; genPointerGet
+                           3628 ; AOP_STK for _main_sloc3_1_0
+                           3629 ; AOP_STK for _main_sloc2_1_0
+   0748 2B                 3630 	dec	hl
+   0749 5E                 3631 	ld	e,(hl)
+   074A 23                 3632 	inc	hl
+   074B 56                 3633 	ld	d,(hl)
+   074C 1A                 3634 	ld	a,(de)
+   074D 23                 3635 	inc	hl
+                           3636 ; genPointerGet
+                           3637 ; AOP_STK for _main_sloc1_1_0
+   074E 22                 3638 	ld	(hl+),a
+   074F 23                 3639 	inc	hl
+   0750 5E                 3640 	ld	e,(hl)
+   0751 23                 3641 	inc	hl
+   0752 56                 3642 	ld	d,(hl)
+   0753 1A                 3643 	ld	a,(de)
+   0754 4F                 3644 	ld	c,a
+                           3645 ; genIpush
+                           3646 ; AOP_STK for _main_sloc2_1_0
+   0755 F8 04              3647 	lda	hl,4(sp)
+   0757 7E                 3648 	ld	a,(hl)
+   0758 F5                 3649 	push	af
+   0759 33                 3650 	inc	sp
+                           3651 ; genIpush
+   075A 79                 3652 	ld	a,c
+   075B F5                 3653 	push	af
+   075C 33                 3654 	inc	sp
+                           3655 ; genIpush
+   075D 21 F0 00           3656 	ld	hl,#_smiley + 0
+   0760 E5                 3657 	push	hl
+                           3658 ; genCall
+   0761 CD 00 00           3659 	call	_movegamecharacter
+   0764 E8 04              3660 	lda	sp,4(sp)
+                           3661 ;	sprite_run.c 156
+                           3662 ; genPlus
+                           3663 ; AOP_STK for _main_sloc4_1_0
+                           3664 ; genPlusIncr
+                           3665 ;	genPlusIncr failed
+   0766 11 F8 00           3666 	ld	de,#_bomb + 0
+   0769 21 05 00           3667 	ld	hl,#0x0005
+   076C 19                 3668 	add	hl,de
+   076D 7D                 3669 	ld	a,l
+   076E 54                 3670 	ld	d,h
+   076F F8 00              3671 	lda	hl,0(sp)
+   0771 22                 3672 	ld	(hl+),a
+   0772 72                 3673 	ld	(hl),d
+                           3674 ; genPointerGet
+                           3675 ; AOP_STK for _main_sloc4_1_0
+                           3676 ; AOP_STK for _main_sloc2_1_0
+   0773 2B                 3677 	dec	hl
+   0774 5E                 3678 	ld	e,(hl)
+   0775 23                 3679 	inc	hl
+   0776 56                 3680 	ld	d,(hl)
+   0777 1A                 3681 	ld	a,(de)
+   0778 F8 04              3682 	lda	hl,4(sp)
+   077A 77                 3683 	ld	(hl),a
+                           3684 ; genAssign
+                           3685 ; AOP_HL for _fallspeed
+   077B 21 E7 00           3686 	ld	hl,#_fallspeed + 0
+   077E 7E                 3687 	ld	a,(hl)
+                           3688 ; genPlus
+                           3689 ; AOP_STK for _main_sloc2_1_0
+                           3690 ;	genPlusIncr failed
+   077F F8 04              3691 	lda	hl,4(sp)
+   0781 86                 3692 	add	a,(hl)
+   0782 4F                 3693 	ld	c,a
+                           3694 ; genAssign (pointer)
+                           3695 ; AOP_STK for _main_sloc4_1_0
+   0783 F8 00              3696 	lda	hl,0(sp)
+   0785 5E                 3697 	ld	e,(hl)
+   0786 23                 3698 	inc	hl
+   0787 56                 3699 	ld	d,(hl)
+   0788 79                 3700 	ld	a,c
+   0789 12                 3701 	ld	(de),a
+                           3702 ;	sprite_run.c 157
+                           3703 ; genCmpLt
+   078A 79                 3704 	ld	a,c
+   078B FE A0              3705 	cp	#0xA0
+   078D DA 97 07           3706 	jp	c,00118$
+                           3707 ;	sprite_run.c 158
+                           3708 ; genAssign (pointer)
+                           3709 ; AOP_STK for _main_sloc4_1_0
+   0790 2B                 3710 	dec	hl
+   0791 5E                 3711 	ld	e,(hl)
+   0792 23                 3712 	inc	hl
+   0793 56                 3713 	ld	d,(hl)
+   0794 3E A0              3714 	ld	a,#0xA0
+   0796 12                 3715 	ld	(de),a
+                           3716 ; genLabel
+   0797                    3717 00118$:
+                           3718 ;	sprite_run.c 160
+                           3719 ; genPointerGet
+                           3720 ; AOP_STK for _main_sloc1_1_0
+   0797 F8 06              3721 	lda	hl,6(sp)
+   0799 5E                 3722 	ld	e,(hl)
+   079A 23                 3723 	inc	hl
+   079B 56                 3724 	ld	d,(hl)
+   079C 1A                 3725 	ld	a,(de)
+   079D 4F                 3726 	ld	c,a
+                           3727 ; genPlus
+                           3728 ; genPlusIncr
+   079E 11 EC 00           3729 	ld	de,#_kirby + 0 + 4
+                           3730 ; genPointerGet
+   07A1 1A                 3731 	ld	a,(de)
+   07A2 47                 3732 	ld	b,a
+                           3733 ; genCmpEq
+   07A3 79                 3734 	ld	a,c
+   07A4 B8                 3735 	cp	b ; 4
+   07A5 C2 AA 07           3736 	jp	nz,00144$
+   07A8 18 03              3737 	jr	00145$
+   07AA                    3738 00144$:
+   07AA C3 C5 07           3739 	jp	00120$
+   07AD                    3740 00145$:
+                           3741 ;	sprite_run.c 161
+                           3742 ; genPointerGet
+                           3743 ; AOP_STK for _main_sloc3_1_0
+   07AD F8 02              3744 	lda	hl,2(sp)
+   07AF 5E                 3745 	ld	e,(hl)
+   07B0 23                 3746 	inc	hl
+   07B1 56                 3747 	ld	d,(hl)
+   07B2 1A                 3748 	ld	a,(de)
+   07B3 4F                 3749 	ld	c,a
+                           3750 ; genAssign (pointer)
+                           3751 ; AOP_STK for _main_sloc4_1_0
+   07B4 F8 00              3752 	lda	hl,0(sp)
+   07B6 5E                 3753 	ld	e,(hl)
+   07B7 23                 3754 	inc	hl
+   07B8 56                 3755 	ld	d,(hl)
+   07B9 79                 3756 	ld	a,c
+   07BA 12                 3757 	ld	(de),a
+                           3758 ;	sprite_run.c 162
+                           3759 ; genPlus
+                           3760 ; genPlusIncr
+   07BB 11 FC 00           3761 	ld	de,#_bomb + 0 + 4
+                           3762 ; genAssign (pointer)
+   07BE 78                 3763 	ld	a,b
+   07BF 12                 3764 	ld	(de),a
+                           3765 ;	sprite_run.c 163
+                           3766 ; genAssign
+                           3767 ; AOP_HL for _fallspeed
+   07C0 21 E7 00           3768 	ld	hl,#_fallspeed + 0
+   07C3 36 04              3769 	ld	(hl),#0x04
+                           3770 ; genLabel
+   07C5                    3771 00120$:
+                           3772 ;	sprite_run.c 166
+                           3773 ; genPointerGet
+                           3774 ; AOP_STK for _main_sloc4_1_0
+   07C5 F8 00              3775 	lda	hl,0(sp)
+   07C7 5E                 3776 	ld	e,(hl)
+   07C8 23                 3777 	inc	hl
+   07C9 56                 3778 	ld	d,(hl)
+   07CA 1A                 3779 	ld	a,(de)
+   07CB 4F                 3780 	ld	c,a
+                           3781 ; genPlus
+                           3782 ; genPlusIncr
+   07CC 11 FC 00           3783 	ld	de,#_bomb + 0 + 4
+                           3784 ; genPointerGet
+   07CF 1A                 3785 	ld	a,(de)
+   07D0 47                 3786 	ld	b,a
+                           3787 ; genIpush
+   07D1 79                 3788 	ld	a,c
+   07D2 F5                 3789 	push	af
+   07D3 33                 3790 	inc	sp
+                           3791 ; genIpush
+   07D4 78                 3792 	ld	a,b
+   07D5 F5                 3793 	push	af
+   07D6 33                 3794 	inc	sp
+                           3795 ; genIpush
+   07D7 21 F8 00           3796 	ld	hl,#_bomb + 0
+   07DA E5                 3797 	push	hl
+                           3798 ; genCall
+   07DB CD 00 00           3799 	call	_movegamecharacter
+   07DE E8 04              3800 	lda	sp,4(sp)
+                           3801 ;	sprite_run.c 167
+                           3802 ; genIpush
+   07E0 21 01 00           3803 	ld	hl,#0x0001
+   07E3 E5                 3804 	push	hl
+                           3805 ; genCall
+   07E4 CD 00 00           3806 	call	_delay
+   07E7 E8 02              3807 	lda	sp,2(sp)
+                           3808 ; genGoto
+   07E9 C3 DA 05           3809 	jp	00121$
+                           3810 ; genLabel
+   07EC                    3811 00123$:
+                           3812 ;	sprite_run.c 169
+                           3813 ; genIpush
+   07EC 21 F9 07           3814 	ld	hl,#__str_0 + 0
+   07EF E5                 3815 	push	hl
+                           3816 ; genCall
+   07F0 CD 00 00           3817 	call	_printf
+   07F3 E8 02              3818 	lda	sp,2(sp)
+                           3819 ; genLabel
+   07F5                    3820 00124$:
+                           3821 ; genEndFunction
+   07F5 E8 09              3822 	lda	sp,9(sp)
+   07F7 C1                 3823 	pop	bc
+   07F8 C9                 3824 	ret
+   07F9                    3825 ___main_end:
+   07F9                    3826 __str_0:
+   07F9 0A                 3827 	.db 0x0A
+   07FA 20                 3828 	.ascii " "
+   07FB 0A                 3829 	.db 0x0A
+   07FC 20                 3830 	.ascii " "
+   07FD 0A                 3831 	.db 0x0A
+   07FE 20                 3832 	.ascii " "
+   07FF 0A                 3833 	.db 0x0A
+   0800 20                 3834 	.ascii " "
+   0801 0A                 3835 	.db 0x0A
+   0802 20 20 20 20 20 20  3836 	.ascii "        Game"
+        20 20 47 61 6D 65
+   080E 00                 3837 	.db 0x00
+                           3838 	.area _CODE
+ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
+
+Symbol Table
+
+    _BCPD_REG                          **** GX
+    _BCPS_REG                          **** GX
+    _BGP_REG                           **** GX
+    _DIV_REG                           **** GX
+    _DMA_REG                           **** GX
+    _HDMA1_REG                         **** GX
+    _HDMA2_REG                         **** GX
+    _HDMA3_REG                         **** GX
+    _HDMA4_REG                         **** GX
+    _HDMA5_REG                         **** GX
+    _IE_REG                            **** GX
+    _IF_REG                            **** GX
+    _KEY1_REG                          **** GX
+    _LCDC_REG                          **** GX
+    _LYC_REG                           **** GX
+    _LY_REG                            **** GX
+    _NR10_REG                          **** GX
+    _NR11_REG                          **** GX
+    _NR12_REG                          **** GX
+    _NR13_REG                          **** GX
+    _NR14_REG                          **** GX
+    _NR21_REG                          **** GX
+    _NR22_REG                          **** GX
+    _NR23_REG                          **** GX
+    _NR24_REG                          **** GX
+    _NR30_REG                          **** GX
+    _NR31_REG                          **** GX
+    _NR32_REG                          **** GX
+    _NR33_REG                          **** GX
+    _NR34_REG                          **** GX
+    _NR41_REG                          **** GX
+    _NR42_REG                          **** GX
+    _NR43_REG                          **** GX
+    _NR44_REG                          **** GX
+    _NR50_REG                          **** GX
+    _NR51_REG                          **** GX
+    _NR52_REG                          **** GX
+    _OBP0_REG                          **** GX
+    _OBP1_REG                          **** GX
+    _OCPD_REG                          **** GX
+    _OCPS_REG                          **** GX
+    _P1_REG                            **** GX
+    _RP_REG                            **** GX
+    _SB_REG                            **** GX
+    _SCX_REG                           **** GX
+    _SCY_REG                           **** GX
+    _SC_REG                            **** GX
+    _STAT_REG                          **** GX
+    _SVBK_REG                          **** GX
+    _TAC_REG                           **** GX
+    _TIMA_REG                          **** GX
+    _TMA_REG                           **** GX
+    _VBK_REG                           **** GX
+    _WX_REG                            **** GX
+    _WY_REG                            **** GX
+  0 ___checkcollisions_end             0508 R
+  0 ___checkcollisions_start           0243 R
+  0 ___jump_end                        05B1 R
+  0 ___jump_start                      051D R
+  0 ___main_end                        07F9 R
+  0 ___main_start                      05B1 R
+  0 ___movegamecharacter_end           008A R
+  0 ___movegamecharacter_start         0000 R
+  0 ___setupbomb_end                   0243 R
+  0 ___setupbomb_start                 01B0 R
+  0 ___setupkirby_end                  011D R
+  0 ___setupkirby_start                008A R
+  0 ___setupsmiley_end                 01B0 R
+  0 ___setupsmiley_start               011D R
+  0 ___wouldhitsurface_end             051D R
+  0 ___wouldhitsurface_start           0508 R
+    __cpu                              **** GX
+    __io_in                            **** GX
+    __io_out                           **** GX
+    __io_status                        **** GX
+  0 __str_0                            07F9 R
+  1 _bomb                              00F8 GR
+  0 _checkcollisions                   0243 GR
+  1 _currentspeedY                     00E2 GR
+    _delay                             **** GX
+  1 _fallspeed                         00E7 GR
+  1 _floorYposition                    00E3 GR
+  1 _gravity                           00E1 GR
+    _joypad                            **** GX
+  0 _jump                              051D GR
+  1 _jumping                           00E0 GR
+  1 _kirbs16                           0000 GR
+  1 _kirby                             00E8 GR
+  0 _main                              05B1 GR
+    _move_sprite                       **** GX
+  0 _movegamecharacter                 0000 GR
+    _printf                            **** GX
+    _set_sprite_data                   **** GX
+    _set_sprite_tile                   **** GX
+  0 _setupbomb                         01B0 GR
+  0 _setupkirby                        008A GR
+  0 _setupsmiley                       011D GR
+  1 _smiley                            00F0 GR
+  1 _speedx                            00E6 GR
+  1 _spritesize                        00E4 GR
+  1 _spritestate                       00E5 GR
+    _sys_time                          **** GX
+  0 _wouldhitsurface                   0508 GR
+
+ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 2.
+
+Area Table
+
+   0 _CODE                              size  80F   flags 0
+   1 _DATA                              size  100   flags 0
+   2 _OVERLAY                           size    0   flags 0
+   3 _ISEG                              size    0   flags 0
+   4 _BSEG                              size    0   flags 0
+   5 _XSEG                              size    0   flags 0
+   6 _GSINIT                            size  55E   flags 0
+   7 _GSFINAL                           size    0   flags 0
+   8 _HOME                              size    0   flags 0
