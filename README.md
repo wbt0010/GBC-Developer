@@ -1,2 +1,2 @@
 # GBC-Developer
-A joint project 
+Gameboy games developed using GBDK, GBTD, and GBMD. Written in C 
