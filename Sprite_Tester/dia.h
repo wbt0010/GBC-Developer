@@ -12,9 +12,9 @@
   Tile size            : 8 x 8
   Tiles                : 0 to 5
 
-  Palette colors       : None.
+  Palette colors       : Included.
   SGB Palette          : None.
-  CGB Palette          : None.
+  CGB Palette          : 1 Byte per entry.
 
   Convert to metatiles : No.
 
@@ -25,6 +25,80 @@
 
 /* Bank of tiles. */
 #define diaBank 0
+
+/* Super Gameboy palette 0 */
+#define diaSGBPal0c0 6076
+#define diaSGBPal0c1 8935
+#define diaSGBPal0c2 6596
+#define diaSGBPal0c3 5344
+
+/* Super Gameboy palette 1 */
+#define diaSGBPal1c0 6076
+#define diaSGBPal1c1 8935
+#define diaSGBPal1c2 6596
+#define diaSGBPal1c3 5344
+
+/* Super Gameboy palette 2 */
+#define diaSGBPal2c0 6076
+#define diaSGBPal2c1 8935
+#define diaSGBPal2c2 6596
+#define diaSGBPal2c3 5344
+
+/* Super Gameboy palette 3 */
+#define diaSGBPal3c0 6076
+#define diaSGBPal3c1 8935
+#define diaSGBPal3c2 6596
+#define diaSGBPal3c3 5344
+
+/* Gameboy Color palette 0 */
+#define diaCGBPal0c0 31708
+#define diaCGBPal0c1 31714
+#define diaCGBPal0c2 19432
+#define diaCGBPal0c3 8000
+
+/* Gameboy Color palette 1 */
+#define diaCGBPal1c0 6076
+#define diaCGBPal1c1 8935
+#define diaCGBPal1c2 6596
+#define diaCGBPal1c3 5344
+
+/* Gameboy Color palette 2 */
+#define diaCGBPal2c0 6076
+#define diaCGBPal2c1 8935
+#define diaCGBPal2c2 6596
+#define diaCGBPal2c3 5344
+
+/* Gameboy Color palette 3 */
+#define diaCGBPal3c0 6076
+#define diaCGBPal3c1 8935
+#define diaCGBPal3c2 6596
+#define diaCGBPal3c3 5344
+
+/* Gameboy Color palette 4 */
+#define diaCGBPal4c0 6076
+#define diaCGBPal4c1 8935
+#define diaCGBPal4c2 6596
+#define diaCGBPal4c3 5344
+
+/* Gameboy Color palette 5 */
+#define diaCGBPal5c0 6076
+#define diaCGBPal5c1 8935
+#define diaCGBPal5c2 6596
+#define diaCGBPal5c3 5344
+
+/* Gameboy Color palette 6 */
+#define diaCGBPal6c0 6076
+#define diaCGBPal6c1 8935
+#define diaCGBPal6c2 6596
+#define diaCGBPal6c3 5344
+
+/* Gameboy Color palette 7 */
+#define diaCGBPal7c0 6076
+#define diaCGBPal7c1 8935
+#define diaCGBPal7c2 6596
+#define diaCGBPal7c3 5344
+/* CGBpalette entries. */
+extern unsigned char diaCGB[];
 /* Start of tile array. */
 extern unsigned char dia[];
 
