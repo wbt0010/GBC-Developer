@@ -1,8 +1,8 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
 #include <stdio.h>
-//#include "enemies.c"
 #include "Variable_pckg.c"
+#include "enemies.c"
 #include "map_v1_1.h"
 #include "Grassland.h"
 //Name of file with sprite martices
@@ -65,25 +65,10 @@ void performantdelay(UINT8 numloops){
     }     
 }
 
-//pseudo tower meta sprites
-/*move_sprite(tower a bottom right, towerAlocation[0]+8, towerAlocation[1]);
-move_sprite(tower a top right, towerAlocation[0]+8, towerAlocation[1]-8);
-move_sprite(tower a top left, towerAlocation[0], towerAlocation[1]-8);
-*/
-
-/*move_sprite(tower B bottom right, towerBlocation[0]+8, towerBlocation[1]);
-move_sprite(tower B top right, towerBlocation[0]+8, towerBlocation[1]-8);
-move_sprite(tower B top left, towerBlocation[0], towerBlocation[1]-8);
-*/
-
-/*move_sprite(tower C bottom right, towerClocation[0]+8, towerClocation[1]);
-move_sprite(tower C top right, towerClocation[0]+8, towerClocation[1]-8);
-move_sprite(tower C top left, towerClocation[0], towerClocation[1]-8);
-*/
-
 void main(){
 
-definevar();
+    definevar();
+    //projectile();
 
     set_sprite_data(0, 3, dia);
     set_sprite_palette(0,1,&spritepalette[0]);
@@ -100,10 +85,15 @@ definevar();
     //(Entity #, Number Tile desired to be displayed)
     //Tile displayed can be changed with changed with variable i.e. set_sprite_tile(0,a)
     //selector tile(tile identifyer, tile location)
+
+    //Selector
     set_sprite_tile(0,0);
+    //Crosshair
     set_sprite_tile(1,1);
+    //Projectile
     set_sprite_tile(2,2);
     set_sprite_prop(0,0);
+
     SHOW_BKG;
     DISPLAY_ON;
     SHOW_SPRITES;

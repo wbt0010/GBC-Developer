@@ -1,24 +1,10 @@
-/*
-#include <gb/gb.h>
+/*#include <gb/gb.h>
 #include <gb/cgb.h>
-
-UINT8 spawn = 0;
-UINT8 spawnlocal = 0;
-UINT8 enemyspawn0[2];
-UINT8 enemyspawn1[2];
-UINT8 enemyspawn2[2];
-UINT8 enemyspawn3[2];
-UINT8 enemyspawn4[2];
-UINT8 enemyspawn5[2];
-UINT8 enemyspawn6[2];
-UINT8 enemyspawn7[2];
-UINT8 enemyspawn8[2];
-UINT8 enemyspawn9[2];
-UINT8 enemyspawn10[2];
-
-
+#include <stdio.h>
+#include "Variable_pckg.c"
 
 void enemies{
+definevar();
 enemyspawn[0] = 80;
 enemyspawn[1] = 0;
 if(enemyspawn[1] <= 70){
