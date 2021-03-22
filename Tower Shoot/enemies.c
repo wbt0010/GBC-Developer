@@ -4,7 +4,19 @@
 
 UINT8 spawn = 0;
 UINT8 spawnlocal = 0;
-UINT8 enemyspawn[2];
+UINT8 enemyspawn0[2];
+UINT8 enemyspawn1[2];
+UINT8 enemyspawn2[2];
+UINT8 enemyspawn3[2];
+UINT8 enemyspawn4[2];
+UINT8 enemyspawn5[2];
+UINT8 enemyspawn6[2];
+UINT8 enemyspawn7[2];
+UINT8 enemyspawn8[2];
+UINT8 enemyspawn9[2];
+UINT8 enemyspawn10[2];
+
+
 
 void enemies{
 enemyspawn[0] = 80;
