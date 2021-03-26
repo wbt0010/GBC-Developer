@@ -3,9 +3,10 @@
 #include <stdio.h>
 #include "Variable_pckg.c"
 #include "enemies.c"
+//Background Tiles
 #include "map_v1_1.h"
 #include "Grassland.h"
-//Name of file with sprite martices
+//Sprite Tiles with Color
 #include "dia.h"
 
 const UWORD backgpalette[] = {
@@ -78,7 +79,6 @@ void main(){
     set_bkg_tiles(0, 0, GrasslandWidth, GrasslandHeight, GrasslandPLN1);
     VBK_REG = 0;
     set_bkg_tiles(0, 0, GrasslandWidth, GrasslandHeight, GrasslandPLN0);
-    
     set_bkg_palette(0,1,&backgpalette[0]);
     
     //(First Sprite tile desired, Final Sprite tile desired, VariableXY name)
