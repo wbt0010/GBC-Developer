@@ -105,41 +105,28 @@ UINT8 enemydistvect8[3] = {distvectA[8], distvectB[8], distvectC[8]};
 UINT8 enemydistvect9[3] = {distvectA[9], distvectB[9], distvectC[9]};
 UINT8 enemydistvect10[3] = {distvectA[10], distvectB[10], distvectC[10]};
 
+UINT8 enemyAttack = 0;
+
 void definevar() {
 //tower sprite location [0],x [1],y
-towerAlocation[0] = 80;
-towerAlocation[1] = 108;
+towerAlocation[0] = 96;
+towerAlocation[1] = 148;
 
 //tower sprite location [0],x [1],y
 towerBlocation[0] = 40;
-towerBlocation[1] = 72;
+towerBlocation[1] = 88;
 
 //tower sprite location [0],x [1],y
-towerClocation[0] = 120;
+towerClocation[0] = 125;
 towerClocation[1] = 72;
-
-//pseudo tower meta sprites
-/*move_sprite(tower a bottom right, towerAlocation[0]+8, towerAlocation[1]);
-move_sprite(tower a top right, towerAlocation[0]+8, towerAlocation[1]-8);
-move_sprite(tower a top left, towerAlocation[0], towerAlocation[1]-8);
-*/
-
-/*move_sprite(tower B bottom right, towerBlocation[0]+8, towerBlocation[1]);
-move_sprite(tower B top right, towerBlocation[0]+8, towerBlocation[1]-8);
-move_sprite(tower B top left, towerBlocation[0], towerBlocation[1]-8);
-*/
-
-/*move_sprite(tower C bottom right, towerClocation[0]+8, towerClocation[1]);
-move_sprite(tower C top right, towerClocation[0]+8, towerClocation[1]-8);
-move_sprite(tower C top left, towerClocation[0], towerClocation[1]-8);
-*/
-
 //initializing selector location
 selectorlocation[0] = towerAlocation[0];
 selectorlocation[1] = towerAlocation[1];
 crosshairlocation[0] = 80;
 crosshairlocation[1] = 72;
-
+//Enemy Spawn
+enemyspawn0[0] = 20;
+enemyspawn0[1] = 0;
 //tower A to enemy distance
 tAted0 = (towerAlocation[0] - enemyspawn0[0]) + (towerAlocation[1] - enemyspawn0[1]);
 tAted1 = (towerAlocation[0] - enemyspawn1[0]) + (towerAlocation[1] - enemyspawn1[1]);
