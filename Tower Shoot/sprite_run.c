@@ -1,6 +1,7 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
-#include <gb/font.h>
+#include <gbdk/font.h>
+// Can't compile? UPDATE YOUR GBDK!!!
 #include <stdio.h>
 #include "Variable_pckg.c"
 #include "enemies.c"
@@ -9,7 +10,7 @@
 #include "Grassland.h"
 //Sprite Tiles with Color
 #include "GTP.h"
-void enemymovement();
+// void enemymovement();
 void selector();
 void crosshair();
 const UWORD backgpalette[] = {
@@ -196,7 +197,7 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-    enemymovement();
+   // enemymovement();
     selector();
     crosshair();
     status = 0;
