@@ -1,5 +1,6 @@
 #include <gb/gb.h>
 #include <gb/cgb.h>
+#include <gb/font.h>
 #include <stdio.h>
 #include "Variable_pckg.c"
 #include "enemies.c"
@@ -69,7 +70,13 @@ void performantdelay(UINT8 numloops){
 }
 
 void main(){
+    /*
+    font_t min_font;
 
+    font_init();
+    min_font = font_load(font_min);
+    font_set(min_font);
+*/
     definevar();
     //projectile();
     //Sprite Tile Set
@@ -165,6 +172,7 @@ void main(){
     move_sprite(12, towerBlocation[0], towerBlocation[1] - 24);
     //tower b top left
     move_sprite(10, towerBlocation[0] - 8, towerBlocation[1] - 24);
+    
    
     //tower c bottom right
     move_sprite(25, towerClocation[0], towerClocation[1]);
@@ -199,21 +207,26 @@ void main(){
 
 void selector(){
 if(status == 0){
-        if(joypad() & J_DOWN){
+    switch(joypad()){
+            case J_DOWN:
             selectorlocation[0] = towerAlocation[0];
             selectorlocation[1] = towerAlocation[1];
             mappos = 0;
-        }
-        if(joypad() & J_LEFT){
+            break;
+
+            case J_LEFT:
             selectorlocation[0] = towerBlocation[0];
             selectorlocation[1] = towerBlocation[1];
             mappos = 1;
-        }
-        if(joypad() & J_RIGHT){
+            break;
+
+            case J_RIGHT:
             selectorlocation[0] = towerClocation[0];
             selectorlocation[1] = towerClocation[1];
             mappos = 2;
+            break;
             }
+            
         }
 }
 
@@ -221,6 +234,7 @@ void crosshair(){
     while(joypad() & J_B){
             status = 1;
             move_sprite(0, outofthefuckingway[0], outofthefuckingway[1]);
+        
             if(joypad() & J_UP && crosshairlocation[1] >= 20){
                 crosshairlocation[1] = crosshairlocation[1] - 1;
             }
@@ -233,61 +247,51 @@ void crosshair(){
             if(joypad() & J_RIGHT && crosshairlocation[0] <= towerClocation[0]){
                 crosshairlocation[0] = crosshairlocation[0] + 1;
              }
+
             if(joypad() & J_A){
                 //drop selected special
-                move_sprite(0, selectorlocation[0], selectorlocation[1]);
+                move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
             }
             move_sprite(1, crosshairlocation[0], crosshairlocation[1]);
             delay(8);
         }
 }
 
-void enemymovement(){
-    if(distvectA[0] > distvectB[0]){
-        enemyAttack = 1;
+//If loop to prevent cycling through options or movements too quickly
+void keypress(){
+if (keydown){
+    waitpadup();
+    keydown = 0;
     }
-    else{
-        enemyAttack = 0;
-    }
-        if (enemyAttack = 1){
-            if(enemyspawn0[0] < towerAlocation[0]){
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[0] += 1; }
-            else{ 
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[0] -= 1;
-            delay(50);
-        }}
-        
-        if (enemyAttack = 1){
-            if(enemyspawn0[1] < towerAlocation[1]){
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[1] += 1;
-            }
-            else{ 
-            move_sprite(26, enemyspawn0[1], enemyspawn0[1]);
-            enemyspawn0[1] -= 1;
-            delay(50);
-        }}
-
-        if (enemyAttack = 0){
-            if(enemyspawn0[0] < towerBlocation[0]){
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[0] += 1; }
-            else{ 
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[0] -= 1;
-            delay(50);
-        }}
-        
-        if (enemyAttack = 0){
-            if(enemyspawn0[1] < towerBlocation[1]){
-            move_sprite(26, enemyspawn0[0], enemyspawn0[1]);
-            enemyspawn0[1] += 1;
-            }
-            else{ 
-            move_sprite(26, enemyspawn0[1], enemyspawn0[1]);
-            enemyspawn0[1] -= 1;
-            delay(50);
-        }}
 }
+
+/**
+int minimum(int[] arr)
+{
+    int temp = arr[0];
+
+    for(int i = 1; i < arr.length; i++)
+    {
+        if(arr[i] < temp) temp = arr[i];
+    }
+    return temp;
+}
+**/
+
+void special(){
+//Mini display of which special is selected: bomb = 1, arrowstorm = 2, lightning = 3.
+keypress(); 
+specSel = 1;
+//changes selection of special
+if(joypad() & J_SELECT){
+    keydown = 1;
+    specSel += 1;
+    //move_sprite(icon, x, y);
+}
+
+//cycles through special selections
+if (specSel > 3){
+    specSel = 1;
+    }
+}
+

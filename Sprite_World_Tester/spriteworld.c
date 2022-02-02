@@ -51,30 +51,34 @@ void main(){
     setupsmiley();
     setupbomb();
     setupheart();
-    setupheart1();
-    setupheart2();
 
     SHOW_SPRITES;
 
 while(lives < 3){
 
     endgame();
-        
+
+
     if(lives == 1){
-        heart.y = 0;
+        heart[mult].y = 0;
+        movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
+        mult=1;
     }
 
     if(lives == 2){
-        heart1.y = 0;
+        heart[mult].y = 0;
+        movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
+        mult=2;
     }
 
     if(lives == 3){
-        heart2.y = 0;
+        heart[mult].y = 0;
+        movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
     }
 
-    movegamecharactersmall(&heart, heart.x, heart.y);
-    movegamecharactersmall(&heart1, heart1.x, heart1.y);
-    movegamecharactersmall(&heart2, heart2.x, heart2.y);
+
+
+    
 
         if((joypad() & J_UP) || jumping == 1){
             jump(0, kirby);
@@ -131,7 +135,6 @@ while(lives < 3){
         movegamecharacter(&bomb, bomb.x, bomb.y);
 
         performantdelay(3);
-        
     }
     
     printf("\n \n \n \n \n        Game");

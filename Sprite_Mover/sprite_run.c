@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "kirbs16.c"
 #include "GameCharacter.c"
+#include "GameCharacterLarge.c"
 
 BYTE jumping;
 UINT8 gravity = -1; //how fast the player falls
@@ -13,7 +14,7 @@ INT8 speedx = 2;
 INT8 fallspeed = 3;
 
 struct GameCharacter kirby;
-struct GameCharacter smiley;
+struct GameCharacterLarge smiley;
 struct GameCharacter bomb;
 
 void movegamecharacter(struct GameCharacter* character, UINT8 x, UINT8 y){
@@ -21,6 +22,16 @@ void movegamecharacter(struct GameCharacter* character, UINT8 x, UINT8 y){
     move_sprite(character->spriteids[1], x + spritesize, y);
     move_sprite(character->spriteids[2], x, y + spritesize);
     move_sprite(character->spriteids[3], x + spritesize, y + spritesize);
+}
+
+void movegamecharacterlarge(struct GameCharacterLarge* characterlarge, UINT8 x, UINT8 y){
+    move_sprite(characterlarge->spriteidslarge[0], x, y);
+    move_sprite(characterlarge->spriteidslarge[1], x + spritesize, y);
+    move_sprite(characterlarge->spriteidslarge[2], x, y + spritesize);
+    move_sprite(characterlarge->spriteidslarge[3], x + spritesize, y + spritesize);
+    move_sprite(characterlarge->spriteidslarge[4], x, y - spritesize);
+    move_sprite(characterlarge->spriteidslarge[5], x + spritesize, y - spritesize);
+
 }
 
 void setupkirby(){
@@ -46,25 +57,29 @@ void setupsmiley(){
     smiley.x = 10;
     smiley.y = 40;
     smiley.width = 16;
-    smiley.height = 16;
+    smiley.height = 24;
     
     //smiley sprite tiles
     set_sprite_tile(4, 4);
-    smiley.spriteids[0] = 4;
+    smiley.spriteidslarge[0] = 4;
     set_sprite_tile(5, 5);
-    smiley.spriteids[1] = 5;
+    smiley.spriteidslarge[1] = 5;
     set_sprite_tile(6, 6);
-    smiley.spriteids[2] = 6;
+    smiley.spriteidslarge[2] = 6;
     set_sprite_tile(7, 7);
-    smiley.spriteids[3] = 7;
+    smiley.spriteidslarge[3] = 7;
+    set_sprite_tile(12, 12);
+    smiley.spriteidslarge[4] = 12;
+    set_sprite_tile(13, 13);
+    smiley.spriteidslarge[5] = 13;
 
-    movegamecharacter(&smiley, smiley.x, smiley.y);
+    movegamecharacterlarge(&smiley, smiley.x, smiley.y);
 }
 void setupbomb(){
     bomb.x = 10;
     bomb.y = 160;
-    bomb.width = 16;
-    bomb.height = 16;
+    bomb.width = 14;
+    bomb.height = 13;
     
     //bomb sprite tiles
     set_sprite_tile(8, 8);
@@ -80,7 +95,7 @@ void setupbomb(){
 }
 
 
-UBYTE checkcollisions(struct GameCharacter* one, struct GameCharacter* two, struct GameCharacter* three){
+UBYTE checkcollisions(struct GameCharacter* one, struct GameCharacterLarge* two, struct GameCharacter* three){
     return (one->x >= two->x && one->x <= two->x + two->width) && (one->y >= two->y && one->y <= two->y + two->height) || (two->x >= one->x && two->x <= one->x + one->width) && (two->y >= one->y && two->y <= one->y + one->height) || (one->x >= three->x && one->x <= three->x + three->width) && (one->y >= three->y && one->y <= three->y + three->height) || (three->x >= one->x && three->x <= one->x + one->width) && (three->y >= one->y && three->y <= one->y + one->height);
 }
 INT8 wouldhitsurface(UINT8 projectedYPosition){
@@ -114,7 +129,7 @@ void jump(){
 
 void main(){    
 
-    set_sprite_data(0, 16, kirbs16);
+    set_sprite_data(0, 14, kirbs16);
     setupkirby();
     setupsmiley();
     setupbomb();
@@ -151,7 +166,7 @@ void main(){
               speedx = -2;
               spritestate += 1;
         }
-        movegamecharacter(&smiley, smiley.x, smiley.y);
+        movegamecharacterlarge(&smiley, smiley.x, smiley.y);
 
         bomb.y += fallspeed;
         if(bomb.y >= 160){

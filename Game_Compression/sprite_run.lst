@@ -1,9 +1,9 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Sun Jan 26 23:56:48 2020
+                              3 ; Version 2.2.1 Fri Jan 31 01:26:11 2020
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc135160
+                              6 	.module lcc140960
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
@@ -163,7 +163,7 @@
                             163 	.area _GSINIT
                             164 	.area _GSFINAL
                             165 	.area _GSINIT
-                            166 ;	sprite_run.c 80
+                            166 ;	sprite_run.c 74
                             167 ; genAssign (pointer)
    0000 11 00 00            168 	ld	de,#_kirbs16 + 0
    0003 3E 07               169 	ld	a,#0x07
@@ -1506,32 +1506,32 @@
                            1506 ; genAssign (pointer)
    053D 3E C0              1507 	ld	a,#0xC0
    053F 12                 1508 	ld	(de),a
-                           1509 ;	sprite_run.c 80
+                           1509 ;	sprite_run.c 74
                            1510 ; genAssign
                            1511 ; AOP_HL for _spritesize
    0540 21 E0 00           1512 	ld	hl,#_spritesize + 0
    0543 36 08              1513 	ld	(hl),#0x08
-                           1514 ;	sprite_run.c 80
+                           1514 ;	sprite_run.c 74
                            1515 ; genAssign
                            1516 ; AOP_HL for _gravity
    0545 21 FC 00           1517 	ld	hl,#_gravity + 0
    0548 36 FF              1518 	ld	(hl),#0xFF
-                           1519 ;	sprite_run.c 80
+                           1519 ;	sprite_run.c 74
                            1520 ; genAssign
                            1521 ; AOP_HL for _floorYposition
    054A 21 FE 00           1522 	ld	hl,#_floorYposition + 0
    054D 36 8B              1523 	ld	(hl),#0x8B
-                           1524 ;	sprite_run.c 80
+                           1524 ;	sprite_run.c 74
                            1525 ; genAssign
                            1526 ; AOP_HL for _spritestate
    054F 21 FF 00           1527 	ld	hl,#_spritestate + 0
    0552 36 00              1528 	ld	(hl),#0x00
-                           1529 ;	sprite_run.c 80
+                           1529 ;	sprite_run.c 74
                            1530 ; genAssign
                            1531 ; AOP_HL for _speedx
    0554 21 00 01           1532 	ld	hl,#_speedx + 0
    0557 36 02              1533 	ld	(hl),#0x02
-                           1534 ;	sprite_run.c 80
+                           1534 ;	sprite_run.c 74
                            1535 ; genAssign
                            1536 ; AOP_HL for _fallspeed
    0559 21 01 01           1537 	ld	hl,#_fallspeed + 0
@@ -3469,7 +3469,7 @@
    06A5 C1                 3469 	pop	bc
    06A6 C9                 3470 	ret
    06A7                    3471 ___jump_end:
-                           3472 ;	sprite_run.c 21
+                           3472 ;	sprite_run.c 18
                            3473 ; genLabel
                            3474 ; genFunction
                            3475 ;	---------------------------------
@@ -3479,7 +3479,7 @@
    06A7                    3479 _main:
    06A7 C5                 3480 	push	bc
    06A8 E8 F7              3481 	lda	sp,-9(sp)
-                           3482 ;	sprite_run.c 23
+                           3482 ;	sprite_run.c 20
                            3483 ; genIpush
    06AA 21 00 00           3484 	ld	hl,#_kirbs16 + 0
    06AD E5                 3485 	push	hl
@@ -3494,16 +3494,16 @@
                            3494 ; genCall
    06B6 CD 00 00           3495 	call	_set_sprite_data
    06B9 E8 04              3496 	lda	sp,4(sp)
-                           3497 ;	sprite_run.c 24
+                           3497 ;	sprite_run.c 21
                            3498 ; genCall
    06BB CD ED 01           3499 	call	_setupkirby
-                           3500 ;	sprite_run.c 25
+                           3500 ;	sprite_run.c 22
                            3501 ; genCall
    06BE CD 80 02           3502 	call	_setupsmiley
-                           3503 ;	sprite_run.c 26
+                           3503 ;	sprite_run.c 23
                            3504 ; genCall
    06C1 CD 5A 01           3505 	call	_setupbomb
-                           3506 ;	sprite_run.c 28
+                           3506 ;	sprite_run.c 25
                            3507 ; genOr
                            3508 ; AOP_SFR for _LCDC_REG
                            3509 ; Type res[4] = l[4]&r[1]
@@ -3511,7 +3511,7 @@
    06C4 F0 00              3511 	ldh	a,(_LCDC_REG+0) ; x
    06C6 F6 80              3512 	or	a,#0x80
    06C8 E0 00              3513 	ldh	(_LCDC_REG+0),a
-                           3514 ;	sprite_run.c 29
+                           3514 ;	sprite_run.c 26
                            3515 ; genOr
                            3516 ; AOP_SFR for _LCDC_REG
                            3517 ; Type res[4] = l[4]&r[1]
@@ -3519,7 +3519,7 @@
    06CA F0 00              3519 	ldh	a,(_LCDC_REG+0) ; x
    06CC F6 02              3520 	or	a,#0x02
    06CE E0 00              3521 	ldh	(_LCDC_REG+0),a
-                           3522 ;	sprite_run.c 31
+                           3522 ;	sprite_run.c 28
                            3523 ; genLabel
    06D0                    3524 00121$:
                            3525 ; genIpush
@@ -3540,7 +3540,7 @@
    06E2 AF                 3540 	xor	a,a
    06E3 B1                 3541 	or	a,c
    06E4 C2 E2 08           3542 	jp	nz,00123$
-                           3543 ;	sprite_run.c 32
+                           3543 ;	sprite_run.c 29
                            3544 ; genCall
    06E7 CD 00 00           3545 	call	_joypad
    06EA 4B                 3546 	ld	c,e
@@ -3560,7 +3560,7 @@
    06FF                    3560 00139$:
                            3561 ; genLabel
    06FF                    3562 00101$:
-                           3563 ;	sprite_run.c 33
+                           3563 ;	sprite_run.c 30
                            3564 ; genIpush
    06FF 21 E9 00           3565 	ld	hl,#_kirby + 0
    0702 E5                 3566 	push	hl
@@ -3573,7 +3573,7 @@
    070A E8 03              3573 	lda	sp,3(sp)
                            3574 ; genLabel
    070C                    3575 00102$:
-                           3576 ;	sprite_run.c 35
+                           3576 ;	sprite_run.c 32
                            3577 ; genCall
    070C CD 00 00           3578 	call	_joypad
    070F 4B                 3579 	ld	c,e
@@ -3581,7 +3581,7 @@
    0710 79                 3581 	ld	a,c
    0711 CB 4F              3582 	bit	1,a
    0713 CA 49 07           3583 	jp	z,00105$
-                           3584 ;	sprite_run.c 36
+                           3584 ;	sprite_run.c 33
                            3585 ; genPlus
                            3586 ; AOP_STK for _main_sloc1_1_0
                            3587 ; genPlusIncr
@@ -3618,7 +3618,7 @@
    0732 56                 3618 	ld	d,(hl)
    0733 79                 3619 	ld	a,c
    0734 12                 3620 	ld	(de),a
-                           3621 ;	sprite_run.c 37
+                           3621 ;	sprite_run.c 34
                            3622 ; genPlus
                            3623 ; genPlusIncr
    0735 11 EE 00           3624 	ld	de,#_kirby + 0 + 5
@@ -3641,7 +3641,7 @@
    0747 E8 04              3641 	lda	sp,4(sp)
                            3642 ; genLabel
    0749                    3643 00105$:
-                           3644 ;	sprite_run.c 39
+                           3644 ;	sprite_run.c 36
                            3645 ; genCall
    0749 CD 00 00           3646 	call	_joypad
    074C 4B                 3647 	ld	c,e
@@ -3649,7 +3649,7 @@
    074D 79                 3649 	ld	a,c
    074E CB 47              3650 	bit	0,a
    0750 CA 86 07           3651 	jp	z,00107$
-                           3652 ;	sprite_run.c 40
+                           3652 ;	sprite_run.c 37
                            3653 ; genPlus
                            3654 ; AOP_STK for _main_sloc2_1_0
                            3655 ; genPlusIncr
@@ -3688,7 +3688,7 @@
    076F 56                 3688 	ld	d,(hl)
    0770 79                 3689 	ld	a,c
    0771 12                 3690 	ld	(de),a
-                           3691 ;	sprite_run.c 41
+                           3691 ;	sprite_run.c 38
                            3692 ; genPlus
                            3693 ; genPlusIncr
    0772 11 EE 00           3694 	ld	de,#_kirby + 0 + 5
@@ -3711,14 +3711,14 @@
    0784 E8 04              3711 	lda	sp,4(sp)
                            3712 ; genLabel
    0786                    3713 00107$:
-                           3714 ;	sprite_run.c 43
+                           3714 ;	sprite_run.c 40
                            3715 ; genCmpLt
                            3716 ; AOP_HL for _spritestate
    0786 21 FF 00           3717 	ld	hl,#_spritestate + 0
    0789 7E                 3718 	ld	a,(hl)
    078A FE 03              3719 	cp	#0x03
    078C DA DE 07           3720 	jp	c,00112$
-                           3721 ;	sprite_run.c 44
+                           3721 ;	sprite_run.c 41
                            3722 ; genPlus
                            3723 ; AOP_STK for _main_sloc1_1_0
                            3724 ; genPlusIncr
@@ -3768,13 +3768,13 @@
    07B6 56                 3768 	ld	d,(hl)
    07B7 79                 3769 	ld	a,c
    07B8 12                 3770 	ld	(de),a
-                           3771 ;	sprite_run.c 45
+                           3771 ;	sprite_run.c 42
                            3772 ; genPlus
                            3773 ; AOP_HL for _spritestate
                            3774 ; genPlusIncr
    07B9 21 FF 00           3775 	ld	hl,#_spritestate + 0
    07BC 34                 3776 	inc	(hl)
-                           3777 ;	sprite_run.c 46
+                           3777 ;	sprite_run.c 43
                            3778 ; genCmpLt
                            3779 ; AOP_HL for _spritestate
    07BD 7E                 3780 	ld	a,(hl)
@@ -3793,12 +3793,12 @@
    07CB 3E 1E              3793 	ld	a,#0x1E
    07CD 99                 3794 	sbc	a,c ; 2
    07CE DA DE 07           3795 	jp	c,00112$
-                           3796 ;	sprite_run.c 47
+                           3796 ;	sprite_run.c 44
                            3797 ; genAssign
                            3798 ; AOP_HL for _spritestate
    07D1 21 FF 00           3799 	ld	hl,#_spritestate + 0
    07D4 36 00              3800 	ld	(hl),#0x00
-                           3801 ;	sprite_run.c 48
+                           3801 ;	sprite_run.c 45
                            3802 ; genAssign (pointer)
                            3803 ; AOP_STK for _main_sloc1_1_0
    07D6 F8 06              3804 	lda	hl,6(sp)
@@ -3809,7 +3809,7 @@
    07DD 12                 3809 	ld	(de),a
                            3810 ; genLabel
    07DE                    3811 00112$:
-                           3812 ;	sprite_run.c 51
+                           3812 ;	sprite_run.c 48
                            3813 ; genPlus
                            3814 ; AOP_STK for _main_sloc1_1_0
                            3815 ; genPlusIncr
@@ -3851,7 +3851,7 @@
    07FF 56                 3851 	ld	d,(hl)
    0800 79                 3852 	ld	a,c
    0801 12                 3853 	ld	(de),a
-                           3854 ;	sprite_run.c 52
+                           3854 ;	sprite_run.c 49
                            3855 ; genCmpEq
    0802 79                 3856 	ld	a,c ; 2
    0803 FE 14              3857 	cp	a,#0x14
@@ -3860,12 +3860,12 @@
    080A                    3860 00140$:
    080A C3 16 08           3861 	jp	00114$
    080D                    3862 00141$:
-                           3863 ;	sprite_run.c 53
+                           3863 ;	sprite_run.c 50
                            3864 ; genAssign
                            3865 ; AOP_HL for _speedx
    080D 21 00 01           3866 	ld	hl,#_speedx + 0
    0810 36 02              3867 	ld	(hl),#0x02
-                           3868 ;	sprite_run.c 54
+                           3868 ;	sprite_run.c 51
                            3869 ; genPlus
                            3870 ; AOP_HL for _spritestate
                            3871 ; genPlusIncr
@@ -3873,7 +3873,7 @@
    0815 34                 3873 	inc	(hl)
                            3874 ; genLabel
    0816                    3875 00114$:
-                           3876 ;	sprite_run.c 56
+                           3876 ;	sprite_run.c 53
                            3877 ; genPointerGet
                            3878 ; AOP_STK for _main_sloc1_1_0
    0816 F8 06              3879 	lda	hl,6(sp)
@@ -3890,12 +3890,12 @@
    0825                    3890 00142$:
    0825 C3 31 08           3891 	jp	00116$
    0828                    3892 00143$:
-                           3893 ;	sprite_run.c 57
+                           3893 ;	sprite_run.c 54
                            3894 ; genAssign
                            3895 ; AOP_HL for _speedx
    0828 21 00 01           3896 	ld	hl,#_speedx + 0
    082B 36 FE              3897 	ld	(hl),#0xFE
-                           3898 ;	sprite_run.c 58
+                           3898 ;	sprite_run.c 55
                            3899 ; genPlus
                            3900 ; AOP_HL for _spritestate
                            3901 ; genPlusIncr
@@ -3903,7 +3903,7 @@
    0830 34                 3903 	inc	(hl)
                            3904 ; genLabel
    0831                    3905 00116$:
-                           3906 ;	sprite_run.c 60
+                           3906 ;	sprite_run.c 57
                            3907 ; genPlus
                            3908 ; AOP_STK for _main_sloc3_1_0
                            3909 ; genPlusIncr
@@ -3950,7 +3950,7 @@
                            3950 ; genCall
    0857 CD 8A 00           3951 	call	_movegamecharacterlarge
    085A E8 04              3952 	lda	sp,4(sp)
-                           3953 ;	sprite_run.c 62
+                           3953 ;	sprite_run.c 59
                            3954 ; genPlus
                            3955 ; AOP_STK for _main_sloc4_1_0
                            3956 ; genPlusIncr
@@ -3991,12 +3991,12 @@
    087D 56                 3991 	ld	d,(hl)
    087E 79                 3992 	ld	a,c
    087F 12                 3993 	ld	(de),a
-                           3994 ;	sprite_run.c 63
+                           3994 ;	sprite_run.c 60
                            3995 ; genCmpLt
    0880 79                 3996 	ld	a,c
    0881 FE A0              3997 	cp	#0xA0
    0883 DA 8D 08           3998 	jp	c,00118$
-                           3999 ;	sprite_run.c 64
+                           3999 ;	sprite_run.c 61
                            4000 ; genAssign (pointer)
                            4001 ; AOP_STK for _main_sloc4_1_0
    0886 2B                 4002 	dec	hl
@@ -4007,7 +4007,7 @@
    088C 12                 4007 	ld	(de),a
                            4008 ; genLabel
    088D                    4009 00118$:
-                           4010 ;	sprite_run.c 66
+                           4010 ;	sprite_run.c 63
                            4011 ; genPointerGet
                            4012 ; AOP_STK for _main_sloc1_1_0
    088D F8 06              4013 	lda	hl,6(sp)
@@ -4030,7 +4030,7 @@
    08A0                    4030 00144$:
    08A0 C3 BB 08           4031 	jp	00120$
    08A3                    4032 00145$:
-                           4033 ;	sprite_run.c 67
+                           4033 ;	sprite_run.c 64
                            4034 ; genPointerGet
                            4035 ; AOP_STK for _main_sloc3_1_0
    08A3 F8 02              4036 	lda	hl,2(sp)
@@ -4047,21 +4047,21 @@
    08AE 56                 4047 	ld	d,(hl)
    08AF 79                 4048 	ld	a,c
    08B0 12                 4049 	ld	(de),a
-                           4050 ;	sprite_run.c 68
+                           4050 ;	sprite_run.c 65
                            4051 ; genPlus
                            4052 ; genPlusIncr
    08B1 11 E5 00           4053 	ld	de,#_bomb + 0 + 4
                            4054 ; genAssign (pointer)
    08B4 78                 4055 	ld	a,b
    08B5 12                 4056 	ld	(de),a
-                           4057 ;	sprite_run.c 69
+                           4057 ;	sprite_run.c 66
                            4058 ; genAssign
                            4059 ; AOP_HL for _fallspeed
    08B6 21 01 01           4060 	ld	hl,#_fallspeed + 0
    08B9 36 04              4061 	ld	(hl),#0x04
                            4062 ; genLabel
    08BB                    4063 00120$:
-                           4064 ;	sprite_run.c 72
+                           4064 ;	sprite_run.c 69
                            4065 ; genPointerGet
                            4066 ; AOP_STK for _main_sloc4_1_0
    08BB F8 00              4067 	lda	hl,0(sp)
@@ -4090,7 +4090,7 @@
                            4090 ; genCall
    08D1 CD 00 00           4091 	call	_movegamecharacter
    08D4 E8 04              4092 	lda	sp,4(sp)
-                           4093 ;	sprite_run.c 73
+                           4093 ;	sprite_run.c 70
                            4094 ; genIpush
    08D6 21 32 00           4095 	ld	hl,#0x0032
    08D9 E5                 4096 	push	hl
@@ -4101,7 +4101,7 @@
    08DF C3 D0 06           4101 	jp	00121$
                            4102 ; genLabel
    08E2                    4103 00123$:
-                           4104 ;	sprite_run.c 75
+                           4104 ;	sprite_run.c 72
                            4105 ; genIpush
    08E2 21 EF 08           4106 	ld	hl,#__str_0 + 0
    08E5 E5                 4107 	push	hl

@@ -9,6 +9,10 @@ void movegamecharacter(struct GameCharacter* character, UINT8 x, UINT8 y){
     move_sprite(character->spriteids[3], x + spritesize, y + spritesize);
 }
 
+void movegamecharactersmall(struct GameCharacterSmall* charactersmall, UINT8 x, UINT8 y){
+    move_sprite(charactersmall->spriteidssmall[0], x, y);
+}
+
 void movegamecharacterlarge(struct GameCharacterLarge* characterlarge, UINT8 x, UINT8 y){
     move_sprite(characterlarge->spriteidslarge[0], x, y);
     move_sprite(characterlarge->spriteidslarge[1], x + spritesize, y);

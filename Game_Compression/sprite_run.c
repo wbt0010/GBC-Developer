@@ -12,9 +12,6 @@
 //
 #include "jump.c"
 
-
-
-   
 INT8 speedx = 2;
 INT8 fallspeed = 3;
 
@@ -74,6 +71,3 @@ void main(){
     }
     printf("\n \n \n \n \n        Game");
 }
-
-
-

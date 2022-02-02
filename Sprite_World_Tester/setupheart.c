@@ -1,20 +1,59 @@
 #include <gb/gb.h>
 
-struct GameCharacterSmall heart;
+UINT8 mult; 
+struct GameCharacterSmall heart[3];
 
 void setupheart(){
-    heart.x = 135;
-    heart.y = 20;
-    heart.width = 8;
-    heart.height = 8;
+    /**if(heart[k].initialized==1){
+			scroll_sprite(obstacles[k].startspriteid,-speed,0);
+			scroll_sprite(obstacles[k].startspriteid+1,-speed,0);
+**/
+mult = 0;
+            heart[mult].x = 135;
+            heart[mult].y = 20;
+            heart[mult].width = 8;
+            heart[mult].height = 8;
     
+
     //heart sprite tiles
     set_sprite_tile(14, 14);
-    heart.spriteidssmall[0] = 14;
+    heart[mult].spriteidssmall[0] = 14;
 
-    movegamecharactersmall(&heart, heart.x, heart.y);
+    movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
+
+mult = 1;
+
+    heart[mult].x = 143;
+    heart[mult].y = 20;
+    heart[mult].width = 8;
+    heart[mult].height = 8;
+    
+    //heart sprite tiles
+    set_sprite_tile(14+mult, 14+mult);
+    heart[mult].spriteidssmall[0] = 14+mult;
+
+    movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
+
+mult = 2;
+    heart[mult].x = 151;
+    heart[mult].y = 20;
+    heart[mult].width = 8;
+    heart[mult].height = 8;
+    
+    //heart sprite tiles
+    set_sprite_tile(14+mult, 14+mult);
+    heart[mult].spriteidssmall[0] = 14+mult;
+
+    movegamecharactersmall(&heart[mult], heart[mult].x, heart[mult].y);
 }
 
+
+
+
+
+
+
+/**
 struct GameCharacterSmall heart1;
 
 void setupheart1(){
@@ -44,3 +83,4 @@ void setupheart2(){
 
     movegamecharactersmall(&heart2, heart2.x, heart2.y);
 }
+**/

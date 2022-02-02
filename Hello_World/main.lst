@@ -1,16 +1,16 @@
                               1 ;--------------------------------------------------------
                               2 ; File Created by SDCC : FreeWare ANSI-C Compiler
-                              3 ; Version 2.2.1 Mon Jan 20 13:32:36 2020
+                              3 ; Version 2.2.1 Thu Feb 13 17:09:21 2020
                               4 
                               5 ;--------------------------------------------------------
-                              6 	.module lcc141200
+                              6 	.module lcc56160
                               7 	
                               8 ;--------------------------------------------------------
                               9 ; Public variables in this module
                              10 ;--------------------------------------------------------
                              11 	.globl _main
-                             12 	.globl _printf
-                             13 	.globl _delay
+                             12 	.globl _time
+                             13 	.globl _printf
                              14 	.globl _main
                              15 ;--------------------------------------------------------
                              16 ; Externals used
@@ -116,7 +116,7 @@
                             116 ; code
                             117 ;--------------------------------------------------------
                             118 	.area _CODE
-                            119 ;	main.c 4
+                            119 ;	main.c 6
                             120 ; genLabel
                             121 ; genFunction
                             122 ;	---------------------------------
@@ -126,76 +126,57 @@
    0000                     126 _main:
    0000 C5                  127 	push	bc
                             128 	
-                            129 ;	main.c 6
-                            130 ; genAssign
-   0001 0E 01               131 	ld	c,#0x01
-                            132 ;	main.c 7
-                            133 ; genLabel
-   0003                     134 00103$:
-                            135 ; genCmpEq
-   0003 79                  136 	ld	a,c ; 2
-   0004 FE 01               137 	cp	a,#0x01
-   0006 C2 0B 00            138 	jp	nz,00111$
-   0009 18 03               139 	jr	00112$
-   000B                     140 00111$:
-   000B C3 38 00            141 	jp	00106$
-   000E                     142 00112$:
-                            143 ;	main.c 9
-                            144 ; genIpush
-   000E 21 3A 00            145 	ld	hl,#__str_0 + 0
-   0011 E5                  146 	push	hl
-                            147 ; genCall
-   0012 CD 00 00            148 	call	_printf
-   0015 E8 02               149 	lda	sp,2(sp)
-                            150 ;	main.c 10
-                            151 ; genIpush
-   0017 21 DC 05            152 	ld	hl,#0x05DC
-   001A E5                  153 	push	hl
+                            129 ;	main.c 10
+                            130 ; genIpush
+   0001 21 00 00            131 	ld	hl,#0x0000
+   0004 E5                  132 	push	hl
+                            133 ; genCall
+   0005 CD 00 00            134 	call	_time
+   0008 42                  135 	ld	b,d
+   0009 4B                  136 	ld	c,e
+   000A E8 02               137 	lda	sp,2(sp)
+                            138 ; genIpush
+   000C C5                  139 	push	bc
+                            140 ; genCall
+   000D CD 00 00            141 	call	srand
+   0010 E8 02               142 	lda	sp,2(sp)
+                            143 ;	main.c 11
+                            144 ; genCall
+   0012 CD 00 00            145 	call	rand
+   0015 42                  146 	ld	b,d
+   0016 4B                  147 	ld	c,e
+                            148 ;	main.c 12
+                            149 ; genIpush
+   0017 21 3B 00            150 	ld	hl,#0x003B
+   001A E5                  151 	push	hl
+                            152 ; genIpush
+   001B C5                  153 	push	bc
                             154 ; genCall
-   001B CD 00 00            155 	call	_delay
-   001E E8 02               156 	lda	sp,2(sp)
-                            157 ;	main.c 11
-                            158 ; genPlus
-                            159 ; genPlusIncr
-   0020 0C                  160 	inc	c
-                            161 ;	main.c 12
-                            162 ; genCmpEq
-   0021 79                  163 	ld	a,c ; 2
-   0022 FE 02               164 	cp	a,#0x02
-   0024 C2 29 00            165 	jp	nz,00113$
-   0027 18 03               166 	jr	00114$
-   0029                     167 00113$:
-   0029 C3 03 00            168 	jp	00103$
-   002C                     169 00114$:
-                            170 ;	main.c 14
-                            171 ; genIpush
-   002C 21 46 00            172 	ld	hl,#__str_1 + 0
-   002F E5                  173 	push	hl
-                            174 ; genCall
-   0030 CD 00 00            175 	call	_printf
-   0033 E8 02               176 	lda	sp,2(sp)
-                            177 ; genGoto
-   0035 C3 03 00            178 	jp	00103$
-                            179 ; genLabel
-   0038                     180 00106$:
-                            181 ; genEndFunction
-                            182 	
-   0038 C1                  183 	pop	bc
-   0039 C9                  184 	ret
-   003A                     185 ___main_end:
-   003A                     186 __str_0:
-   003A 48 65 6C 6C 6F 20   187 	.ascii "Hello World"
-        57 6F 72 6C 64
-   0045 00                  188 	.db 0x00
-   0046                     189 __str_1:
-   0046 2C 20 53 75 63 6B   190 	.ascii ", Suckith my dickus from the rear"
-        69 74 68 20 6D 79
-        20 64 69 63 6B 75
-        73 20 66 72 6F 6D
-        20 74 68 65 20 72
-        65 61 72
-   0067 00                  191 	.db 0x00
-                            192 	.area _CODE
+   001C CD 00 00            155 	call	__modsint
+   001F 42                  156 	ld	b,d
+   0020 4B                  157 	ld	c,e
+   0021 E8 04               158 	lda	sp,4(sp)
+                            159 ;	main.c 13
+                            160 ; genIpush
+   0023 C5                  161 	push	bc
+                            162 ; genIpush
+   0024 21 2F 00            163 	ld	hl,#__str_0 + 0
+   0027 E5                  164 	push	hl
+                            165 ; genCall
+   0028 CD 00 00            166 	call	_printf
+   002B E8 04               167 	lda	sp,4(sp)
+                            168 ; genLabel
+   002D                     169 00101$:
+                            170 ; genEndFunction
+                            171 	
+   002D C1                  172 	pop	bc
+   002E C9                  173 	ret
+   002F                     174 ___main_end:
+   002F                     175 __str_0:
+   002F 25 64               176 	.ascii "%d"
+   0031 0A                  177 	.db 0x0A
+   0032 00                  178 	.db 0x00
+                            179 	.area _CODE
 ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 1.
 
 Symbol Table
@@ -255,24 +236,26 @@ Symbol Table
     _VBK_REG                           **** GX
     _WX_REG                            **** GX
     _WY_REG                            **** GX
-  0 ___main_end                        003A R
+  0 ___main_end                        002F R
   0 ___main_start                      0000 R
     __cpu                              **** GX
     __io_in                            **** GX
     __io_out                           **** GX
     __io_status                        **** GX
-  0 __str_0                            003A R
-  0 __str_1                            0046 R
-    _delay                             **** GX
+    __modsint                          **** GX
+  0 __str_0                            002F R
   0 _main                              0000 GR
     _printf                            **** GX
     _sys_time                          **** GX
+    _time                              **** GX
+    rand                               **** GX
+    srand                              **** GX
 
 ASxxxx Assembler V01.75  (GameBoy Z80-like CPU), page 2.
 
 Area Table
 
-   0 _CODE                              size   68   flags 0
+   0 _CODE                              size   33   flags 0
    1 _DATA                              size    0   flags 0
    2 _OVERLAY                           size    0   flags 0
    3 _ISEG                              size    0   flags 0

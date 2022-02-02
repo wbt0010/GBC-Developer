@@ -1,30 +1,40 @@
 #include <gb/gb.h>
-#include "backg.c"
-#include "tiles.c"
-#include "windowmap.c"
-#include <gb/font.h>
+#include <stdio.h>
+#include "title_data.c"
+#include "title_map.c"
+
+UINT8 backgroundoffset1x;
+
+void interruptLCD(){
+    switch (LYC_REG)
+    {
+        case 0x35:
+            move_bkg(backgroundoffset1x,0);
+            LYC_REG = 0x35;
+            break;
+    }
+}
 
 void main(){
-    font_t min_font;
+    backgroundoffset1x = 0;
+    set_bkg_data(0, 170, title_data);
+    set_bkg_tiles(0, 0, 18, 18, title_map);
 
-    font_init();
-    min_font = font_load(font_min); //36 Tiles
-    font_set(min_font);
+    STAT_REG = 0x45; // enable LYC=LY interrupt so that we can set a specific line it will fire at
+    LYC_REG = 0x00;
 
-    set_bkg_data(37, 7, tiles);
-    set_bkg_tiles(0, 0, 40, 18, backg);
+    disable_interrupts();
+    add_LCD(interruptLCD);
+    enable_interrupts();
 
-    set_win_tiles(0, 0, 5, 1, windowmap);
-    move_win(7, 135);
-
-
+    set_interrupts(VBL_IFLAG | LCD_IFLAG);
 
     SHOW_BKG;
-    SHOW_WIN;
     DISPLAY_ON;
-    
-     while(1){
-         scroll_bkg(1, 0);
-         delay(50);
+
+    while(1){
+        backgroundoffset1x += 1;
+        delay(10);
     }
+
 }
