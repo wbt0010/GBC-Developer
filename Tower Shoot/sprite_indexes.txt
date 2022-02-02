@@ -1,0 +1,27 @@
+1 - small enemy sp1
+2 - small enemy sp2
+
+14 - cursor crosshair
+15 - cursor brackets
+
+32 - Catapult 1 top left
+33 - catapult 1 bottom left
+34 - Catapult 1 top right
+35 - Catapult 1 bottom right
+36 - Catapult 2 top left
+37 - Catapult 2 bottom left
+38 - Catapult 2 top right
+39 - Catapult 2 bottom right
+40 - Catapult 3 top left
+41 - Catapult 3 bottom left
+42 - Catapult 3 top right
+43 - Catapult 3 bottom right
+
+48- Tower upper top left
+49 - Tower upper bottom left
+50 - Tower upper top right
+51 - Tower upper bottom right
+52 - Tower lower top left
+53 - Tower lower bottom left
+54 - Tower lower top right
+55 - Tower lower bottom right
