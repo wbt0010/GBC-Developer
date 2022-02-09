@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 4.1.6 #12539 (Mac OS X x86_64)
+; Version 4.1.6 #12539 (MINGW32)
 ;--------------------------------------------------------
 	.module sprite_run
 	.optsdcc -mgbz80
@@ -267,7 +267,7 @@ _main::
 	push	af
 	call	_set_bkg_palette
 	add	sp, #4
-;/opt/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 2)
 	ld	(hl), #0x0f
 ;sprite_run.c:104: move_sprite(0, towerAlocation[0], towerAlocation[1]);
@@ -275,19 +275,19 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_towerAlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;/opt/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 6)
 	ld	(hl), #0x0e
-;/opt/gbdk/include/gb/gb.h:1372: shadow_OAM[nb].prop=prop;
+;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
 	ld	hl, #(_shadow_OAM + 3)
 	ld	(hl), #0x00
-;/opt/gbdk/include/gb/gb.h:1326: shadow_OAM[nb].tile=tile;
+;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 10)
 	ld	(hl), #0x30
 	ld	hl, #(_shadow_OAM + 14)
@@ -343,9 +343,9 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_towerAlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 36)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -355,9 +355,9 @@ _main::
 	ld	a, (#_towerAlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 28)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -367,9 +367,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerAlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 32)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -380,9 +380,9 @@ _main::
 	ld	a, (#_towerAlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 24)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -392,9 +392,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerAlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 20)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -405,9 +405,9 @@ _main::
 	ld	a, (#_towerAlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 12)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -417,9 +417,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerAlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 16)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -430,9 +430,9 @@ _main::
 	ld	a, (#_towerAlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 8)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -441,9 +441,9 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_towerBlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 68)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -453,9 +453,9 @@ _main::
 	ld	a, (#_towerBlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 60)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -465,9 +465,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerBlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 64)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -478,9 +478,9 @@ _main::
 	ld	a, (#_towerBlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 56)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -490,9 +490,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerBlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 52)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -503,9 +503,9 @@ _main::
 	ld	a, (#_towerBlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 44)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -515,9 +515,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerBlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 48)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -528,9 +528,9 @@ _main::
 	ld	a, (#_towerBlocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 40)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -539,9 +539,9 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_towerClocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 100)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -551,9 +551,9 @@ _main::
 	ld	a, (#_towerClocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 92)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -563,9 +563,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerClocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 96)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -576,9 +576,9 @@ _main::
 	ld	a, (#_towerClocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 88)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -588,9 +588,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerClocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 84)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -601,9 +601,9 @@ _main::
 	ld	a, (#_towerClocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 76)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -613,9 +613,9 @@ _main::
 	ld	b, a
 	ld	hl, #_towerClocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 80)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -626,9 +626,9 @@ _main::
 	ld	a, (#_towerClocation + 0)
 	add	a, #0xf8
 	ld	c, a
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 72)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -658,9 +658,9 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_selectorlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -669,9 +669,9 @@ _main::
 	ld	b, (hl)
 	ld	hl, #_outofthefuckingway
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -764,9 +764,9 @@ _crosshair::
 	ld	b, (hl)
 	ld	hl, #_outofthefuckingway
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #_shadow_OAM
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -832,9 +832,9 @@ _crosshair::
 	ld	b, (hl)
 	ld	hl, #_crosshairlocation
 	ld	c, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 104)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
@@ -845,9 +845,9 @@ _crosshair::
 	ld	c, (hl)
 	ld	hl, #_crosshairlocation
 	ld	b, (hl)
-;/opt/gbdk/include/gb/gb.h:1399: OAM_item_t * itm = &shadow_OAM[nb];
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
 	ld	hl, #(_shadow_OAM + 4)
-;/opt/gbdk/include/gb/gb.h:1400: itm->y=y, itm->x=x;
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
