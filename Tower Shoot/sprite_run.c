@@ -13,46 +13,76 @@
 // void enemymovement();
 void selector();
 void crosshair();
+
 const UWORD backgpalette[] = {
-map_v1_1CGBPal0c0,
-map_v1_1CGBPal0c1,
-map_v1_1CGBPal0c2,
-map_v1_1CGBPal0c3,
+    map_v1_1_labelSGBPal0c0,
+    map_v1_1_labelSGBPal0c1,
+    map_v1_1_labelSGBPal0c2,
+    map_v1_1_labelSGBPal0c3,
 
-map_v1_1CGBPal1c0,
-map_v1_1CGBPal1c1,
-map_v1_1CGBPal1c2,
-map_v1_1CGBPal1c3,
+    /* Super Gameboy palette 1 */
+    map_v1_1_labelSGBPal1c0,
+    map_v1_1_labelSGBPal1c1,
+    map_v1_1_labelSGBPal1c2,
+    map_v1_1_labelSGBPal1c3,
 
-map_v1_1CGBPal2c0,
-map_v1_1CGBPal2c1,
-map_v1_1CGBPal2c2,
-map_v1_1CGBPal2c3,
+    /* Super Gameboy palette 2 */
+    map_v1_1_labelSGBPal2c0,
+    map_v1_1_labelSGBPal2c1,
+    map_v1_1_labelSGBPal2c2,
+    map_v1_1_labelSGBPal2c3,
+    /* Super Gameboy palette 3 */
+    map_v1_1_labelSGBPal3c0,
+    map_v1_1_labelSGBPal3c1,
+    map_v1_1_labelSGBPal3c2,
+    map_v1_1_labelSGBPal3c3,
 
-map_v1_1CGBPal3c0,
-map_v1_1CGBPal3c1,
-map_v1_1CGBPal3c2,
-map_v1_1CGBPal3c3,
+    /* Gameboy Color palette 0 */
+    map_v1_1_labelCGBPal0c0,
+    map_v1_1_labelCGBPal0c1,
+    map_v1_1_labelCGBPal0c2,
+    map_v1_1_labelCGBPal0c3,
+    /* Gameboy Color palette 1 */
+    map_v1_1_labelCGBPal1c0,
+    map_v1_1_labelCGBPal1c1,
+    map_v1_1_labelCGBPal1c2,
+    map_v1_1_labelCGBPal1c3,
 
-map_v1_1CGBPal4c0,
-map_v1_1CGBPal4c1,
-map_v1_1CGBPal4c2,
-map_v1_1CGBPal4c3,
+    /* Gameboy Color palette 2 */
+    map_v1_1_labelCGBPal2c0,
+    map_v1_1_labelCGBPal2c1,
+    map_v1_1_labelCGBPal2c2,
+    map_v1_1_labelCGBPal2c3,
 
-map_v1_1CGBPal5c0,
-map_v1_1CGBPal5c1,
-map_v1_1CGBPal5c2,
-map_v1_1CGBPal5c3,
+    /* Gameboy Color palette 3 */
+    map_v1_1_labelCGBPal3c0,
+    map_v1_1_labelCGBPal3c1,
+    map_v1_1_labelCGBPal3c2,
+    map_v1_1_labelCGBPal3c3,
 
-map_v1_1CGBPal6c0,
-map_v1_1CGBPal6c1,
-map_v1_1CGBPal6c2,
-map_v1_1CGBPal6c3,
+    /* Gameboy Color palette 4 */
+    map_v1_1_labelCGBPal4c0,
+    map_v1_1_labelCGBPal4c1,
+    map_v1_1_labelCGBPal4c2,
+    map_v1_1_labelCGBPal4c3,
 
-map_v1_1CGBPal7c0,
-map_v1_1CGBPal7c1,
-map_v1_1CGBPal7c2,
-map_v1_1CGBPal7c3,
+    /* Gameboy Color palette 5 */
+    map_v1_1_labelCGBPal5c0,
+    map_v1_1_labelCGBPal5c1,
+    map_v1_1_labelCGBPal5c2,
+    map_v1_1_labelCGBPal5c3,
+
+    /* Gameboy Color palette 6 */
+    map_v1_1_labelCGBPal6c0,
+    map_v1_1_labelCGBPal6c1,
+    map_v1_1_labelCGBPal6c2,
+    map_v1_1_labelCGBPal6c3,
+
+    /* Gameboy Color palette 7 */
+    map_v1_1_labelCGBPal7c0,
+    map_v1_1_labelCGBPal7c1,
+    map_v1_1_labelCGBPal7c2,
+    map_v1_1_labelCGBPal7c3,
 };
 
 const UWORD spritepalette[] = {
@@ -79,25 +109,32 @@ void main(){
     font_set(min_font);
 */
     definevar();
-    //projectile();
     //Sprite Tile Set
     set_sprite_data(0, 127, GTP);
     //Sprite Palette Set
-    set_sprite_palette(0, 8, &spritepalette[0]);
+    set_sprite_palette(0, 8u, &spritepalette[0]);
     //Bckg Palette Set
-    set_bkg_palette(0, 6, &backgpalette[0]);
+    set_bkg_palette(0,12u, &backgpalette[0]);
     //Bckg Tile Location
-    set_bkg_data(0, 6, Grassland);
+    set_bkg_data(0,6u, map_v1_1_label);
+
     VBK_REG = 1;
-    set_bkg_tiles(0, 0, GrasslandWidth, GrasslandHeight, GrasslandPLN1);
+
+    set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN1);
+
     VBK_REG = 0;
-    set_bkg_tiles(0, 0, GrasslandWidth, GrasslandHeight, GrasslandPLN0);
-    set_bkg_palette(0,1,&backgpalette[0]);
+
+    set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN0);
+
+   set_bkg_palette(0,1,&backgpalette[0]);
+
     
-    //(First Sprite tile desired, Final Sprite tile desired, VariableXY name)
-    //(Entity #, Number Tile desired to be displayed)
-    //Tile displayed can be changed with changed with variable i.e. set_sprite_tile(0,a)
-    //selector tile(tile identifyer, tile location)
+    /**
+    (First Sprite tile desired, Final Sprite tile desired, VariableXY name)
+    (Entity #, Number Tile desired to be displayed)
+    Tile displayed can be changed with changed with variable i.e. set_sprite_tile(0,a)
+    selector tile(tile identifyer, tile location)
+    */
 
     //Selector
     set_sprite_tile(0,15);
@@ -194,7 +231,7 @@ void main(){
    
     SHOW_BKG;
     DISPLAY_ON;
-    SHOW_SPRITES;
+  //  SHOW_SPRITES;
 
     while (1){
    // enemymovement();
@@ -266,18 +303,18 @@ if (keydown){
     }
 }
 
-/**
-int minimum(int[] arr)
-{
-    int temp = arr[0];
+// /**
+// int minimum(int[] arr)
+// {
+//     int temp = arr[0];
 
-    for(int i = 1; i < arr.length; i++)
-    {
-        if(arr[i] < temp) temp = arr[i];
-    }
-    return temp;
-}
-**/
+//     for(int i = 1; i < arr.length; i++)
+//     {
+//         if(arr[i] < temp) temp = arr[i];
+//     }
+//     return temp;
+// }
+// **/
 
 void special(){
 //Mini display of which special is selected: bomb = 1, arrowstorm = 2, lightning = 3.
