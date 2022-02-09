@@ -1,6 +1,6 @@
 ;--------------------------------------------------------
 ; File Created by SDCC : free open source ANSI-C Compiler
-; Version 4.1.6 #12539 (Mac OS X x86_64)
+; Version 4.1.6 #12539 (MINGW32)
 ;--------------------------------------------------------
 	.module GTP
 	.optsdcc -mgbz80
