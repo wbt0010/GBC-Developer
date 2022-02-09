@@ -22,84 +22,88 @@
 
 */
 
+#ifndef __map_v1_1_h_INCLUDE
+#define __map_v1_1_h_INCLUDE
 
 /* Bank of tiles. */
-#define map_v1_1Bank 0
+#define map_v1_1_labelBank 0
 
 /* Super Gameboy palette 0 */
-#define map_v1_1SGBPal0c0 6076
-#define map_v1_1SGBPal0c1 8935
-#define map_v1_1SGBPal0c2 6596
-#define map_v1_1SGBPal0c3 5344
+#define map_v1_1_labelSGBPal0c0 6076
+#define map_v1_1_labelSGBPal0c1 8935
+#define map_v1_1_labelSGBPal0c2 6596
+#define map_v1_1_labelSGBPal0c3 5344
 
 /* Super Gameboy palette 1 */
-#define map_v1_1SGBPal1c0 6076
-#define map_v1_1SGBPal1c1 8935
-#define map_v1_1SGBPal1c2 6596
-#define map_v1_1SGBPal1c3 5344
+#define map_v1_1_labelSGBPal1c0 6076
+#define map_v1_1_labelSGBPal1c1 8935
+#define map_v1_1_labelSGBPal1c2 6596
+#define map_v1_1_labelSGBPal1c3 5344
 
 /* Super Gameboy palette 2 */
-#define map_v1_1SGBPal2c0 6076
-#define map_v1_1SGBPal2c1 8935
-#define map_v1_1SGBPal2c2 6596
-#define map_v1_1SGBPal2c3 5344
+#define map_v1_1_labelSGBPal2c0 6076
+#define map_v1_1_labelSGBPal2c1 8935
+#define map_v1_1_labelSGBPal2c2 6596
+#define map_v1_1_labelSGBPal2c3 5344
 
 /* Super Gameboy palette 3 */
-#define map_v1_1SGBPal3c0 6076
-#define map_v1_1SGBPal3c1 8935
-#define map_v1_1SGBPal3c2 6596
-#define map_v1_1SGBPal3c3 5344
+#define map_v1_1_labelSGBPal3c0 6076
+#define map_v1_1_labelSGBPal3c1 8935
+#define map_v1_1_labelSGBPal3c2 6596
+#define map_v1_1_labelSGBPal3c3 5344
 
 /* Gameboy Color palette 0 */
-#define map_v1_1CGBPal0c0 21359
-#define map_v1_1CGBPal0c1 23254
-#define map_v1_1CGBPal0c2 17115
-#define map_v1_1CGBPal0c3 19150
+#define map_v1_1_labelCGBPal0c0 21359
+#define map_v1_1_labelCGBPal0c1 23254
+#define map_v1_1_labelCGBPal0c2 17115
+#define map_v1_1_labelCGBPal0c3 19150
 
 /* Gameboy Color palette 1 */
-#define map_v1_1CGBPal1c0 6076
-#define map_v1_1CGBPal1c1 8935
-#define map_v1_1CGBPal1c2 6596
-#define map_v1_1CGBPal1c3 5344
+#define map_v1_1_labelCGBPal1c0 6076
+#define map_v1_1_labelCGBPal1c1 8935
+#define map_v1_1_labelCGBPal1c2 6596
+#define map_v1_1_labelCGBPal1c3 5344
 
 /* Gameboy Color palette 2 */
-#define map_v1_1CGBPal2c0 6076
-#define map_v1_1CGBPal2c1 8935
-#define map_v1_1CGBPal2c2 6596
-#define map_v1_1CGBPal2c3 5344
+#define map_v1_1_labelCGBPal2c0 6076
+#define map_v1_1_labelCGBPal2c1 8935
+#define map_v1_1_labelCGBPal2c2 6596
+#define map_v1_1_labelCGBPal2c3 5344
 
 /* Gameboy Color palette 3 */
-#define map_v1_1CGBPal3c0 6076
-#define map_v1_1CGBPal3c1 8935
-#define map_v1_1CGBPal3c2 6596
-#define map_v1_1CGBPal3c3 5344
+#define map_v1_1_labelCGBPal3c0 6076
+#define map_v1_1_labelCGBPal3c1 8935
+#define map_v1_1_labelCGBPal3c2 6596
+#define map_v1_1_labelCGBPal3c3 5344
 
 /* Gameboy Color palette 4 */
-#define map_v1_1CGBPal4c0 6076
-#define map_v1_1CGBPal4c1 8935
-#define map_v1_1CGBPal4c2 6596
-#define map_v1_1CGBPal4c3 5344
+#define map_v1_1_labelCGBPal4c0 6076
+#define map_v1_1_labelCGBPal4c1 8935
+#define map_v1_1_labelCGBPal4c2 6596
+#define map_v1_1_labelCGBPal4c3 5344
 
 /* Gameboy Color palette 5 */
-#define map_v1_1CGBPal5c0 6076
-#define map_v1_1CGBPal5c1 8935
-#define map_v1_1CGBPal5c2 6596
-#define map_v1_1CGBPal5c3 5344
+#define map_v1_1_labelCGBPal5c0 6076
+#define map_v1_1_labelCGBPal5c1 8935
+#define map_v1_1_labelCGBPal5c2 6596
+#define map_v1_1_labelCGBPal5c3 5344
 
 /* Gameboy Color palette 6 */
-#define map_v1_1CGBPal6c0 6076
-#define map_v1_1CGBPal6c1 8935
-#define map_v1_1CGBPal6c2 6596
-#define map_v1_1CGBPal6c3 5344
+#define map_v1_1_labelCGBPal6c0 6076
+#define map_v1_1_labelCGBPal6c1 8935
+#define map_v1_1_labelCGBPal6c2 6596
+#define map_v1_1_labelCGBPal6c3 5344
 
 /* Gameboy Color palette 7 */
-#define map_v1_1CGBPal7c0 6076
-#define map_v1_1CGBPal7c1 8935
-#define map_v1_1CGBPal7c2 6596
-#define map_v1_1CGBPal7c3 5344
+#define map_v1_1_labelCGBPal7c0 6076
+#define map_v1_1_labelCGBPal7c1 8935
+#define map_v1_1_labelCGBPal7c2 6596
+#define map_v1_1_labelCGBPal7c3 5344
 /* CGBpalette entries. */
-extern unsigned char map_v1_1CGB[];
+extern const unsigned char map_v1_1_labelCGB[];
 /* Start of tile array. */
-extern unsigned char map_v1_1[];
+extern const unsigned char map_v1_1_label[];
+
+#endif
 
 /* End of MAP_V1_1.H */

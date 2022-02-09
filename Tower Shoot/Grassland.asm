@@ -8,8 +8,8 @@
 ;--------------------------------------------------------
 ; Public variables in this module
 ;--------------------------------------------------------
-	.globl _GrasslandPLN1
-	.globl _GrasslandPLN0
+	.globl _Grassland_labelPLN1
+	.globl _Grassland_labelPLN0
 ;--------------------------------------------------------
 ; special function registers
 ;--------------------------------------------------------
@@ -21,10 +21,6 @@
 ; ram data
 ;--------------------------------------------------------
 	.area _INITIALIZED
-_GrasslandPLN0::
-	.ds 360
-_GrasslandPLN1::
-	.ds 360
 ;--------------------------------------------------------
 ; absolute external ram data
 ;--------------------------------------------------------
@@ -46,8 +42,7 @@ _GrasslandPLN1::
 ;--------------------------------------------------------
 	.area _CODE
 	.area _CODE
-	.area _INITIALIZER
-__xinit__GrasslandPLN0:
+_Grassland_labelPLN0:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -407,8 +402,9 @@ __xinit__GrasslandPLN0:
 	.db #0x03	; 3
 	.db #0x00	; 0
 	.db #0x01	; 1
+	.db #0x06	; 6
+_Grassland_labelPLN1:
 	.db #0x00	; 0
-__xinit__GrasslandPLN1:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
@@ -768,5 +764,5 @@ __xinit__GrasslandPLN1:
 	.db #0x00	; 0
 	.db #0x00	; 0
 	.db #0x00	; 0
-	.db #0x00	; 0
+	.area _INITIALIZER
 	.area _CABS (ABS)
