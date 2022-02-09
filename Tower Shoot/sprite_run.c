@@ -15,28 +15,7 @@ void selector();
 void crosshair();
 
 const UWORD backgpalette[] = {
-    map_v1_1_labelSGBPal0c0,
-    map_v1_1_labelSGBPal0c1,
-    map_v1_1_labelSGBPal0c2,
-    map_v1_1_labelSGBPal0c3,
-
-    /* Super Gameboy palette 1 */
-    map_v1_1_labelSGBPal1c0,
-    map_v1_1_labelSGBPal1c1,
-    map_v1_1_labelSGBPal1c2,
-    map_v1_1_labelSGBPal1c3,
-
-    /* Super Gameboy palette 2 */
-    map_v1_1_labelSGBPal2c0,
-    map_v1_1_labelSGBPal2c1,
-    map_v1_1_labelSGBPal2c2,
-    map_v1_1_labelSGBPal2c3,
-    /* Super Gameboy palette 3 */
-    map_v1_1_labelSGBPal3c0,
-    map_v1_1_labelSGBPal3c1,
-    map_v1_1_labelSGBPal3c2,
-    map_v1_1_labelSGBPal3c3,
-
+    
     /* Gameboy Color palette 0 */
     map_v1_1_labelCGBPal0c0,
     map_v1_1_labelCGBPal0c1,
@@ -86,6 +65,12 @@ const UWORD backgpalette[] = {
 };
 
 const UWORD spritepalette[] = {
+    //Enemy Palatte //Sprite prop(X,0)
+    GTPCGBPal0c0,
+    GTPCGBPal0c1,
+    GTPCGBPal0c2,
+    GTPCGBPal0c3,
+    //Tower Palatte //Sprite prop(X,1)
     GTPCGBPal1c0,
     GTPCGBPal1c1,
     GTPCGBPal1c2,
@@ -126,7 +111,8 @@ void main(){
 
     set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN0);
 
-   set_bkg_palette(0,1,&backgpalette[0]);
+    set_bkg_palette(0,1,&backgpalette[0]);
+
 
     
     /**
@@ -138,14 +124,15 @@ void main(){
 
     //Selector
     set_sprite_tile(0,15);
+    set_sprite_prop(0,1);
     move_sprite(0, towerAlocation[0], towerAlocation[1]);
     //Crosshair
     set_sprite_tile(1,14);
+    set_sprite_prop(1,1);
     //Projectile
-    //set_sprite_tile(2,2);
-    set_sprite_prop(0,0);
     //Tower A tiles
     set_sprite_tile(2,48);
+    set_sprite_prop(2,1);
     set_sprite_tile(3,49);
     set_sprite_tile(4,50);
     set_sprite_tile(5,51);
@@ -175,6 +162,7 @@ void main(){
 
     //Enemy Sprite
     set_sprite_tile(26,0);
+    set_sprite_prop(26,0);
 
     //pseudo tower meta sprites
     //tower a bottom right
@@ -231,7 +219,7 @@ void main(){
    
     SHOW_BKG;
     DISPLAY_ON;
-  //  SHOW_SPRITES;
+    SHOW_SPRITES;
 
     while (1){
    // enemymovement();
