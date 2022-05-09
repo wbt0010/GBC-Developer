@@ -10,7 +10,6 @@
 #include "Grassland.h"
 //Sprite Tiles with Color
 #include "GTP.h"
-// void enemymovement();
 void selector();
 void crosshair();
 
@@ -140,6 +139,7 @@ void main(){
     set_sprite_tile(7,53);
     set_sprite_tile(8,54);
     set_sprite_tile(9,55);
+    
     //Tower B tiles
     set_sprite_tile(10,48);
     set_sprite_tile(11,49);
@@ -222,7 +222,6 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-   // enemymovement();
     selector();
     crosshair();
     status = 0;
@@ -291,18 +290,6 @@ if (keydown){
     }
 }
 
-// /**
-// int minimum(int[] arr)
-// {
-//     int temp = arr[0];
-
-//     for(int i = 1; i < arr.length; i++)
-//     {
-//         if(arr[i] < temp) temp = arr[i];
-//     }
-//     return temp;
-// }
-// **/
 
 void special(){
 //Mini display of which special is selected: bomb = 1, arrowstorm = 2, lightning = 3.
