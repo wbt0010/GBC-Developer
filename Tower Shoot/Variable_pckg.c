@@ -20,10 +20,6 @@ UINT8 towerAlocation[2];
 UINT8 towerBlocation[2];
 UINT8 towerClocation[2];
 
-//Enemy Vectors
-UINT8 spawn = 0;
-UINT8 spawnlocal = 0;
-UINT8 enemyspawn0[2];
 
 void definevar() {
 //tower sprite location [0],x [1],y
@@ -35,7 +31,7 @@ towerBlocation[0] = 40;
 towerBlocation[1] = 88;
 
 //tower sprite location [0],x [1],y
-towerClocation[0] = 125;
+towerClocation[0] = 145;
 towerClocation[1] = 72;
 
 //initializing selector location
@@ -43,9 +39,5 @@ selectorlocation[0] = towerAlocation[0];
 selectorlocation[1] = towerAlocation[1];
 crosshairlocation[0] = 80;
 crosshairlocation[1] = 72;
-
-//Enemy Spawn
-enemyspawn0[0] = 60;
-enemyspawn0[1] = 0;
 
 }

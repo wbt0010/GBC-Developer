@@ -133,9 +133,7 @@ void main(){
     set_sprite_tile(26,0);
     set_sprite_prop(26,0);
     enemy_position();
-
-    //pseudo tower meta sprites
-
+    rnJesus();
    
     SHOW_BKG;
     DISPLAY_ON;
@@ -148,6 +146,7 @@ void main(){
     status = 0;
     move_sprite(0, selectorlocation[0], selectorlocation[1]);
     move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
+    //Retard delay might fuck stuff up
     delay(32);
     }
 } 
