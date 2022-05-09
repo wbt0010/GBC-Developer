@@ -12,7 +12,21 @@ enemy_pos[0] = 80;
 enemy_pos[1] = 80;
 }
 
-void enemy_move(){
+void enemy_move(UNIT8 enemy_speed){
+
+    // Just an example
+    if (enemy_err[0] < 0 ){
+        enemy_pos[0] = enemy_pos[0] - enemy_speed;
+    }
+    else if (enemy_err[0] > 0 ){
+        enemy_pos[0] = enemy_pos[0] + enemy_speed;
+    }
+    if (enemy_err[1] < 0 ){
+        enemy_pos[1] = enemy_pos[1] - enemy_speed;
+    }
+    else if (enemy_err[1] > 0 ){
+        enemy_pos[1] = enemy_pos[1] + enemy_speed;
+    }
 
     //X direction movement
     enemy_err[0] = towerAlocation[0] - enemy_pos[0];
