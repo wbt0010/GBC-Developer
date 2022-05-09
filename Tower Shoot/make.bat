@@ -8,3 +8,6 @@ DEL *.lst
 DEL *.o
 DEL *.map
 DEL *.sym
+DEL *.ihx
+DEL *.noi
+DEL *.asm
