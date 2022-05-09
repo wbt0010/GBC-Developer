@@ -2,17 +2,20 @@
 #include <gb/cgb.h>
 
 void init_tower_sprite_tiles(){
-
+    /*
+    UINT8 i;
+    UINT8 j;
     for(i = 2; i <= 25; i++){
         for (j = 48; j <= 55; j++)
         set_sprite_tile(i,j);
     }
-    set_sprite_tile(2,48);
+    */
 
     // Tells sprite to use the color pallete
-    // Currently making one spot of the tower blue
     
-    /*
+    // Currently making one spot of the tower blue
+    set_sprite_tile(2,48);
+
     set_sprite_prop(2,1);
     set_sprite_tile(3,49);
     set_sprite_tile(4,50);
@@ -40,7 +43,6 @@ void init_tower_sprite_tiles(){
     set_sprite_tile(23,53);
     set_sprite_tile(24,54);
     set_sprite_tile(25,55);
-    */
 }
 
 void init_tower_sprite_pos(){
