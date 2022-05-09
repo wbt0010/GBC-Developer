@@ -7,10 +7,12 @@ INT8 enemy_err[2];
 INT8 PID_gain[2];
 INT8 PID_out[2];
 
-void enemy_move(){
+void enemy_position(){
+enemy_pos[0] = 80;
+enemy_pos[1] = 80;
+}
 
-    enemy_pos[0] = 80;
-    enemy_pos[1] = 80;
+void enemy_move(){
 
     //X direction movement
     enemy_err[0] = towerAlocation[0] - enemy_pos[0];

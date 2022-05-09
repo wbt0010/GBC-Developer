@@ -88,13 +88,7 @@ void performantdelay(UINT8 numloops){
 }
 
 void main(){
-    /*
-    font_t min_font;
 
-    font_init();
-    min_font = font_load(font_min);
-    font_set(min_font);
-*/
     definevar();
     //Sprite Tile Set
     set_sprite_data(0, 127, GTP);
@@ -114,8 +108,6 @@ void main(){
     set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN0);
 
     set_bkg_palette(0,1,&backgpalette[0]);
-
-
     
     /**
     (First Sprite tile desired, Final Sprite tile desired, VariableXY name)
@@ -140,6 +132,7 @@ void main(){
     //Enemy Sprite
     set_sprite_tile(26,0);
     set_sprite_prop(26,0);
+    enemy_position();
 
     //pseudo tower meta sprites
 
@@ -150,7 +143,7 @@ void main(){
 
     while (1){
     enemy_move();
-    selector();
+    //selector();
     crosshair();
     status = 0;
     move_sprite(0, selectorlocation[0], selectorlocation[1]);
