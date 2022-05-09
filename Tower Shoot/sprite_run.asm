@@ -12,8 +12,6 @@
 	.globl _keypress
 	.globl _main
 	.globl _performantdelay
-	.globl _init_tower_sprite_pos
-	.globl _init_tower_sprite_tiles
 	.globl _definevar
 	.globl _set_sprite_palette
 	.globl _set_bkg_palette
@@ -145,11 +143,158 @@ _definevar::
 	ld	(bc), a
 ;Variable_pckg.c:51: }
 	ret
-;player_init.c:4: void init_tower_sprite_tiles(){
+;sprite_run.c:80: void performantdelay(UINT8 numloops){
 ;	---------------------------------
-; Function init_tower_sprite_tiles
+; Function performantdelay
 ; ---------------------------------
-_init_tower_sprite_tiles::
+_performantdelay::
+;sprite_run.c:82: for(i = 0; i < numloops; i++){
+	ld	c, #0x00
+00103$:
+	ld	a, c
+	ldhl	sp,	#2
+	sub	a, (hl)
+	ret	NC
+;sprite_run.c:83: wait_vbl_done();
+	call	_wait_vbl_done
+;sprite_run.c:82: for(i = 0; i < numloops; i++){
+	inc	c
+;sprite_run.c:85: }
+	jr	00103$
+_backgpalette:
+	.dw #0x536f
+	.dw #0x5ad6
+	.dw #0x42db
+	.dw #0x4ace
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+	.dw #0x17bc
+	.dw #0x22e7
+	.dw #0x19c4
+	.dw #0x14e0
+_spritepalette:
+	.dw #0x7fff
+	.dw #0x044e
+	.dw #0x11a1
+	.dw #0x2fdf
+	.dw #0x7fff
+	.dw #0x1421
+	.dw #0x4063
+	.dw #0x7ce7
+;sprite_run.c:87: void main(){
+;	---------------------------------
+; Function main
+; ---------------------------------
+_main::
+;sprite_run.c:95: definevar();
+	call	_definevar
+;sprite_run.c:97: set_sprite_data(0, 127, GTP);
+	ld	de, #_GTP
+	push	de
+	ld	hl, #0x7f00
+	push	hl
+	call	_set_sprite_data
+	add	sp, #4
+;sprite_run.c:99: set_sprite_palette(0, 8u, &spritepalette[0]);
+	ld	de, #_spritepalette
+	push	de
+	ld	hl, #0x800
+	push	hl
+	call	_set_sprite_palette
+	add	sp, #4
+;sprite_run.c:101: set_bkg_palette(0,12u, &backgpalette[0]);
+	ld	de, #_backgpalette
+	push	de
+	ld	hl, #0xc00
+	push	hl
+	call	_set_bkg_palette
+	add	sp, #4
+;sprite_run.c:103: set_bkg_data(0,6u, map_v1_1_label);
+	ld	de, #_map_v1_1_label
+	push	de
+	ld	hl, #0x600
+	push	hl
+	call	_set_bkg_data
+	add	sp, #4
+;sprite_run.c:105: VBK_REG = 1;
+	ld	a, #0x01
+	ldh	(_VBK_REG + 0), a
+;sprite_run.c:107: set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN1);
+	ld	de, #_Grassland_labelPLN1
+	push	de
+	ld	hl, #0x1214
+	push	hl
+	xor	a, a
+	rrca
+	push	af
+	call	_set_bkg_tiles
+	add	sp, #6
+;sprite_run.c:109: VBK_REG = 0;
+	xor	a, a
+	ldh	(_VBK_REG + 0), a
+;sprite_run.c:111: set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN0);
+	ld	de, #_Grassland_labelPLN0
+	push	de
+	ld	hl, #0x1214
+	push	hl
+	xor	a, a
+	rrca
+	push	af
+	call	_set_bkg_tiles
+	add	sp, #6
+;sprite_run.c:113: set_bkg_palette(0,1,&backgpalette[0]);
+	ld	de, #_backgpalette
+	push	de
+	xor	a, a
+	inc	a
+	push	af
+	call	_set_bkg_palette
+	add	sp, #4
+;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
+	ld	hl, #(_shadow_OAM + 2)
+	ld	(hl), #0x0f
+;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
+	ld	hl, #(_shadow_OAM + 3)
+	ld	(hl), #0x01
+;sprite_run.c:127: move_sprite(0, towerAlocation[0], towerAlocation[1]);
+	ld	hl, #(_towerAlocation + 1)
+	ld	b, (hl)
+	ld	hl, #_towerAlocation
+	ld	c, (hl)
+;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
+	ld	hl, #_shadow_OAM
+;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
+	ld	a, b
+	ld	(hl+), a
+	ld	(hl), c
+;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
+	ld	hl, #(_shadow_OAM + 6)
+	ld	(hl), #0x0e
+;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
+	ld	hl, #(_shadow_OAM + 7)
+	ld	(hl), #0x01
 ;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
 	ld	hl, #(_shadow_OAM + 10)
 	ld	(hl), #0x30
@@ -203,15 +348,12 @@ _init_tower_sprite_tiles::
 	ld	(hl), #0x36
 	ld	hl, #(_shadow_OAM + 102)
 	ld	(hl), #0x37
-;player_init.c:45: set_sprite_tile(25,55);
-;player_init.c:46: }
-	ret
-;player_init.c:48: void init_tower_sprite_pos(){
-;	---------------------------------
-; Function init_tower_sprite_pos
-; ---------------------------------
-_init_tower_sprite_pos::
-;player_init.c:51: move_sprite(9, towerAlocation[0], towerAlocation[1]);
+	ld	hl, #(_shadow_OAM + 106)
+	ld	(hl), #0x00
+;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
+	ld	hl, #(_shadow_OAM + 107)
+	ld	(hl), #0x00
+;sprite_run.c:169: move_sprite(9, towerAlocation[0], towerAlocation[1]);
 	ld	hl, #(_towerAlocation + 1)
 	ld	b, (hl)
 	ld	hl, #_towerAlocation
@@ -222,7 +364,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:53: move_sprite(7, towerAlocation[0] - 8, towerAlocation[1]);
+;sprite_run.c:171: move_sprite(7, towerAlocation[0] - 8, towerAlocation[1]);
 	ld	hl, #(_towerAlocation + 1)
 	ld	b, (hl)
 	ld	a, (#_towerAlocation + 0)
@@ -234,7 +376,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:55: move_sprite(8, towerAlocation[0], towerAlocation[1] - 8);
+;sprite_run.c:173: move_sprite(8, towerAlocation[0], towerAlocation[1] - 8);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -246,7 +388,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:57: move_sprite(6, towerAlocation[0] - 8, towerAlocation[1] - 8);
+;sprite_run.c:175: move_sprite(6, towerAlocation[0] - 8, towerAlocation[1] - 8);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -259,7 +401,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:59: move_sprite(5, towerAlocation[0], towerAlocation[1] - 16);
+;sprite_run.c:177: move_sprite(5, towerAlocation[0], towerAlocation[1] - 16);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -271,7 +413,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:61: move_sprite(3, towerAlocation[0] - 8, towerAlocation[1] - 16);
+;sprite_run.c:179: move_sprite(3, towerAlocation[0] - 8, towerAlocation[1] - 16);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -284,7 +426,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:63: move_sprite(4, towerAlocation[0], towerAlocation[1] - 24);
+;sprite_run.c:181: move_sprite(4, towerAlocation[0], towerAlocation[1] - 24);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -296,7 +438,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:65: move_sprite(2, towerAlocation[0] - 8, towerAlocation[1] - 24);
+;sprite_run.c:183: move_sprite(2, towerAlocation[0] - 8, towerAlocation[1] - 24);
 	ld	a, (#(_towerAlocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -309,7 +451,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:68: move_sprite(17, towerBlocation[0], towerBlocation[1]);
+;sprite_run.c:186: move_sprite(17, towerBlocation[0], towerBlocation[1]);
 	ld	hl, #(_towerBlocation + 1)
 	ld	b, (hl)
 	ld	hl, #_towerBlocation
@@ -320,7 +462,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:70: move_sprite(15, towerBlocation[0] - 8, towerBlocation[1]);
+;sprite_run.c:188: move_sprite(15, towerBlocation[0] - 8, towerBlocation[1]);
 	ld	hl, #(_towerBlocation + 1)
 	ld	b, (hl)
 	ld	a, (#_towerBlocation + 0)
@@ -332,7 +474,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:72: move_sprite(16, towerBlocation[0], towerBlocation[1] - 8);
+;sprite_run.c:190: move_sprite(16, towerBlocation[0], towerBlocation[1] - 8);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -344,7 +486,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:74: move_sprite(14, towerBlocation[0] - 8, towerBlocation[1] - 8);
+;sprite_run.c:192: move_sprite(14, towerBlocation[0] - 8, towerBlocation[1] - 8);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -357,7 +499,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:76: move_sprite(13, towerBlocation[0], towerBlocation[1] - 16);
+;sprite_run.c:194: move_sprite(13, towerBlocation[0], towerBlocation[1] - 16);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -369,7 +511,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:78: move_sprite(11, towerBlocation[0] - 8, towerBlocation[1] - 16);
+;sprite_run.c:196: move_sprite(11, towerBlocation[0] - 8, towerBlocation[1] - 16);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -382,7 +524,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:80: move_sprite(12, towerBlocation[0], towerBlocation[1] - 24);
+;sprite_run.c:198: move_sprite(12, towerBlocation[0], towerBlocation[1] - 24);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -394,7 +536,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:82: move_sprite(10, towerBlocation[0] - 8, towerBlocation[1] - 24);
+;sprite_run.c:200: move_sprite(10, towerBlocation[0] - 8, towerBlocation[1] - 24);
 	ld	a, (#(_towerBlocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -407,7 +549,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:86: move_sprite(25, towerClocation[0], towerClocation[1]);
+;sprite_run.c:204: move_sprite(25, towerClocation[0], towerClocation[1]);
 	ld	hl, #(_towerClocation + 1)
 	ld	b, (hl)
 	ld	hl, #_towerClocation
@@ -418,7 +560,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:88: move_sprite(23, towerClocation[0] - 8, towerClocation[1]);
+;sprite_run.c:206: move_sprite(23, towerClocation[0] - 8, towerClocation[1]);
 	ld	hl, #(_towerClocation + 1)
 	ld	b, (hl)
 	ld	a, (#_towerClocation + 0)
@@ -430,7 +572,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:90: move_sprite(24, towerClocation[0], towerClocation[1] - 8);
+;sprite_run.c:208: move_sprite(24, towerClocation[0], towerClocation[1] - 8);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -442,7 +584,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:92: move_sprite(22, towerClocation[0] - 8, towerClocation[1] - 8);
+;sprite_run.c:210: move_sprite(22, towerClocation[0] - 8, towerClocation[1] - 8);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xf8
 	ld	b, a
@@ -455,7 +597,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:94: move_sprite(21, towerClocation[0], towerClocation[1] - 16);
+;sprite_run.c:212: move_sprite(21, towerClocation[0], towerClocation[1] - 16);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -467,7 +609,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:96: move_sprite(19, towerClocation[0] - 8, towerClocation[1] - 16);
+;sprite_run.c:214: move_sprite(19, towerClocation[0] - 8, towerClocation[1] - 16);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xf0
 	ld	b, a
@@ -480,7 +622,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:98: move_sprite(20, towerClocation[0], towerClocation[1] - 24);
+;sprite_run.c:216: move_sprite(20, towerClocation[0], towerClocation[1] - 24);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -492,7 +634,7 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:100: move_sprite(18, towerClocation[0] - 8, towerClocation[1] - 24);
+;sprite_run.c:218: move_sprite(18, towerClocation[0] - 8, towerClocation[1] - 24);
 	ld	a, (#(_towerClocation + 1) + 0)
 	add	a, #0xe8
 	ld	b, a
@@ -505,193 +647,28 @@ _init_tower_sprite_pos::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;player_init.c:100: move_sprite(18, towerClocation[0] - 8, towerClocation[1] - 24);
-;player_init.c:101: }
-	ret
-;sprite_run.c:82: void performantdelay(UINT8 numloops){
-;	---------------------------------
-; Function performantdelay
-; ---------------------------------
-_performantdelay::
-;sprite_run.c:84: for(i = 0; i < numloops; i++){
-	ld	c, #0x00
-00103$:
-	ld	a, c
-	ldhl	sp,	#2
-	sub	a, (hl)
-	ret	NC
-;sprite_run.c:85: wait_vbl_done();
-	call	_wait_vbl_done
-;sprite_run.c:84: for(i = 0; i < numloops; i++){
-	inc	c
-;sprite_run.c:87: }
-	jr	00103$
-_backgpalette:
-	.dw #0x536f
-	.dw #0x5ad6
-	.dw #0x42db
-	.dw #0x4ace
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-	.dw #0x17bc
-	.dw #0x22e7
-	.dw #0x19c4
-	.dw #0x14e0
-_spritepalette:
-	.dw #0x7fff
-	.dw #0x044e
-	.dw #0x11a1
-	.dw #0x2fdf
-	.dw #0x7fff
-	.dw #0x1421
-	.dw #0x4063
-	.dw #0x7ce7
-;sprite_run.c:89: void main(){
-;	---------------------------------
-; Function main
-; ---------------------------------
-_main::
-;sprite_run.c:97: definevar();
-	call	_definevar
-;sprite_run.c:99: set_sprite_data(0, 127, GTP);
-	ld	de, #_GTP
-	push	de
-	ld	hl, #0x7f00
-	push	hl
-	call	_set_sprite_data
-	add	sp, #4
-;sprite_run.c:101: set_sprite_palette(0, 8u, &spritepalette[0]);
-	ld	de, #_spritepalette
-	push	de
-	ld	hl, #0x800
-	push	hl
-	call	_set_sprite_palette
-	add	sp, #4
-;sprite_run.c:103: set_bkg_palette(0,12u, &backgpalette[0]);
-	ld	de, #_backgpalette
-	push	de
-	ld	hl, #0xc00
-	push	hl
-	call	_set_bkg_palette
-	add	sp, #4
-;sprite_run.c:105: set_bkg_data(0,6u, map_v1_1_label);
-	ld	de, #_map_v1_1_label
-	push	de
-	ld	hl, #0x600
-	push	hl
-	call	_set_bkg_data
-	add	sp, #4
-;sprite_run.c:107: VBK_REG = 1;
-	ld	a, #0x01
-	ldh	(_VBK_REG + 0), a
-;sprite_run.c:109: set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN1);
-	ld	de, #_Grassland_labelPLN1
-	push	de
-	ld	hl, #0x1214
-	push	hl
-	xor	a, a
-	rrca
-	push	af
-	call	_set_bkg_tiles
-	add	sp, #6
-;sprite_run.c:111: VBK_REG = 0;
-	xor	a, a
-	ldh	(_VBK_REG + 0), a
-;sprite_run.c:113: set_bkg_tiles(0, 0, Grassland_labelWidth, Grassland_labelHeight, Grassland_labelPLN0);
-	ld	de, #_Grassland_labelPLN0
-	push	de
-	ld	hl, #0x1214
-	push	hl
-	xor	a, a
-	rrca
-	push	af
-	call	_set_bkg_tiles
-	add	sp, #6
-;sprite_run.c:115: set_bkg_palette(0,1,&backgpalette[0]);
-	ld	de, #_backgpalette
-	push	de
-	xor	a, a
-	inc	a
-	push	af
-	call	_set_bkg_palette
-	add	sp, #4
-;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
-	ld	hl, #(_shadow_OAM + 2)
-	ld	(hl), #0x0f
-;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
-	ld	hl, #(_shadow_OAM + 3)
-	ld	(hl), #0x01
-;sprite_run.c:129: move_sprite(0, towerAlocation[0], towerAlocation[1]);
-	ld	hl, #_towerAlocation + 1
-	ld	b, (hl)
-	ld	hl, #_towerAlocation
-	ld	c, (hl)
-;C:/gbdk/include/gb/gb.h:1520: OAM_item_t * itm = &shadow_OAM[nb];
-	ld	hl, #_shadow_OAM
-;C:/gbdk/include/gb/gb.h:1521: itm->y=y, itm->x=x;
-	ld	a, b
-	ld	(hl+), a
-	ld	(hl), c
-;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
-	ld	hl, #(_shadow_OAM + 6)
-	ld	(hl), #0x0e
-;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
-	ld	hl, #(_shadow_OAM + 7)
-	ld	(hl), #0x01
-;sprite_run.c:136: init_tower_sprite_tiles();
-	call	_init_tower_sprite_tiles
-;sprite_run.c:137: init_tower_sprite_pos();
-	call	_init_tower_sprite_pos
-;C:/gbdk/include/gb/gb.h:1447: shadow_OAM[nb].tile=tile;
-	ld	hl, #(_shadow_OAM + 106)
-	ld	(hl), #0x00
-;C:/gbdk/include/gb/gb.h:1493: shadow_OAM[nb].prop=prop;
-	ld	hl, #(_shadow_OAM + 107)
-	ld	(hl), #0x00
-;sprite_run.c:146: SHOW_BKG;
+;sprite_run.c:220: SHOW_BKG;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x01
 	ldh	(_LCDC_REG + 0), a
-;sprite_run.c:147: DISPLAY_ON;
+;sprite_run.c:221: DISPLAY_ON;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x80
 	ldh	(_LCDC_REG + 0), a
-;sprite_run.c:148: SHOW_SPRITES;
+;sprite_run.c:222: SHOW_SPRITES;
 	ldh	a, (_LCDC_REG + 0)
 	or	a, #0x02
 	ldh	(_LCDC_REG + 0), a
-;sprite_run.c:150: while (1){
+;sprite_run.c:224: while (1){
 00102$:
-;sprite_run.c:152: selector();
+;sprite_run.c:225: selector();
 	call	_selector
-;sprite_run.c:153: crosshair();
+;sprite_run.c:226: crosshair();
 	call	_crosshair
-;sprite_run.c:154: status = 0;
+;sprite_run.c:227: status = 0;
 	ld	hl, #_status
 	ld	(hl), #0x00
-;sprite_run.c:155: move_sprite(0, selectorlocation[0], selectorlocation[1]);
+;sprite_run.c:228: move_sprite(0, selectorlocation[0], selectorlocation[1]);
 	ld	hl, #_selectorlocation + 1
 	ld	b, (hl)
 	ld	hl, #_selectorlocation
@@ -702,7 +679,7 @@ _main::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;sprite_run.c:156: move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
+;sprite_run.c:229: move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
 	ld	hl, #_outofthefuckingway + 1
 	ld	b, (hl)
 	ld	hl, #_outofthefuckingway
@@ -713,19 +690,19 @@ _main::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;sprite_run.c:156: move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
-;sprite_run.c:158: } 
+;sprite_run.c:229: move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
+;sprite_run.c:231: } 
 	jr	00102$
-;sprite_run.c:160: void selector(){
+;sprite_run.c:233: void selector(){
 ;	---------------------------------
 ; Function selector
 ; ---------------------------------
 _selector::
-;sprite_run.c:161: if(status == 0){
+;sprite_run.c:234: if(status == 0){
 	ld	a, (#_status)
 	or	a, a
 	ret	NZ
-;sprite_run.c:162: switch(joypad()){
+;sprite_run.c:235: switch(joypad()){
 	call	_joypad
 	ld	a, e
 	cp	a, #0x01
@@ -734,70 +711,70 @@ _selector::
 	jr	Z, 00102$
 	sub	a, #0x08
 	ret	NZ
-;sprite_run.c:164: selectorlocation[0] = towerAlocation[0];
+;sprite_run.c:237: selectorlocation[0] = towerAlocation[0];
 	ld	bc, #_selectorlocation+0
 	ld	de, #_towerAlocation+0
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:165: selectorlocation[1] = towerAlocation[1];
+;sprite_run.c:238: selectorlocation[1] = towerAlocation[1];
 	inc	bc
 	inc	de
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:166: mappos = 0;
+;sprite_run.c:239: mappos = 0;
 	ld	hl, #_mappos
 	ld	(hl), #0x00
-;sprite_run.c:167: break;
+;sprite_run.c:240: break;
 	ret
-;sprite_run.c:169: case J_LEFT:
+;sprite_run.c:242: case J_LEFT:
 00102$:
-;sprite_run.c:170: selectorlocation[0] = towerBlocation[0];
+;sprite_run.c:243: selectorlocation[0] = towerBlocation[0];
 	ld	bc, #_selectorlocation+0
 	ld	de, #_towerBlocation+0
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:171: selectorlocation[1] = towerBlocation[1];
+;sprite_run.c:244: selectorlocation[1] = towerBlocation[1];
 	inc	bc
 	inc	de
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:172: mappos = 1;
+;sprite_run.c:245: mappos = 1;
 	ld	hl, #_mappos
 	ld	(hl), #0x01
-;sprite_run.c:173: break;
+;sprite_run.c:246: break;
 	ret
-;sprite_run.c:175: case J_RIGHT:
+;sprite_run.c:248: case J_RIGHT:
 00103$:
-;sprite_run.c:176: selectorlocation[0] = towerClocation[0];
+;sprite_run.c:249: selectorlocation[0] = towerClocation[0];
 	ld	bc, #_selectorlocation+0
 	ld	de, #_towerClocation+0
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:177: selectorlocation[1] = towerClocation[1];
+;sprite_run.c:250: selectorlocation[1] = towerClocation[1];
 	inc	bc
 	inc	de
 	ld	a, (de)
 	ld	(bc), a
-;sprite_run.c:178: mappos = 2;
+;sprite_run.c:251: mappos = 2;
 	ld	hl, #_mappos
 	ld	(hl), #0x02
-;sprite_run.c:180: }
-;sprite_run.c:183: }
+;sprite_run.c:253: }
+;sprite_run.c:256: }
 	ret
-;sprite_run.c:185: void crosshair(){
+;sprite_run.c:258: void crosshair(){
 ;	---------------------------------
 ; Function crosshair
 ; ---------------------------------
 _crosshair::
-;sprite_run.c:186: while(joypad() & J_B){
+;sprite_run.c:259: while(joypad() & J_B){
 00115$:
 	call	_joypad
 	bit	5, e
 	ret	Z
-;sprite_run.c:187: status = 1;
+;sprite_run.c:260: status = 1;
 	ld	hl, #_status
 	ld	(hl), #0x01
-;sprite_run.c:188: move_sprite(0, outofthefuckingway[0], outofthefuckingway[1]);
+;sprite_run.c:261: move_sprite(0, outofthefuckingway[0], outofthefuckingway[1]);
 	ld	hl, #(_outofthefuckingway + 1)
 	ld	b, (hl)
 	ld	hl, #_outofthefuckingway
@@ -808,18 +785,18 @@ _crosshair::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;sprite_run.c:190: if(joypad() & J_UP && crosshairlocation[1] >= 20){
+;sprite_run.c:263: if(joypad() & J_UP && crosshairlocation[1] >= 20){
 	call	_joypad
 	bit	2, e
 	jr	Z, 00102$
 	ld	a, (#(_crosshairlocation + 1) + 0)
 	cp	a, #0x14
 	jr	C, 00102$
-;sprite_run.c:191: crosshairlocation[1] = crosshairlocation[1] - 1;
+;sprite_run.c:264: crosshairlocation[1] = crosshairlocation[1] - 1;
 	dec	a
 	ld	(#(_crosshairlocation + 1)),a
 00102$:
-;sprite_run.c:193: if(joypad() & J_DOWN && crosshairlocation[1] <= towerAlocation[1]){
+;sprite_run.c:266: if(joypad() & J_DOWN && crosshairlocation[1] <= towerAlocation[1]){
 	call	_joypad
 	bit	3, e
 	jr	Z, 00105$
@@ -828,12 +805,12 @@ _crosshair::
 	ld	a, (#(_towerAlocation + 1) + 0)
 	sub	a, c
 	jr	C, 00105$
-;sprite_run.c:194: crosshairlocation[1] = crosshairlocation[1] + 1;
+;sprite_run.c:267: crosshairlocation[1] = crosshairlocation[1] + 1;
 	inc	c
 	ld	hl, #(_crosshairlocation + 1)
 	ld	(hl), c
 00105$:
-;sprite_run.c:196: if(joypad() & J_LEFT && crosshairlocation[0] >= towerBlocation[0]){
+;sprite_run.c:269: if(joypad() & J_LEFT && crosshairlocation[0] >= towerBlocation[0]){
 	call	_joypad
 	bit	1, e
 	jr	Z, 00108$
@@ -842,11 +819,11 @@ _crosshair::
 	ld	c, (hl)
 	cp	a, c
 	jr	C, 00108$
-;sprite_run.c:197: crosshairlocation[0] = crosshairlocation[0] - 1;
+;sprite_run.c:270: crosshairlocation[0] = crosshairlocation[0] - 1;
 	dec	a
 	ld	(#_crosshairlocation),a
 00108$:
-;sprite_run.c:199: if(joypad() & J_RIGHT && crosshairlocation[0] <= towerClocation[0]){
+;sprite_run.c:272: if(joypad() & J_RIGHT && crosshairlocation[0] <= towerClocation[0]){
 	call	_joypad
 	ld	a, e
 	rrca
@@ -856,16 +833,16 @@ _crosshair::
 	ld	a, (#_towerClocation + 0)
 	sub	a, c
 	jr	C, 00111$
-;sprite_run.c:200: crosshairlocation[0] = crosshairlocation[0] + 1;
+;sprite_run.c:273: crosshairlocation[0] = crosshairlocation[0] + 1;
 	inc	c
 	ld	hl, #_crosshairlocation
 	ld	(hl), c
 00111$:
-;sprite_run.c:203: if(joypad() & J_A){
+;sprite_run.c:276: if(joypad() & J_A){
 	call	_joypad
 	bit	4, e
 	jr	Z, 00114$
-;sprite_run.c:205: move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
+;sprite_run.c:278: move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
 	ld	hl, #(_crosshairlocation + 1)
 	ld	b, (hl)
 	ld	hl, #_crosshairlocation
@@ -876,9 +853,9 @@ _crosshair::
 	ld	a, b
 	ld	(hl+), a
 	ld	(hl), c
-;sprite_run.c:205: move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
+;sprite_run.c:278: move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
 00114$:
-;sprite_run.c:207: move_sprite(1, crosshairlocation[0], crosshairlocation[1]);
+;sprite_run.c:280: move_sprite(1, crosshairlocation[0], crosshairlocation[1]);
 	ld	hl, #(_crosshairlocation + 1)
 	ld	c, (hl)
 	ld	hl, #_crosshairlocation
@@ -889,58 +866,58 @@ _crosshair::
 	ld	a, c
 	ld	(hl+), a
 	ld	(hl), b
-;sprite_run.c:208: delay(8);
+;sprite_run.c:281: delay(8);
 	ld	de, #0x0008
 	push	de
 	call	_delay
 	pop	hl
-;sprite_run.c:210: }
+;sprite_run.c:283: }
 	jp	00115$
-;sprite_run.c:213: void keypress(){
+;sprite_run.c:286: void keypress(){
 ;	---------------------------------
 ; Function keypress
 ; ---------------------------------
 _keypress::
-;sprite_run.c:214: if (keydown){
+;sprite_run.c:287: if (keydown){
 	ld	a, (#_keydown)
 	or	a, a
 	ret	Z
-;sprite_run.c:215: waitpadup();
+;sprite_run.c:288: waitpadup();
 	call	_waitpadup
-;sprite_run.c:216: keydown = 0;
+;sprite_run.c:289: keydown = 0;
 	ld	hl, #_keydown
 	ld	(hl), #0x00
-;sprite_run.c:218: }
+;sprite_run.c:291: }
 	ret
-;sprite_run.c:233: void special(){
+;sprite_run.c:294: void special(){
 ;	---------------------------------
 ; Function special
 ; ---------------------------------
 _special::
-;sprite_run.c:235: keypress(); 
+;sprite_run.c:296: keypress(); 
 	call	_keypress
-;sprite_run.c:236: specSel = 1;
+;sprite_run.c:297: specSel = 1;
 	ld	hl, #_specSel
 	ld	(hl), #0x01
-;sprite_run.c:238: if(joypad() & J_SELECT){
+;sprite_run.c:299: if(joypad() & J_SELECT){
 	call	_joypad
 	bit	6, e
 	jr	Z, 00102$
-;sprite_run.c:239: keydown = 1;
+;sprite_run.c:300: keydown = 1;
 	ld	hl, #_keydown
 	ld	(hl), #0x01
-;sprite_run.c:240: specSel += 1;
+;sprite_run.c:301: specSel += 1;
 	ld	hl, #_specSel
 	inc	(hl)
 00102$:
-;sprite_run.c:245: if (specSel > 3){
+;sprite_run.c:306: if (specSel > 3){
 	ld	a, #0x03
 	ld	hl, #_specSel
 	sub	a, (hl)
 	ret	NC
-;sprite_run.c:246: specSel = 1;
+;sprite_run.c:307: specSel = 1;
 	ld	(hl), #0x01
-;sprite_run.c:248: }
+;sprite_run.c:309: }
 	ret
 	.area _CODE
 	.area _INITIALIZER
