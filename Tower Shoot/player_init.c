@@ -5,7 +5,6 @@
 void init_tower_sprite_tiles(){
     UINT8 i;
     UINT8 j;
-    for(i = 2; i <= 25; i++){
     UINT8 k; 
     j = 2;
     for(i = 0; i <= 3; i++){
