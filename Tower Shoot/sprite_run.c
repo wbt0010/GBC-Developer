@@ -6,6 +6,7 @@
 #include "Variable_pckg.c"
 #include "enemies.c"
 #include "player_init.c"
+#include "enemy_move.c"
 //Background Tiles
 #include "map_v1_1.h"
 #include "Grassland.h"
@@ -148,7 +149,7 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-   // enemymovement();
+    enemy_move();
     selector();
     crosshair();
     status = 0;
