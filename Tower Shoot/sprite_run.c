@@ -142,12 +142,13 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-    enemy_move();
-    //selector();
+    enemy_move(1);
+    selector();
     crosshair();
     status = 0;
     move_sprite(0, selectorlocation[0], selectorlocation[1]);
     move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
+    delay(32);
     }
 } 
 
@@ -197,6 +198,8 @@ void crosshair(){
             if(joypad() & J_A){
                 //drop selected special
                 move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
+                enemy_pos[0] = crosshairlocation[0];
+                enemy_pos[1] = crosshairlocation[1];
             }
             move_sprite(1, crosshairlocation[0], crosshairlocation[1]);
             delay(8);
