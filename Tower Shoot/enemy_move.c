@@ -14,6 +14,8 @@ void enemy_position(){
 }
 
 void rnJesus(){
+    //Generates random numer 0-2 and assign the target tower accordingly
+
     UINT8 rand_num;
     rand_num = rand();
     rand_num = rand_num % 3;
@@ -54,6 +56,7 @@ void enemy_move(UINT8 enemy_speed){
         enemy_pos[1] = enemy_pos[1] + enemy_speed;
     }
 
+    //Once the sprite reaches the tower, another random target is generated
     if(enemy_err[0] == 0 && enemy_err[1] == 0){
         rnJesus();
     }
