@@ -21,15 +21,15 @@ void rnJesus(){
     rand_num = rand_num % 3;
 
     if(rand_num == 0){
-        tower_des[0] = towerAlocation[0];
-        tower_des[1] = towerAlocation[1];
+        tower_des[0] = towerAlocation[0] - 4;
+        tower_des[1] = towerAlocation[1] - 32;
     }
     else if (rand_num == 1){
-        tower_des[0] = towerBlocation[0];
+        tower_des[0] = towerBlocation[0] + 8;
         tower_des[1] = towerBlocation[1];
     }
     else if (rand_num == 2){
-        tower_des[0] = towerClocation[0];
+        tower_des[0] = towerClocation[0] - 12;
         tower_des[1] = towerClocation[1];
     } 
 }

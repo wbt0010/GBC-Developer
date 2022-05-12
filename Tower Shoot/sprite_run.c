@@ -95,9 +95,9 @@ void main(){
     //Sprite Palette Set
     set_sprite_palette(0, 8u, &spritepalette[0]);
     //Bckg Palette Set
-    set_bkg_palette(0,12u, &backgpalette[0]);
+    set_bkg_palette(0, 12u, &backgpalette[0]);
     //Bckg Tile Location
-    set_bkg_data(0,6u, map_v1_1_label);
+    set_bkg_data(0, 6u, map_v1_1_label);
 
     VBK_REG = 1;
 
@@ -120,9 +120,11 @@ void main(){
     set_sprite_tile(0,15);
     set_sprite_prop(0,1);
     move_sprite(0, towerAlocation[0], towerAlocation[1]);
+
     //Crosshair
     set_sprite_tile(1,14);
     set_sprite_prop(1,1);
+
     //Projectile
 
     //Initialize sprite tiles for tower
@@ -144,7 +146,6 @@ void main(){
     selector();
     crosshair();
     status = 0;
-    move_sprite(0, selectorlocation[0], selectorlocation[1]);
     move_sprite(1, outofthefuckingway[0], outofthefuckingway[1]);
     //Retard delay might fuck stuff up
     delay(32);
@@ -152,28 +153,38 @@ void main(){
 } 
 
 void selector(){
+
 if(status == 0){
     switch(joypad()){
             case J_DOWN:
             selectorlocation[0] = towerAlocation[0];
             selectorlocation[1] = towerAlocation[1];
             mappos = 0;
+            tower_select_color(2,0);
+            tower_select_color(10,1);
+            tower_select_color(18,1);
             break;
 
             case J_LEFT:
             selectorlocation[0] = towerBlocation[0];
             selectorlocation[1] = towerBlocation[1];
             mappos = 1;
+            tower_select_color(10,0);
+            tower_select_color(2,1);
+            tower_select_color(18,1);
             break;
 
             case J_RIGHT:
             selectorlocation[0] = towerClocation[0];
             selectorlocation[1] = towerClocation[1];
             mappos = 2;
+            tower_select_color(18,0);
+            tower_select_color(2,1);
+            tower_select_color(10,1);
             break;
-            }
-            
         }
+     move_sprite(0, selectorlocation[0], selectorlocation[1]);
+    }
 }
 
 void crosshair(){
@@ -212,19 +223,6 @@ if (keydown){
     keydown = 0;
     }
 }
-
-// /**
-// int minimum(int[] arr)
-// {
-//     int temp = arr[0];
-
-//     for(int i = 1; i < arr.length; i++)
-//     {
-//         if(arr[i] < temp) temp = arr[i];
-//     }
-//     return temp;
-// }
-// **/
 
 void special(){
 //Mini display of which special is selected: bomb = 1, arrowstorm = 2, lightning = 3.

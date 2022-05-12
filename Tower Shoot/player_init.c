@@ -2,57 +2,32 @@
 #include <gb/cgb.h>
 #include <gbdk/font.h>
 
+
+// Tower A tiles 3-9 
+
+// Tower B tiles 10-17
+
+// //Tower C tiles 18-25
+
+
 void init_tower_sprite_tiles(){
     UINT8 i;
-    UINT8 j;
     UINT8 k; 
+    UINT8 j;
     j = 2;
     for(i = 0; i <= 3; i++){
         for(k = 48; k <= 55; k++){
             set_sprite_tile(j,k);
+            //To set color pallete set_sprite_prop(Internal ID # of sprite, desired color palatte)
+            set_sprite_prop(j,1);
             j++;
         }
     }
-    set_sprite_prop(2,1);
-    // //set_sprite_tile(2,48);
-
-    // // Tells sprite to use the color pallete
-    // // Currently making one spot of the tower blue
-    
-    
-    // set_sprite_prop(2,1);
-    // set_sprite_tile(3,49);
-    // set_sprite_tile(4,50);
-    // set_sprite_tile(5,51);
-    // set_sprite_tile(6,52);
-    // set_sprite_tile(7,53);
-    // set_sprite_tile(8,54);
-    // set_sprite_tile(9,55);
-    // //Tower B tiles
-    // set_sprite_tile(10,48);
-    // set_sprite_tile(11,49);
-    // set_sprite_tile(12,50);
-    // set_sprite_tile(13,51);
-    // set_sprite_tile(14,52);
-    // set_sprite_tile(15,53);
-    // set_sprite_tile(16,54);
-    // set_sprite_tile(17,55);
-    
-    // //Tower C tiles
-    // set_sprite_tile(18,48);
-    // set_sprite_tile(19,49);
-    // set_sprite_tile(20,50);
-    // set_sprite_tile(21,51);
-    // set_sprite_tile(22,52);
-    // set_sprite_tile(23,53);
-    // set_sprite_tile(24,54);
-    // set_sprite_tile(25,55);
 }
-
 
 void init_tower_sprite_pos(){
 
-    
+    //tower a bottom right
     move_sprite(9, towerAlocation[0], towerAlocation[1]);
     //tower a bottom left
     move_sprite(7, towerAlocation[0] - 8, towerAlocation[1]);
@@ -104,3 +79,16 @@ void init_tower_sprite_pos(){
     //tower c top left
     move_sprite(18, towerClocation[0] - 8, towerClocation[1] - 24);
 }
+
+
+//This function can be used to changed the tower to any desired color palatte
+//j is the # of the first sprite for that tower (see index on line 6)
+void tower_select_color(UINT8 j, UINT8 tower_pal){
+    UINT8 k; 
+        for(k = 48; k <= 55; k++){
+            set_sprite_tile(j,k);
+            //To set color pallete set_sprite_prop(Internal ID # of sprite, desired color palatte)
+            set_sprite_prop(j,tower_pal);
+            j++;
+        }
+    }
