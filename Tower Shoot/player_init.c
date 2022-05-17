@@ -63,21 +63,21 @@ void init_tower_sprite_pos(){
     
    
     //tower c bottom right
-    move_sprite(25, towerClocation[0], towerClocation[1]);
+    move_sprite(25, towerClocation[0] + 8, towerClocation[1]);
     //tower c bottom left
-    move_sprite(23, towerClocation[0] - 8, towerClocation[1]);
+    move_sprite(23, towerClocation[0], towerClocation[1]);
     //tower c middle right
-    move_sprite(24, towerClocation[0], towerClocation[1] - 8);
+    move_sprite(24, towerClocation[0] + 8, towerClocation[1] - 8);
     //tower c middle left
-    move_sprite(22, towerClocation[0] - 8, towerClocation[1] - 8);
+    move_sprite(22, towerClocation[0], towerClocation[1] - 8);
     //tower c middle upper right
-    move_sprite(21, towerClocation[0], towerClocation[1] - 16);
+    move_sprite(21, towerClocation[0] + 8, towerClocation[1] - 16);
     //tower c middle upper left
-    move_sprite(19, towerClocation[0] - 8, towerClocation[1] - 16);
+    move_sprite(19, towerClocation[0], towerClocation[1] - 16);
     //tower c top right
-    move_sprite(20, towerClocation[0], towerClocation[1] - 24);
+    move_sprite(20, towerClocation[0] + 8, towerClocation[1] - 24);
     //tower c top left
-    move_sprite(18, towerClocation[0] - 8, towerClocation[1] - 24);
+    move_sprite(18, towerClocation[0], towerClocation[1] - 24);
 }
 
 

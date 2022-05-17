@@ -2,7 +2,6 @@
 2 - small enemy sp2
 
 14 - cursor crosshair
-15 - cursor brackets
 
 32 - Catapult 1 top left
 33 - catapult 1 bottom left
@@ -17,7 +16,7 @@
 42 - Catapult 3 top right
 43 - Catapult 3 bottom right
 
-48- Tower upper top left
+48 - Tower upper top left
 49 - Tower upper bottom left
 50 - Tower upper top right
 51 - Tower upper bottom right

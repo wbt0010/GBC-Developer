@@ -116,16 +116,21 @@ void main(){
     selector tile(tile identifyer, tile location)
     */
 
-    //Selector
-    set_sprite_tile(0,15);
-    set_sprite_prop(0,1);
-    move_sprite(0, towerAlocation[0], towerAlocation[1]);
-
     //Crosshair
     set_sprite_tile(1,14);
     set_sprite_prop(1,1);
 
     //Projectile
+    //Attempting to place catapault but pulls tower sprites for some reason
+    //I'll let the graphics expert handle this one...
+    set_sprite_tile(32,32);
+    set_sprite_tile(91,33);
+    set_sprite_tile(92,34);
+    set_sprite_tile(93,35);
+    move_sprite(32, 80, 80);
+    move_sprite(33, 80, 80 - 8);
+    move_sprite(34, 80 + 8, 80);
+    move_sprite(35, 80 + 8, 80 - 8);
 
     //Initialize sprite tiles for tower
     init_tower_sprite_tiles();
@@ -157,8 +162,6 @@ void selector(){
 if(status == 0){
     switch(joypad()){
             case J_DOWN:
-            selectorlocation[0] = towerAlocation[0];
-            selectorlocation[1] = towerAlocation[1];
             mappos = 0;
             tower_select_color(2,0);
             tower_select_color(10,1);
@@ -166,8 +169,6 @@ if(status == 0){
             break;
 
             case J_LEFT:
-            selectorlocation[0] = towerBlocation[0];
-            selectorlocation[1] = towerBlocation[1];
             mappos = 1;
             tower_select_color(10,0);
             tower_select_color(2,1);
@@ -175,23 +176,21 @@ if(status == 0){
             break;
 
             case J_RIGHT:
-            selectorlocation[0] = towerClocation[0];
-            selectorlocation[1] = towerClocation[1];
             mappos = 2;
             tower_select_color(18,0);
             tower_select_color(2,1);
             tower_select_color(10,1);
             break;
         }
-     move_sprite(0, selectorlocation[0], selectorlocation[1]);
     }
 }
 
 void crosshair(){
     while(joypad() & J_B){
             status = 1;
-            move_sprite(0, outofthefuckingway[0], outofthefuckingway[1]);
-        
+            tower_select_color(2,1);
+            tower_select_color(10,1);
+            tower_select_color(18,1);
             if(joypad() & J_UP && crosshairlocation[1] >= 20){
                 crosshairlocation[1] = crosshairlocation[1] - 1;
             }
@@ -216,7 +215,7 @@ void crosshair(){
         }
 }
 
-//If loop to prevent cycling through options or movements too quickly
+//Only allows for one iput at a time (waits for input to be released)
 void keypress(){
 if (keydown){
     waitpadup();
@@ -224,6 +223,9 @@ if (keydown){
     }
 }
 
+
+//I have no idea where I was going with this 
+//Should probably restart this whole idea
 void special(){
 //Mini display of which special is selected: bomb = 1, arrowstorm = 2, lightning = 3.
 keypress(); 

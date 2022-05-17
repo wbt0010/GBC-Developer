@@ -10,7 +10,6 @@ UINT8 status = 0;
 UINT8 mappos = 0;
 //Use your eyes
 UINT8 crosshairlocation[2];
-UINT8 selectorlocation[2];
 //Which special ablity has been selected
 UINT8 specSel;
 //Single Key Inputs
@@ -31,12 +30,10 @@ towerBlocation[0] = 40;
 towerBlocation[1] = 88;
 
 //tower sprite location [0],x [1],y
-towerClocation[0] = 145;
+towerClocation[0] = 138;
 towerClocation[1] = 72;
 
 //initializing selector location
-selectorlocation[0] = towerAlocation[0];
-selectorlocation[1] = towerAlocation[1];
 crosshairlocation[0] = 80;
 crosshairlocation[1] = 72;
 

@@ -10,7 +10,7 @@ INT16 enemy_err[2];
 
 void enemy_position(){
     enemy_pos[0] = 80;
-    enemy_pos[1] = 80;
+    enemy_pos[1] = 0;
 }
 
 void rnJesus(){
@@ -21,15 +21,15 @@ void rnJesus(){
     rand_num = rand_num % 3;
 
     if(rand_num == 0){
-        tower_des[0] = towerAlocation[0] - 4;
-        tower_des[1] = towerAlocation[1] - 32;
+        tower_des[0] = towerAlocation[0];
+        tower_des[1] = towerAlocation[1];
     }
     else if (rand_num == 1){
-        tower_des[0] = towerBlocation[0] + 8;
+        tower_des[0] = towerBlocation[0];
         tower_des[1] = towerBlocation[1];
     }
     else if (rand_num == 2){
-        tower_des[0] = towerClocation[0] - 12;
+        tower_des[0] = towerClocation[0];
         tower_des[1] = towerClocation[1];
     } 
 }
@@ -58,6 +58,8 @@ void enemy_move(UINT8 enemy_speed){
 
     //Once the sprite reaches the tower, another random target is generated
     if(enemy_err[0] == 0 && enemy_err[1] == 0){
+        //For longer term, this is where the enemy attack command should be used
+        //Or this would be the section where the enemies fall into the tower's "slotted"
         rnJesus();
     }
 
