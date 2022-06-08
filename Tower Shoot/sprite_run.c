@@ -123,14 +123,14 @@ void main(){
     //Projectile
     //Attempting to place catapault but pulls tower sprites for some reason
     //I'll let the graphics expert handle this one...
-    set_sprite_tile(32,32);
-    set_sprite_tile(91,33);
-    set_sprite_tile(92,34);
-    set_sprite_tile(93,35);
-    move_sprite(32, 80, 80);
-    move_sprite(33, 80, 80 - 8);
-    move_sprite(34, 80 + 8, 80);
-    move_sprite(35, 80 + 8, 80 - 8);
+    set_sprite_tile(34,32);
+    set_sprite_tile(35,33);
+    set_sprite_tile(36,34);
+    set_sprite_tile(37,35);
+    move_sprite(35, towerBlocation[0], towerAlocation[1]);
+    move_sprite(34, towerBlocation[0], towerAlocation[1] - 8);
+    move_sprite(37, towerBlocation[0] + 8, towerAlocation[1]);
+    move_sprite(36, towerBlocation[0] + 8, towerAlocation[1] - 8);
 
     //Initialize sprite tiles for tower
     init_tower_sprite_tiles();
