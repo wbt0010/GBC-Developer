@@ -2,13 +2,19 @@
 #include <gb/cgb.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <rand.h>
 
 UINT8 enemy_pos[2];
 UINT8 tower_des[2];
 INT16 enemy_err[2];
+UINT8 enemy_move_delay = 0;
+// Both of these are just used for the movement animation
+UINT8 enemy_walk_delay = 0;
+bool enemy_walk_state = false;
 
-void enemy_position(){
+void enemy_position()
+{
     enemy_pos[0] = 80;
     enemy_pos[1] = 0;
 }
@@ -33,37 +39,67 @@ void rnJesus(){
         tower_des[1] = towerClocation[1];
     } 
 }
+void enemy_walk() {
+    // Each "frame", increment by 1. Every 8 frames, reset then change walk state from 0 to 1
+    if(enemy_walk_delay != 8){
+        enemy_walk_delay++;
+    }
+    else{
+        enemy_walk_delay = 0;
+        if(enemy_walk_state == 0){
+        // Hardcoded for a specific sprite index right now
+        set_sprite_tile(26,0);
+        enemy_walk_state = 1;
+        }
+        else {
+            set_sprite_tile(26,1);
+            enemy_walk_state = 0;
+        }
+    }
+    
+}
 
 void enemy_move(UINT8 enemy_speed){
-
-    //X direction movement
-    enemy_err[0] = tower_des[0] - enemy_pos[0];
-
-    if (enemy_err[0] < 0 ){
-        enemy_pos[0] = enemy_pos[0] - enemy_speed;
-    }
-    else if (enemy_err[0] > 0 ){
-        enemy_pos[0] = enemy_pos[0] + enemy_speed;
+    // Delays enemey movement to 1/128 of a physics tick
+    if(enemy_move_delay != 128) {
+        enemy_move_delay++;
     }
 
-    //Y direction movement
-    enemy_err[1] = tower_des[1] - enemy_pos[1];
+    else{
+        enemy_move_delay = 0;
+        // Calculate error
+        enemy_err[0] = tower_des[0] - enemy_pos[0];
+        enemy_err[1] = tower_des[1] - enemy_pos[1];
+        // Calculate the direction
+        if(enemy_err[0] > 0){
+            enemy_pos[0] = enemy_pos[0] + enemy_speed;
+        }
+        else if(enemy_err[0] < 0){
+            enemy_pos[0] = enemy_pos[0] - enemy_speed;
+        }
+        if(enemy_err[1] > 0){
+            enemy_pos[1] = enemy_pos[1] + enemy_speed;
+        }
+        else if(enemy_err[1] < 0){
+            enemy_pos[1] = enemy_pos[1] - enemy_speed;
+        }
 
-    if (enemy_err[1] < 0 ){
-        enemy_pos[1] = enemy_pos[1] - enemy_speed;
-    }
-    else if (enemy_err[1] > 0 ){
-        enemy_pos[1] = enemy_pos[1] + enemy_speed;
-    }
+        if(enemy_err[0] == 0 && enemy_err[1] == 0){
+            //For longer term, this is where the enemy attack command should be used
+            //Or this would be the section where the enemies fall into the tower's "slotted"
+            rnJesus();
+        }
+        // Move the sprite
+        move_sprite(26, enemy_pos[0], enemy_pos[1]);
 
-    //Once the sprite reaches the tower, another random target is generated
-    if(enemy_err[0] == 0 && enemy_err[1] == 0){
-        //For longer term, this is where the enemy attack command should be used
-        //Or this would be the section where the enemies fall into the tower's "slotted"
-        rnJesus();
+        //Sprite animation
+        enemy_walk();
     }
 
     //Sprite driectional input
     move_sprite(26, enemy_pos[0], enemy_pos[1]);
+
     
 }
+
+
