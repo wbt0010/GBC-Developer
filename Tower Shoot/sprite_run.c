@@ -163,6 +163,7 @@ if(status == 0){
         // Todo: move tower select to other function
             case J_DOWN:
             if(mappos != 0){
+                tower_set_color(tower_a);
                 mappos = 0;
                 tower_select_color(2,0);
                 tower_select_color(10,1);
@@ -172,6 +173,7 @@ if(status == 0){
 
             case J_LEFT:
             if(mappos != 1){
+                tower_set_color(tower_b);
                 mappos = 1;
                 tower_select_color(2,1);
                 tower_select_color(10,0);
@@ -181,6 +183,7 @@ if(status == 0){
 
             case J_RIGHT:
             if(mappos != 2){
+                tower_set_color(tower_c);
                 mappos = 2;
                 tower_select_color(2,1);
                 tower_select_color(10,1);
@@ -188,7 +191,7 @@ if(status == 0){
             }
             break;
         }
-    }
+    }  
 }
 
 void crosshair(){

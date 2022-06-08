@@ -9,6 +9,11 @@
 
 // //Tower C tiles 18-25
 
+enum tower_id{
+    tower_a,
+    tower_b,
+    tower_c
+};
 
 void init_tower_sprite_tiles(){
     UINT8 i;
@@ -92,3 +97,24 @@ void tower_select_color(UINT8 j, UINT8 tower_pal){
             j++;
         }
     }
+
+void tower_set_color(enum tower_id tower_id){
+    switch(tower_id){
+        case tower_a:
+            tower_select_color(2,0);
+            tower_select_color(10,1);
+            tower_select_color(18,1);
+            break;
+        case tower_b:
+            tower_select_color(2,1);
+            tower_select_color(10,0);
+            tower_select_color(18,1);
+            break;
+        case tower_c:
+            tower_select_color(2,1);
+            tower_select_color(10,1);
+            tower_select_color(18,0);
+            break;
+    }
+
+}
