@@ -160,25 +160,32 @@ void selector(){
 
 if(status == 0){
     switch(joypad()){
+        // Todo: move tower select to other function
             case J_DOWN:
-            mappos = 0;
-            tower_select_color(2,0);
-            tower_select_color(10,1);
-            tower_select_color(18,1);
+            if(mappos != 0){
+                mappos = 0;
+                tower_select_color(2,0);
+                tower_select_color(10,1);
+                tower_select_color(18,1);
+            }
             break;
 
             case J_LEFT:
-            mappos = 1;
-            tower_select_color(10,0);
-            tower_select_color(2,1);
-            tower_select_color(18,1);
+            if(mappos != 1){
+                mappos = 1;
+                tower_select_color(2,1);
+                tower_select_color(10,0);
+                tower_select_color(18,1);
+            }
             break;
 
             case J_RIGHT:
-            mappos = 2;
-            tower_select_color(18,0);
-            tower_select_color(2,1);
-            tower_select_color(10,1);
+            if(mappos != 2){
+                mappos = 2;
+                tower_select_color(2,1);
+                tower_select_color(10,1);
+                tower_select_color(18,0);
+            }
             break;
         }
     }
