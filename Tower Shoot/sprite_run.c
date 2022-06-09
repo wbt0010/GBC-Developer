@@ -7,6 +7,7 @@
 #include "enemies.c"
 #include "player_init.c"
 #include "enemy_move.c"
+#include "projectile.c"
 //Background Tiles
 #include "map_v1_1.h"
 #include "Grassland.h"

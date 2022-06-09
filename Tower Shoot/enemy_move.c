@@ -16,7 +16,7 @@ bool enemy_walk_state = false;
 void enemy_position()
 {
     enemy_pos[0] = 80;
-    enemy_pos[1] = 0;
+    enemy_pos[1] = 80;
 }
 
 void rnJesus(){
@@ -89,17 +89,15 @@ void enemy_move(UINT8 enemy_speed){
             //Or this would be the section where the enemies fall into the tower's "slotted"
             rnJesus();
         }
-        // Move the sprite
-        move_sprite(26, enemy_pos[0], enemy_pos[1]);
 
         //Sprite animation
+    if(enemy_err[0] != 0 || enemy_err[1] != 0){
         enemy_walk();
     }
+}
 
     //Sprite driectional input
     move_sprite(26, enemy_pos[0], enemy_pos[1]);
-
-    
 }
 
 
