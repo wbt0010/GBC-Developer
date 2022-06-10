@@ -6,8 +6,10 @@
 
 // Array of all enemies
 // UINT8 allEnemies[];
-UINT8 enemyIndex = 100;
-// Values above 100 are reserved for enemies
+// Todo: make dynamic array of all enemies, then handle their movement via "enemy_movement_tick"
+UINT8 enemyIndex = 25;
+// Values below 26 and above 34 are reserved for player sprites
+// First index used is above value + 1
 
 struct enemy{
     UINT8 health;
@@ -22,13 +24,16 @@ struct enemy{
 };
 
 struct enemy * getGrunt(){
+    enemyIndex++;
 
     struct enemy *grunt = malloc(sizeof(struct enemy));
     grunt->health = 10;
     grunt->speed = 1;
     grunt->damage = 1;
     grunt->spriteID = enemyIndex;
-    enemyIndex++;
+    grunt->en_enemy_pos[0] = 80;
+    grunt->en_enemy_pos[1] = 80;
+    
 
     // Need to move next_ptr for each enemy to create a stack of enemys
 

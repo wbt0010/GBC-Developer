@@ -138,9 +138,6 @@ void main(){
     init_tower_sprite_pos();
    
     //Enemy Sprite
-    // set_sprite_tile(26,1);
-    // set_sprite_prop(26,0);
-    enemy_position_init();
     rnJesus();
 
     struct enemy *tmp = getGrunt();
@@ -148,11 +145,14 @@ void main(){
     set_sprite_prop(tmp->spriteID, 0);
     move_sprite(tmp->spriteID, 40, 40);
     printf("%d", tmp->spriteID);
-    
+    // set_sprite_prop(26, 32);
+    // set_sprite_tile(26, 32);
+    // move_sprite(26, 40, 40);
+
     struct enemy *tmp2 = getGrunt();
     set_sprite_tile(tmp2->spriteID, 1);
     set_sprite_prop(tmp2->spriteID, 0);
-    move_sprite(tmp2->spriteID, 0, 0);
+    move_sprite(tmp2->spriteID, 60, 60);
     printf("%d", tmp2->spriteID);
     // Try spawning at each cursor location?
 
@@ -161,8 +161,9 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-    enemy_move(1,tmp->spriteID);
-    enemy_move(1,tmp2->spriteID);
+    // enemy_move(1,26);
+    // enemy_move(1,tmp2->spriteID);
+    enemy_move(1,tmp->spriteID,tmp->en_enemy_pos[0],tmp->en_enemy_pos[1]);
     selector();
     crosshair();
     status = 0;
@@ -231,8 +232,9 @@ void crosshair(){
             if(joypad() & J_A){
                 //drop selected special
                 move_sprite(enemyIndex,  crosshairlocation[0], crosshairlocation[1]);
-                enemy_pos[0] = crosshairlocation[0];
-                enemy_pos[1] = crosshairlocation[1];
+                // Not sure if updating enemy pos like this is redundant and unneeded or if it's actually absolutely neccesary
+                // enemy_pos[0] = crosshairlocation[0];
+                // enemy_pos[1] = crosshairlocation[1];
             }
             move_sprite(1, crosshairlocation[0], crosshairlocation[1]);
             delay(8);

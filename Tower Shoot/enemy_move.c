@@ -5,19 +5,14 @@
 #include <stdbool.h>
 #include <rand.h>
 
-UINT8 enemy_pos[2];
-UINT8 tower_des[2];
-INT16 enemy_err[2];
 UINT8 enemy_move_delay = 0;
 // Both of these are just used for the movement animation
 UINT8 enemy_walk_delay = 0;
 bool enemy_walk_state = false;
 
-void enemy_position_init()
-{
-    enemy_pos[0] = 60;
-    enemy_pos[1] = 60;
-}
+UINT8 tower_des[2];
+
+
 // Todo: Move rnJesus to a separate file and include it where needed
 
 void rnJesus(){
@@ -60,7 +55,12 @@ void enemy_walk() {
     
 }
 
-void enemy_move(UINT8 enemy_speed, UINT8 moveSpriteID){
+void enemy_move(UINT8 enemy_speed, UINT8 moveSpriteID, UINT8 enemy_pos_x, UINT8 enemy_pos_y)
+{
+    UINT8 enemy_pos[2];
+    enemy_pos[0] = enemy_pos_x;
+    enemy_pos[1] = enemy_pos_y;
+    INT16 enemy_err[2];
     // Delays enemey movement to 1/128 of a physics tick
     if(enemy_move_delay != 128) {
         enemy_move_delay++;

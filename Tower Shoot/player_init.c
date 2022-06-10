@@ -31,6 +31,7 @@ void init_tower_sprite_tiles(){
 }
 
 void init_tower_sprite_pos(){
+    // Todo: Can we find a way to "reuse" tower sprites? This is murdering our sprite count
 
     //tower a bottom right
     move_sprite(9, towerAlocation[0], towerAlocation[1]);
