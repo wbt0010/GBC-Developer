@@ -15,8 +15,8 @@ bool enemy_walk_state = false;
 
 void enemy_position_init()
 {
-    enemy_pos[0] = 80;
-    enemy_pos[1] = 80;
+    enemy_pos[0] = 60;
+    enemy_pos[1] = 60;
 }
 // Todo: Move rnJesus to a separate file and include it where needed
 
@@ -60,7 +60,7 @@ void enemy_walk() {
     
 }
 
-void enemy_move(UINT8 enemy_speed){
+void enemy_move(UINT8 enemy_speed, UINT8 moveSpriteID){
     // Delays enemey movement to 1/128 of a physics tick
     if(enemy_move_delay != 128) {
         enemy_move_delay++;
@@ -98,7 +98,7 @@ void enemy_move(UINT8 enemy_speed){
     }
 
     //Sprite driectional input
-    move_sprite(26, enemy_pos[0], enemy_pos[1]);
+    move_sprite(moveSpriteID, enemy_pos[0], enemy_pos[1]);
 }
 
 

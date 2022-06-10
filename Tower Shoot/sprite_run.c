@@ -140,13 +140,13 @@ void main(){
     //Enemy Sprite
     // set_sprite_tile(26,1);
     // set_sprite_prop(26,0);
-    // enemy_position_init();
+    enemy_position_init();
     rnJesus();
 
     struct enemy *tmp = getGrunt();
     set_sprite_tile(tmp->spriteID, 1);
     set_sprite_prop(tmp->spriteID, 0);
-    move_sprite(tmp->spriteID, 80, 80);
+    move_sprite(tmp->spriteID, 40, 40);
     printf("%d", tmp->spriteID);
     
     struct enemy *tmp2 = getGrunt();
@@ -161,7 +161,8 @@ void main(){
     SHOW_SPRITES;
 
     while (1){
-    enemy_move(1);
+    enemy_move(1,tmp->spriteID);
+    enemy_move(1,tmp2->spriteID);
     selector();
     crosshair();
     status = 0;
