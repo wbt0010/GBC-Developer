@@ -138,11 +138,24 @@ void main(){
     init_tower_sprite_pos();
    
     //Enemy Sprite
-    set_sprite_tile(26,1);
-    set_sprite_prop(26,0);
-    enemy_position();
+    // set_sprite_tile(26,1);
+    // set_sprite_prop(26,0);
+    // enemy_position_init();
     rnJesus();
-   
+
+    struct enemy *tmp = getGrunt();
+    set_sprite_tile(tmp->spriteID, 1);
+    set_sprite_prop(tmp->spriteID, 0);
+    move_sprite(tmp->spriteID, 80, 80);
+    printf("%d", tmp->spriteID);
+    
+    struct enemy *tmp2 = getGrunt();
+    set_sprite_tile(tmp2->spriteID, 1);
+    set_sprite_prop(tmp2->spriteID, 0);
+    move_sprite(tmp2->spriteID, 0, 0);
+    printf("%d", tmp2->spriteID);
+    // Try spawning at each cursor location?
+
     SHOW_BKG;
     DISPLAY_ON;
     SHOW_SPRITES;
@@ -216,7 +229,7 @@ void crosshair(){
 
             if(joypad() & J_A){
                 //drop selected special
-                move_sprite(26,  crosshairlocation[0], crosshairlocation[1]);
+                move_sprite(enemyIndex,  crosshairlocation[0], crosshairlocation[1]);
                 enemy_pos[0] = crosshairlocation[0];
                 enemy_pos[1] = crosshairlocation[1];
             }

@@ -13,11 +13,12 @@ UINT8 enemy_move_delay = 0;
 UINT8 enemy_walk_delay = 0;
 bool enemy_walk_state = false;
 
-void enemy_position()
+void enemy_position_init()
 {
     enemy_pos[0] = 80;
     enemy_pos[1] = 80;
 }
+// Todo: Move rnJesus to a separate file and include it where needed
 
 void rnJesus(){
     //Generates random numer 0-2 and assign the target tower accordingly
@@ -90,11 +91,11 @@ void enemy_move(UINT8 enemy_speed){
             rnJesus();
         }
 
-        //Sprite animation
-    if(enemy_err[0] != 0 || enemy_err[1] != 0){
-        enemy_walk();
+            //Sprite animation
+        if(enemy_err[0] != 0 || enemy_err[1] != 0){
+            enemy_walk();
+        }
     }
-}
 
     //Sprite driectional input
     move_sprite(26, enemy_pos[0], enemy_pos[1]);
