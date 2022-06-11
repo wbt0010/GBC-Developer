@@ -5,9 +5,11 @@
 #include <stdlib.h>
 
 // Array of all enemies
-// UINT8 allEnemies[];
+
 // Todo: make dynamic array of all enemies, then handle their movement via "enemy_movement_tick"
 UINT8 enemyIndex = 25;
+#define MAX_ENEMIES = 9;
+#define ENEMY_SPRITE_ID_LIMIT = 34;
 // Values below 26 and above 34 are reserved for player sprites
 // First index used is above value + 1
 
@@ -23,6 +25,10 @@ struct enemy{
     struct enemy *next_ptr;
 };
 
+struct enemy *enemy_head = NULL;
+struct enemy *enemy_tail = NULL;
+
+
 struct enemy * getGrunt(){
     enemyIndex++;
 
@@ -30,15 +36,62 @@ struct enemy * getGrunt(){
     grunt->health = 10;
     grunt->speed = 1;
     grunt->damage = 1;
+
     grunt->spriteID = enemyIndex;
+    
     grunt->en_enemy_pos[0] = 80;
     grunt->en_enemy_pos[1] = 80;
+    set_sprite_tile(grunt->spriteID, 1);
+    set_sprite_prop(grunt->spriteID, 0);
+    // Spawn enemy at unique index, make array, pop on/off, use next_ptr to link enemies
     
+    // Inserts at first location in list? 
+    grunt->next_ptr = enemy_head;
+
+    enemy_head = grunt;
+
+    // MAKE A LINKED LIST OF ENEMIES
 
     // Need to move next_ptr for each enemy to create a stack of enemys
-
+    
+    // If enemy capacity is at max don't spawn enemies
+    if(enemeyIndex == ENEMY_SPRITE_ID_LIMIT){
+        return NULL;
+    }
 
     return grunt;
+}
+
+// FOR DEBUG PURPOSES ONLY
+void printEnemyList(){
+    struct enemy *tmp = enemy_head;
+    while(tmp != NULL){
+        printf("%d\n", tmp->spriteID);
+        tmp = tmp->next_ptr;
+    }
+}
+
+int enemyListLength(){
+    int length = 0;
+    struct enemy *tmp = enemy_head;
+
+    while(tmp != NULL){
+        length++;
+        tmp = tmp->next_ptr;
+    }
+    return length;
+}
+
+struct enemy* find(int spriteID){
+    struct enemy *tmp = enemy_head;
+
+    while(tmp != NULL){
+        if(tmp->spriteID == spriteID){
+            return tmp;
+        }
+        tmp = tmp->next_ptr;
+    }
+    return NULL;
 }
 
 // UINT8 enemyGrunt_getEnemyHealth(enemyGrunt *enemy) {
@@ -46,7 +99,15 @@ struct enemy * getGrunt(){
 // }
 
 void enemy_movement_tick(){
+    struct enemy *tmp = enemy_head;
+    while(tmp != NULL){
+        // Move enemy
 
+        // Need to translate this to use enemy_move instead of move_sprite
+        
+        move_sprite(tmp->spriteID, tmp->en_enemy_pos[0], tmp->en_enemy_pos[1]);
+        tmp = tmp->next_ptr;
+    }
 }
 
 // void enemy_move(UINT8 enemy_speed){

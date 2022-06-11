@@ -138,23 +138,16 @@ void main(){
     init_tower_sprite_pos();
    
     //Enemy Sprite
-    rnJesus();
+
 
     struct enemy *tmp = getGrunt();
-    set_sprite_tile(tmp->spriteID, 1);
-    set_sprite_prop(tmp->spriteID, 0);
-    move_sprite(tmp->spriteID, 40, 40);
-    printf("%d", tmp->spriteID);
-    // set_sprite_prop(26, 32);
-    // set_sprite_tile(26, 32);
-    // move_sprite(26, 40, 40);
+    
 
     struct enemy *tmp2 = getGrunt();
-    set_sprite_tile(tmp2->spriteID, 1);
-    set_sprite_prop(tmp2->spriteID, 0);
-    move_sprite(tmp2->spriteID, 60, 60);
-    printf("%d", tmp2->spriteID);
-    // Try spawning at each cursor location?
+    struct enemy *tmp3 = getGrunt();
+    rnJesus();
+
+    printEnemyList();
 
     SHOW_BKG;
     DISPLAY_ON;
@@ -163,7 +156,7 @@ void main(){
     while (1){
     // enemy_move(1,26);
     // enemy_move(1,tmp2->spriteID);
-    enemy_move(1,tmp->spriteID,tmp->en_enemy_pos[0],tmp->en_enemy_pos[1]);
+    enemy_movement_tick();
     selector();
     crosshair();
     status = 0;
