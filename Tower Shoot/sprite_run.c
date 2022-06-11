@@ -4,10 +4,9 @@
 // Can't compile? UPDATE YOUR GBDK!!!
 #include <stdio.h>
 #include "Variable_pckg.c"
-#include "enemies.c"
 #include "player_init.c"
-#include "enemy_move.c"
 #include "projectile.c"
+#include "enemies.c"
 //Background Tiles
 #include "map_v1_1.h"
 #include "Grassland.h"
@@ -139,13 +138,11 @@ void main(){
    
     //Enemy Sprite
 
+    rnJesus();
 
     struct enemy *tmp = getGrunt();
-    
-
     struct enemy *tmp2 = getGrunt();
     struct enemy *tmp3 = getGrunt();
-    rnJesus();
 
     printEnemyList();
 
@@ -224,7 +221,9 @@ void crosshair(){
 
             if(joypad() & J_A){
                 //drop selected special
+                // Move most recent enemy currently
                 move_sprite(enemyIndex,  crosshairlocation[0], crosshairlocation[1]);
+                setPosition(enemyIndex, crosshairlocation[0], crosshairlocation[1]);
                 // Not sure if updating enemy pos like this is redundant and unneeded or if it's actually absolutely neccesary
                 // enemy_pos[0] = crosshairlocation[0];
                 // enemy_pos[1] = crosshairlocation[1];

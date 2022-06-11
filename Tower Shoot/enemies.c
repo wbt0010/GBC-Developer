@@ -3,13 +3,15 @@
 #include <gb/cgb.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "enemy_move.c"
+
 
 // Array of all enemies
 
 // Todo: make dynamic array of all enemies, then handle their movement via "enemy_movement_tick"
 UINT8 enemyIndex = 25;
-#define MAX_ENEMIES = 9;
-#define ENEMY_SPRITE_ID_LIMIT = 34;
+#define MAX_ENEMIES 9
+#define ENEMY_SPRITE_ID_LIMIT 34
 // Values below 26 and above 34 are reserved for player sprites
 // First index used is above value + 1
 
@@ -55,7 +57,8 @@ struct enemy * getGrunt(){
     // Need to move next_ptr for each enemy to create a stack of enemys
     
     // If enemy capacity is at max don't spawn enemies
-    if(enemeyIndex == ENEMY_SPRITE_ID_LIMIT){
+    if(enemyIndex == ENEMY_SPRITE_ID_LIMIT)
+    {
         return NULL;
     }
 
@@ -93,6 +96,16 @@ struct enemy* find(int spriteID){
     }
     return NULL;
 }
+// Set position by spriteID
+struct enemy* setPosition(int spriteID, int x, int y){
+    struct enemy *tmp = find(spriteID);
+    if(tmp != NULL){
+        tmp->en_enemy_pos[0] = x;
+        tmp->en_enemy_pos[1] = y;
+        move_sprite(spriteID, x, y);
+    }
+    return tmp;
+}
 
 // UINT8 enemyGrunt_getEnemyHealth(enemyGrunt *enemy) {
 //     return enemy->health;
@@ -104,11 +117,13 @@ void enemy_movement_tick(){
         // Move enemy
 
         // Need to translate this to use enemy_move instead of move_sprite
-        
-        move_sprite(tmp->spriteID, tmp->en_enemy_pos[0], tmp->en_enemy_pos[1]);
+        rnJesus();
+        enemy_move(tmp->speed, tmp->spriteID, tmp->en_enemy_pos[0], tmp->en_enemy_pos[1]);
         tmp = tmp->next_ptr;
     }
+    free(tmp);
 }
+
 
 // void enemy_move(UINT8 enemy_speed){
 //     UINT8 tower_des[2];
