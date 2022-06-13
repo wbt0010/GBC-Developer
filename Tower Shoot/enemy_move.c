@@ -13,8 +13,6 @@ bool enemy_walk_state = false;
 UINT8 tower_des[2];
 
 
-// Todo: Move rnJesus to a separate file and include it where needed
-
 void rnJesus(){
     //Generates random numer 0-2 and assign the target tower accordingly
 
@@ -35,7 +33,7 @@ void rnJesus(){
         tower_des[1] = towerClocation[1];
     } 
 }
-void enemy_walk() {
+void enemy_walk(UINT8 walkSpriteID) {
     // Each "frame", increment by 1. Every 8 frames, reset then change walk state from 0 to 1
     if(enemy_walk_delay != 8){
         enemy_walk_delay++;
@@ -44,11 +42,11 @@ void enemy_walk() {
         enemy_walk_delay = 0;
         if(enemy_walk_state == 0){
         // Hardcoded for a specific sprite index right now
-        set_sprite_tile(26,0);
+        set_sprite_tile(walkSpriteID,0);
         enemy_walk_state = 1;
         }
         else {
-            set_sprite_tile(26,1);
+            set_sprite_tile(walkSpriteID,1);
             enemy_walk_state = 0;
         }
     }
@@ -93,12 +91,20 @@ void enemy_move(UINT8 enemy_speed, UINT8 moveSpriteID, UINT8 enemy_pos_x, UINT8 
 
             //Sprite animation
         if(enemy_err[0] != 0 || enemy_err[1] != 0){
-            enemy_walk();
+            enemy_walk(moveSpriteID);
         }
     }
-
     //Sprite driectional input
+
     move_sprite(moveSpriteID, enemy_pos[0], enemy_pos[1]);
+
+    // Return pointer to enemy position
+    // Uhhhh
+    // Idk how to do that
+
+    // Remember. Everything has to flow "one way". Enemy_move can pass to enemies but enemies can't pass back to enemy_move.
+
+    return enemy_pos;
 }
 
 

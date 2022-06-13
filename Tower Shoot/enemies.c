@@ -8,7 +8,6 @@
 
 // Array of all enemies
 
-// Todo: make dynamic array of all enemies, then handle their movement via "enemy_movement_tick"
 UINT8 enemyIndex = 25;
 #define MAX_ENEMIES 9
 #define ENEMY_SPRITE_ID_LIMIT 34
@@ -30,8 +29,8 @@ struct enemy{
 struct enemy *enemy_head = NULL;
 struct enemy *enemy_tail = NULL;
 
-
-struct enemy * getGrunt(){
+// Do X and Y spawn as optional args?
+struct enemy * getGrunt(int xSpawn, int ySpawn){
     enemyIndex++;
 
     struct enemy *grunt = malloc(sizeof(struct enemy));
@@ -41,8 +40,8 @@ struct enemy * getGrunt(){
 
     grunt->spriteID = enemyIndex;
     
-    grunt->en_enemy_pos[0] = 80;
-    grunt->en_enemy_pos[1] = 80;
+    grunt->en_enemy_pos[0] = xSpawn,
+    grunt->en_enemy_pos[1] = ySpawn,
     set_sprite_tile(grunt->spriteID, 1);
     set_sprite_prop(grunt->spriteID, 0);
     // Spawn enemy at unique index, make array, pop on/off, use next_ptr to link enemies
@@ -94,17 +93,20 @@ struct enemy* find(int spriteID){
         }
         tmp = tmp->next_ptr;
     }
+    free(tmp);
     return NULL;
 }
 // Set position by spriteID
-struct enemy* setPosition(int spriteID, int x, int y){
+struct enemy* setEnemyPosition(int spriteID){
+    
     struct enemy *tmp = find(spriteID);
     if(tmp != NULL){
         tmp->en_enemy_pos[0] = x;
         tmp->en_enemy_pos[1] = y;
         move_sprite(spriteID, x, y);
+        // This isn't actually updating the value the value needs to be updated on each sprite object
     }
-    return tmp;
+    free(tmp);
 }
 
 // UINT8 enemyGrunt_getEnemyHealth(enemyGrunt *enemy) {
@@ -115,9 +117,6 @@ void enemy_movement_tick(){
     struct enemy *tmp = enemy_head;
     while(tmp != NULL){
         // Move enemy
-
-        // Need to translate this to use enemy_move instead of move_sprite
-        rnJesus();
         enemy_move(tmp->speed, tmp->spriteID, tmp->en_enemy_pos[0], tmp->en_enemy_pos[1]);
         tmp = tmp->next_ptr;
     }

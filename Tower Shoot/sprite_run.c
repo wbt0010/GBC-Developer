@@ -140,9 +140,9 @@ void main(){
 
     rnJesus();
 
-    struct enemy *tmp = getGrunt();
-    struct enemy *tmp2 = getGrunt();
-    struct enemy *tmp3 = getGrunt();
+    struct enemy *tmp = getGrunt(80,80);
+    struct enemy *tmp2 = getGrunt(60,60);
+    struct enemy *tmp3 = getGrunt(40,40);
 
     printEnemyList();
 
@@ -221,9 +221,9 @@ void crosshair(){
 
             if(joypad() & J_A){
                 //drop selected special
-                // Move most recent enemy currently
+                // Move most recent enemy
                 move_sprite(enemyIndex,  crosshairlocation[0], crosshairlocation[1]);
-                setPosition(enemyIndex, crosshairlocation[0], crosshairlocation[1]);
+                setEnemyPosition(enemyIndex, crosshairlocation[0], crosshairlocation[1]);
                 // Not sure if updating enemy pos like this is redundant and unneeded or if it's actually absolutely neccesary
                 // enemy_pos[0] = crosshairlocation[0];
                 // enemy_pos[1] = crosshairlocation[1];
